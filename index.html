@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<title>点名助手 · 测试统计</title>
+<style>
+:root{
+  --bg:#f8f9ff; --blue:#1565c0; --blue2:#1e88e5; --soft:#e3f2fd; --pill:#bbdefb;
+  --line:#e6e9f2; --ink:#1a1a1a; --muted:#757575; --danger:#e53935; --ok:#2e7d32;
+  --card:#ffffff; --shadow:0 1px 2px rgba(21,101,192,.06),0 8px 24px rgba(21,101,192,.08);
+  --r:18px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 16px 48px}
+header.top{background:linear-gradient(135deg,#1565c0 0%,#1e88e5 60%,#42a5f5 100%);color:#fff;border-radius:0 0 28px 28px;padding:22px 0 64px;position:relative;overflow:hidden}
+header.top::after{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.09)}
+header.top::before{content:"";position:absolute;left:-40px;bottom:-120px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.06)}
+.hrow{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
+.logo{width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.18);display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+.logo svg{width:24px;height:24px}
+h1{font-size:20px;margin:0;font-weight:700;letter-spacing:.5px}
+.sub{font-size:13px;opacity:.85;margin-top:1px}
+.hright{margin-left:auto;display:flex;align-items:center;gap:8px}
+.updated{font-size:12px;opacity:.9;white-space:nowrap}
+.main{margin-top:-46px;position:relative;z-index:2}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px}
+.keycard{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.keycard .lab{font-weight:600;font-size:14px;color:var(--blue)}
+.field{flex:1 1 260px;display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:0 6px 0 12px;transition:border-color .15s,box-shadow .15s}
+.field:focus-within{border-color:var(--blue2);box-shadow:0 0 0 4px rgba(30,136,229,.12)}
+.field input::placeholder{font-family:inherit;letter-spacing:0;color:#9e9e9e}
+.field input{flex:1;border:0;background:transparent;font-size:15px;padding:11px 0;outline:none;min-width:0;font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.5px}
+.iconbtn{border:0;background:transparent;color:var(--muted);width:34px;height:34px;border-radius:10px;cursor:pointer;display:grid;place-items:center}
+.iconbtn:hover{background:var(--soft);color:var(--blue)}
+.btn{border:0;border-radius:14px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:transform .08s,filter .15s,background .15s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(21,101,192,.28)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.ghost{background:var(--soft);color:var(--blue)}
+.btn.glass{background:rgba(255,255,255,.18);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);padding:8px 13px;font-size:13px;border-radius:12px}
+.btn.glass:hover{background:rgba(255,255,255,.26)}
+.btn[disabled]{opacity:.6;cursor:default}
+.opts{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);width:100%}
+.chk{display:inline-flex;align-items:center;gap:7px;cursor:pointer;user-select:none}
+.chk input{width:17px;height:17px;accent-color:var(--blue)}
+.link{color:var(--blue);background:none;border:0;padding:0;font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.link.danger{color:var(--danger)}
+.notice{margin-top:14px;border-radius:14px;padding:13px 15px;font-size:14px;display:none;gap:10px;align-items:flex-start}
+.notice.show{display:flex}
+.notice.err{background:#fdecea;color:#b71c1c}
+.notice.warn{background:#fff8e1;color:#8d5a00}
+.notice.info{background:var(--soft);color:#0d47a1}
+.notice b{display:block;margin-bottom:2px}
+.notice .ic{flex:none;font-size:18px;line-height:1.2}
+.grid{display:grid;gap:14px;margin-top:14px}
+.kpis{grid-template-columns:repeat(4,1fr)}
+.kpi{padding:16px 16px 14px;position:relative;overflow:hidden}
+.kpi .k{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.kpi .dot{width:8px;height:8px;border-radius:50%}
+.kpi .v{font-size:30px;font-weight:750;letter-spacing:-.5px;margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:12px;color:var(--muted)}
+.kpi.hero{background:linear-gradient(140deg,#1565c0,#1e88e5);color:#fff}
+.kpi.hero .k,.kpi.hero .s{color:rgba(255,255,255,.85)}
+.bar-mini{height:6px;background:var(--soft);border-radius:4px;margin-top:8px;overflow:hidden}
+.bar-mini i{display:block;height:100%;background:var(--blue2);border-radius:4px;width:0;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.two{grid-template-columns:1fr 1.25fr}
+.ct{font-size:16px;font-weight:700;margin:0 0 2px;display:flex;align-items:center;gap:8px}
+.cs{font-size:12.5px;color:var(--muted);margin:0 0 14px}
+.donut-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.donut{width:180px;height:180px;flex:none;margin:0 auto}
+.legend{flex:1 1 160px;display:flex;flex-direction:column;gap:8px;min-width:150px}
+.lg{display:flex;align-items:center;gap:9px;font-size:13.5px}
+.lg i{width:11px;height:11px;border-radius:4px;flex:none}
+.lg .n{margin-left:auto;font-weight:650;font-variant-numeric:tabular-nums}
+.lg .p{color:var(--muted);font-size:12px;width:44px;text-align:right}
+.bars{display:flex;flex-direction:column;gap:11px}
+.br{display:grid;grid-template-columns:86px 1fr 52px;align-items:center;gap:10px;font-size:13.5px}
+.br .t{height:22px;background:var(--bg);border-radius:8px;overflow:hidden;position:relative}
+.br .t i{position:absolute;inset:0 auto 0 0;width:0;border-radius:8px;background:linear-gradient(90deg,#42a5f5,#1565c0);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.br .n{text-align:right;font-weight:650;font-variant-numeric:tabular-nums}
+.three{grid-template-columns:repeat(3,1fr)}
+.mini .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.mini .k{font-size:13px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--soft);color:var(--blue);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600}
+.chip.off{background:#fdecea;color:var(--danger)}
+.chip.on{background:#e8f5e9;color:var(--ok)}
+.empty{text-align:center;color:var(--muted);font-size:13.5px;padding:26px 8px}
+.empty svg{width:44px;height:44px;opacity:.5;display:block;margin:0 auto 8px}
+details.help{margin-top:14px}
+details.help summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px}
+details.help summary::-webkit-details-marker{display:none}
+details.help summary .arr{margin-left:auto;transition:transform .2s;color:var(--muted)}
+details.help[open] summary .arr{transform:rotate(90deg)}
+.steps{margin:12px 0 0;padding-left:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:0 0 12px 36px;font-size:14px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:24px;height:24px;border-radius:8px;background:var(--soft);color:var(--blue);font-weight:700;font-size:13px;display:grid;place-items:center}
+code{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;word-break:break-all}
+table.cfg{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+table.cfg th,table.cfg td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.cfg th{color:var(--muted);font-weight:600;font-size:12.5px}
+.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:22px}
+.skel{background:linear-gradient(90deg,#eef2fa 25%,#f6f8fd 50%,#eef2fa 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:8px;color:transparent!important}
+@keyframes sh{to{background-position:-200% 0}}
+.spin{width:16px;height:16px;border-radius:50%;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;animation:rot .8s linear infinite;display:none}
+.loading .spin{display:inline-block}
+@keyframes rot{to{transform:rotate(360deg)}}
+.badge-demo{display:none;background:#fff3e0;color:#e65100;border-radius:999px;font-size:12px;padding:3px 10px;font-weight:700}
+.demo .badge-demo{display:inline-block}
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:rgba(31,41,55,.92);color:#fff;padding:9px 16px;border-radius:999px;font-size:13.5px;opacity:0;pointer-events:none;transition:.25s}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+textarea{width:100%;min-height:90px;border:1.5px solid var(--line);border-radius:12px;padding:10px;font:12.5px ui-monospace,Menlo,Consolas,monospace;background:var(--bg);resize:vertical}
+@media (max-width:820px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .two{grid-template-columns:1fr}
+  .three{gap:10px}
+  .three .card{padding:13px 12px}
+  .mini .v{font-size:19px}
+  .mini .k{font-size:12px}
+  .three .s{font-size:11px!important}
+}
+@media (max-width:480px){
+  .wrap{padding:16px 12px 40px}
+  h1{font-size:18px}
+  .updated{display:none}
+  .kpi .v{font-size:26px}
+  .keycard .btn.primary{flex:1;justify-content:center}
+  .br{grid-template-columns:72px 1fr 44px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap" style="padding-top:0;padding-bottom:0">
+    <div class="hrow">
+      <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></div>
+      <div><h1>点名助手 · 测试统计</h1><div class="sub">匿名使用数据 · 只有计数，不含姓名和名单</div></div>
+      <div class="hright">
+        <span class="updated" id="updated">尚未加载</span>
+        <button class="btn glass" id="refresh" title="刷新"><span class="spin"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>刷新</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap main">
+  <section class="card">
+    <div class="keycard">
+      <span class="lab">查看密钥</span>
+      <div class="field">
+        <input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="粘贴 uniCloud 里 dm_config 的 admin_key">
+        <button class="iconbtn" id="eye" title="显示/隐藏"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+      <button class="btn primary" id="go">查看统计</button>
+      <div class="opts">
+        <label class="chk"><input type="checkbox" id="remember">在这台设备上记住密钥</label>
+        <button class="link danger" id="forget" style="display:none">清除已记住的密钥</button>
+        <span style="margin-left:auto"><button class="link" id="demoBtn">先看示例效果</button></span>
+      </div>
+    </div>
+    <div class="notice" id="notice"><span class="ic" id="nic"></span><div id="ntext"></div></div>
+  </section>
+
+  <div id="dash">
+    <div class="grid kpis">
+      <div class="card kpi hero"><div class="k">总设备数 <span class="badge-demo">示例数据</span></div><div class="v" id="kTotal">–</div><div class="s" id="kTotalS">装过并汇报过的手机</div></div>
+      <div class="card kpi"><div class="k"><span class="dot" style="background:#1565c0"></span>近 1 天活跃</div><div class="v" id="kD1">–</div><div class="bar-mini"><i id="bD1"></i></div><div class="s" id="sD1">&nbsp;</div></div>
+      <div class="card kpi"><div class="k"><span class="dot" style="background:#1e88e5"></span>近 7 天活跃</div><div class="v" id="kD7">–</div><div class="bar-mini"><i id="bD7"></i></div><div class="s" id="sD7">&nbsp;</div></div>
+      <div class="card kpi"><div class="k"><span class="dot" style="background:#64b5f6"></span>近 30 天活跃</div><div class="v" id="kD30">–</div><div class="bar-mini"><i id="bD30"></i></div><div class="s" id="sD30">&nbsp;</div></div>
+    </div>
+
+    <div class="grid two">
+      <section class="card">
+        <h2 class="ct">版本分布</h2><p class="cs">每台手机按最近一次汇报时的版本算</p>
+        <div class="donut-wrap" id="verBox"></div>
+      </section>
+      <section class="card">
+        <h2 class="ct">功能使用次数</h2><p class="cs">所有手机累计，按次数从多到少</p>
+        <div class="bars" id="featBox"></div>
+      </section>
+    </div>
+
+    <div class="grid three">
+      <section class="card mini"><div class="k">累计打开 App</div><div class="v" id="mOpens">–</div><div class="s cs" style="margin:2px 0 0" id="mOpensS">&nbsp;</div></section>
+      <section class="card mini"><div class="k">累计点名标记</div><div class="v" id="mMarks">–</div><div class="s cs" style="margin:2px 0 0" id="mMarksS">&nbsp;</div></section>
+      <section class="card mini"><div class="k">收到的汇报条数</div><div class="v" id="mReports">–</div><div class="s cs" style="margin:2px 0 0" id="mReportsS">&nbsp;</div></section>
+    </div>
+
+    <div class="grid two">
+      <section class="card">
+        <h2 class="ct">平台</h2><p class="cs">设备所在平台</p>
+        <div class="chips" id="platBox"></div>
+      </section>
+      <section class="card">
+        <h2 class="ct">当前远程设置</h2><p class="cs">手机每次汇报时会拿到这份设置</p>
+        <div class="chips" id="cfgBox"></div>
+      </section>
+    </div>
+  </div>
+
+  <details class="card help" id="help">
+    <summary>远程设置怎么改（不用重新发版）<span class="arr">›</span></summary>
+    <ol class="steps">
+      <li>浏览器打开 <a href="https://unicloud.dcloud.net.cn/" target="_blank" rel="noopener">uniCloud 控制台</a>，登录后进入服务空间 <code>test1</code>。</li>
+      <li>左侧点「云数据库」，打开表 <code>dm_config</code>，找到 <code>_id</code> 为 <code>main</code> 的那条，点编辑。</li>
+      <li>按下表改字段，保存即可。手机在下一次汇报时拿到新设置。</li>
+    </ol>
+    <table class="cfg">
+      <tr><th>字段</th><th>作用</th><th>例子</th></tr>
+      <tr><td><code>report_interval_days</code></td><td>每台手机隔几天汇报一次（1～90）。用户多了可以改大，省数据库额度。</td><td><code>1</code> 每天一次；<code>7</code> 一周一次</td></tr>
+      <tr><td><code>enabled</code></td><td>统计总开关。改成 <code>false</code> 后服务器不再存数据，手机也停止汇报（每 7 天只轻问一次设置）。改回 <code>true</code> 恢复。</td><td><code>true</code> / <code>false</code></td></tr>
+      <tr><td><code>admin_key</code></td><td>看这个页面用的密钥，至少 16 位。改了以后，这里要用新密钥重新登录。</td><td>一串随机字符，别外传</td></tr>
+    </table>
+    <p class="cs" style="margin-top:12px">说明：「活跃」按每台手机最近一次汇报的时间算。汇报间隔改成 7 天后，1 天活跃的数字会偏低，属于正常现象。每台手机当天的数据会攒到第二天第一次打开时一起发，所以今天的使用要明天才看得到。</p>
+  </details>
+
+  <div class="foot">数据来自 uniCloud 云函数 dm-stats · 密钥只在你的浏览器里使用，不会写进这个网页</div>
+</div>
+<div id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+var ENDPOINT = "https://env-00jy6ytvlvd8.dev-hz.cloudbasefunction.cn/dm-stats";
+var LS_KEY = "dm_stats_admin_key";
+var FEAT = {export:"导出",backup:"备份",restore:"恢复",check_update:"检查更新",share_app:"分享 App",feedback:"反馈",drawer_open:"打开侧栏"};
+var PLAT = {android:"安卓",ios:"iOS",desktop:"电脑",unknown:"未知"};
+var COLORS = ["#1565c0","#1e88e5","#42a5f5","#90caf9","#26a69a","#7e57c2","#ffa726","#ef5350","#8d6e63","#78909c"];
+var $ = function(id){return document.getElementById(id)};
+var keyEl=$("key"), rememberEl=$("remember"), forgetEl=$("forget"), lastData=null, busy=false;
+
+function lsGet(){try{return localStorage.getItem(LS_KEY)||""}catch(e){return ""}}
+function lsSet(v){try{localStorage.setItem(LS_KEY,v)}catch(e){}}
+function lsDel(){try{localStorage.removeItem(LS_KEY)}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function fmt(n){n=Number(n)||0;return n.toLocaleString("zh-CN")}
+function toast(t){var el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove("show")},1800)}
+
+function notice(kind,title,body){
+  var n=$("notice");
+  if(!kind){n.className="notice";return}
+  n.className="notice show "+kind;
+  $("nic").textContent = kind==="err"?"⚠️":kind==="warn"?"🔑":"ℹ️";
+  $("ntext").innerHTML="<b>"+esc(title)+"</b>"+body;
+}
+function syncForget(){forgetEl.style.display = lsGet() ? "inline" : "none"}
+
+function setLoading(on){
+  busy=on;
+  $("refresh").classList.toggle("loading",on);
+  $("refresh").disabled=on; $("go").disabled=on;
+  $("go").textContent = on ? "加载中…" : "查看统计";
+  ["kTotal","kD1","kD7","kD30","mOpens","mMarks","mReports"].forEach(function(id){$(id).classList.toggle("skel",on && !lastData)});
+}
+
+function fetchStats(key){
+  var ctrl = ("AbortController" in window) ? new AbortController() : null;
+  var timer = setTimeout(function(){ if(ctrl) ctrl.abort() }, 20000);
+  // text/plain 的 POST 是「简单请求」，浏览器不会先发预检；密钥放在请求体里，不出现在网址中
+  return fetch(ENDPOINT,{method:"POST",headers:{"content-type":"text/plain;charset=UTF-8"},
+      body:JSON.stringify({action:"stats",key:key}),cache:"no-store",signal:ctrl?ctrl.signal:undefined})
+    .then(function(r){
+      clearTimeout(timer);
+      return r.text().then(function(t){
+        var j=null; try{j=JSON.parse(t)}catch(e){}
+        return {status:r.status,json:j};
+      });
+    },function(e){clearTimeout(timer);throw e});
+}
+
+function load(manual){
+  if(busy) return;
+  var key = keyEl.value.trim();
+  if(!key){notice("warn","请先输入密钥","<div>密钥在 uniCloud 控制台 → 云数据库 → <code>dm_config</code> → <code>main</code> 这条的 <code>admin_key</code> 字段里。</div>");keyEl.focus();return}
+  document.body.classList.remove("demo");
+  notice(null); setLoading(true);
+  fetchStats(key).then(function(res){
+    setLoading(false);
+    var j=res.json||{};
+    if(res.status===200 && j.ok){
+      if(rememberEl.checked){lsSet(key)} syncForget();
+      render(j); notice(null);
+      if(j.total_devices===0) notice("info","连上了，暂时还没有数据","<div>还没有手机汇报过。装上 1.5.3.1 预览版后，当天的使用会在<b style='display:inline'>第二天第一次打开 App</b> 时发上来，之后点右上角「刷新」就能看到。</div>");
+      if(manual) toast("已更新");
+      return;
+    }
+    if(j.error==="forbidden"){notice("warn","密钥不对","<div>和 <code>dm_config/main</code> 里的 <code>admin_key</code> 对不上。检查有没有多复制空格，或者看看控制台里是不是改过密钥。</div>");return}
+    if(j.error==="admin_key_not_set"){notice("warn","云端还没设好密钥","<div>去 uniCloud 控制台 → 云数据库 → <code>dm_config</code> → <code>main</code>，把 <code>admin_key</code> 填成你自己的密钥（至少 16 位），保存后再来。</div>");return}
+    notice("err","服务器返回了错误（"+res.status+"）","<div>"+esc(j.error||"未知错误")+"。稍后点「刷新」再试；一直这样的话，去 uniCloud 控制台看看 dm-stats 云函数的日志。</div>");
+  }).catch(function(e){
+    setLoading(false);
+    var aborted = e && e.name==="AbortError";
+    notice("err", aborted?"连接超时":"连不上统计服务器",
+      "<div>"+(aborted?"20 秒没有响应，可能是网络慢或者云函数在冷启动，点「刷新」再试一次。":
+      "先确认网络正常。如果网络没问题还是这样，多半是云函数还没更新到带「跨域」设置的新版：把新的 <code>dm-stats/index.js</code> 复制进 HBuilderX 项目，右键 <code>dm-stats</code> →「上传部署」，再回来刷新。")+"</div>");
+  });
+}
+
+function render(d){
+  lastData=d;
+  var total=d.total_devices||0, a=d.active_devices||{};
+  $("kTotal").textContent=fmt(total);
+  $("kTotalS").textContent = total? "装过并汇报过的手机" : "还没有手机汇报过";
+  [["D1","d1"],["D7","d7"],["D30","d30"]].forEach(function(p){
+    var v=a[p[1]]||0, pct = total? Math.round(v*100/total):0;
+    $("k"+p[0]).textContent=fmt(v);
+    $("b"+p[0]).style.width = pct+"%";
+    $("s"+p[0]).textContent = total? ("占全部 "+pct+"%") : "\u00a0";
+  });
+  $("mOpens").textContent=fmt(d.total_opens); $("mMarks").textContent=fmt(d.total_roll_marks); $("mReports").textContent=fmt(d.total_reports);
+  $("mOpensS").textContent = total? ("平均每台 "+(Math.round((d.total_opens||0)*10/total)/10)+" 次"):"\u00a0";
+  $("mMarksS").textContent = total? ("平均每台 "+(Math.round((d.total_roll_marks||0)*10/total)/10)+" 次"):"\u00a0";
+  $("mReportsS").textContent = total? ("平均每台 "+(Math.round((d.total_reports||0)*10/total)/10)+" 条"):"\u00a0";
+  renderDonut(d.by_version||{}, total);
+  renderBars(d.feature_totals||{});
+  var pl=d.by_platform||{}, pk=Object.keys(pl).sort(function(x,y){return pl[y]-pl[x]});
+  $("platBox").innerHTML = pk.length? pk.map(function(k){return '<span class="chip">'+esc(PLAT[k]||k)+" · "+fmt(pl[k])+" 台</span>"}).join("") : '<span class="cs" style="margin:0">暂无</span>';
+  var c=d.config||{};
+  $("cfgBox").innerHTML = (c.enabled===false?'<span class="chip off">统计已关闭</span>':'<span class="chip on">统计开启中</span>')+
+    '<span class="chip">每 '+esc(c.report_interval_days||1)+" 天汇报一次</span>";
+  var t = d.generated_at? new Date(d.generated_at) : new Date();
+  $("updated").textContent = "更新于 "+t.toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+}
+
+function emptyHtml(t){return '<div class="empty" style="width:100%"><svg viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg>'+t+"</div>"}
+
+function renderDonut(map,total){
+  var keys=Object.keys(map).sort(function(x,y){return map[y]-map[x] || (y>x?1:-1)});
+  if(!keys.length){$("verBox").innerHTML=emptyHtml("还没有版本数据");return}
+  if(keys.length>8){var rest=keys.slice(7).reduce(function(s,k){return s+map[k]},0);var m2={};keys.slice(0,7).forEach(function(k){m2[k]=map[k]});m2["其他版本"]=rest;map=m2;keys=Object.keys(m2)}
+  var sum=keys.reduce(function(s,k){return s+map[k]},0)||1, R=70, C=2*Math.PI*R, off=0, segs="";
+  keys.forEach(function(k,i){
+    var len=C*map[k]/sum, gap=keys.length>1?2:0;
+    segs+='<circle cx="90" cy="90" r="'+R+'" fill="none" stroke="'+COLORS[i%COLORS.length]+'" stroke-width="22" stroke-dasharray="'+Math.max(len-gap,0.01)+" "+(C-Math.max(len-gap,0.01))+'" stroke-dashoffset="'+(-off)+'" transform="rotate(-90 90 90)" style="transition:stroke-dasharray .6s"><title>'+esc(k)+"："+map[k]+" 台</title></circle>";
+    off+=len;
+  });
+  var svg='<svg class="donut" viewBox="0 0 180 180"><circle cx="90" cy="90" r="'+R+'" fill="none" stroke="#eef2fa" stroke-width="22"/>'+segs+
+    '<text x="90" y="86" text-anchor="middle" font-size="30" font-weight="750" fill="#1a1a1a">'+fmt(sum)+'</text><text x="90" y="108" text-anchor="middle" font-size="12" fill="#757575">台设备 · '+keys.length+' 个版本</text></svg>';
+  var lg='<div class="legend">'+keys.map(function(k,i){return '<div class="lg"><i style="background:'+COLORS[i%COLORS.length]+'"></i><span>'+esc(k.replace(/^(\S+) \((\d+)\)$/,"v$1 · b$2"))+'</span><span class="n">'+fmt(map[k])+'</span><span class="p">'+Math.round(map[k]*100/sum)+"%</span></div>"}).join("")+"</div>";
+  $("verBox").innerHTML=svg+lg;
+}
+
+function renderBars(map){
+  var keys=Object.keys(FEAT).concat(Object.keys(map).filter(function(k){return !(k in FEAT)}));
+  keys.sort(function(x,y){return (map[y]||0)-(map[x]||0)});
+  var max=Math.max.apply(null,keys.map(function(k){return map[k]||0}).concat([0]));
+  if(!max){$("featBox").innerHTML=emptyHtml("还没有功能使用记录");return}
+  $("featBox").innerHTML=keys.map(function(k){var v=map[k]||0;return '<div class="br"><span>'+esc(FEAT[k]||k)+'</span><div class="t"><i data-w="'+(v?Math.max(v*100/max,3):0)+'"></i></div><span class="n">'+fmt(v)+"</span></div>"}).join("");
+  requestAnimationFrame(function(){requestAnimationFrame(function(){[].forEach.call(document.querySelectorAll("#featBox i"),function(i){i.style.width=i.getAttribute("data-w")+"%"})})});
+}
+
+function demo(){
+  document.body.classList.add("demo");
+  notice("info","这是示例数据","<div>只用来预览页面效果，数字都是编的。输入密钥点「查看统计」看真实数据。</div>");
+  var now=new Date();
+  render({ok:true,generated_at:now.toISOString(),total_devices:36,
+    by_version:{"1.5.3.1 (118)":21,"1.5.3 (111)":9,"1.5.2 (110)":4,"1.5.1 (109)":2},
+    by_platform:{android:35,desktop:1},active_devices:{d1:14,d7:27,d30:34},
+    total_opens:812,total_roll_marks:9643,total_reports:298,
+    feature_totals:{export:57,backup:41,check_update:88,drawer_open:230,share_app:12,restore:5,feedback:3},
+    config:{enabled:true,report_interval_days:1}});
+}
+
+$("go").onclick=function(){load(false)};
+$("refresh").onclick=function(){ if(document.body.classList.contains("demo") && !keyEl.value.trim()){demo();toast("示例数据已刷新");return} load(true)};
+keyEl.addEventListener("keydown",function(e){if(e.key==="Enter")load(false)});
+$("eye").onclick=function(){keyEl.type = keyEl.type==="password"?"text":"password"};
+rememberEl.onchange=function(){ if(!rememberEl.checked){lsDel();syncForget();toast("已不再记住密钥")} else if(keyEl.value.trim() && lastData && !document.body.classList.contains("demo")){lsSet(keyEl.value.trim());syncForget();toast("已记住")} };
+forgetEl.onclick=function(){lsDel();keyEl.value="";rememberEl.checked=false;syncForget();toast("已清除这台设备上的密钥")};
+$("demoBtn").onclick=demo;
+
+var saved=lsGet();
+if(saved){keyEl.value=saved;rememberEl.checked=true;syncForget();load(false)}
+else{syncForget();render({total_devices:0,by_version:{},feature_totals:{},by_platform:{},active_devices:{},config:{}});$("updated").textContent="尚未加载";}
+})();
+</script>
+</body>
+</html>
