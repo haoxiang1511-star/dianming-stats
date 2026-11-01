@@ -206,7 +206,21 @@ table.cfg td:first-child{white-space:nowrap}
 .safe div{background:var(--soft2);border-radius:14px;padding:12px 13px;font-size:13px;color:#30415e}
 .safe div b{display:block;color:var(--blue);margin-bottom:2px;font-size:13.5px}
 /* ---------- 手机 ---------- */
+/* v4 */
+.prog{height:14px;border-radius:8px;background:#eef2fa;overflow:hidden;display:flex}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,#42a5f5,#1565c0);transition:width .7s cubic-bezier(.2,.8,.2,1);width:0}
+.prow{margin:12px 0 4px}.prow .h{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;color:#30415e}.prow .h b{color:var(--blue);font-variant-numeric:tabular-nums}
+.olds{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.errv{border-top:1px solid #eef2fa;padding-top:12px;margin-top:12px}.errv:first-of-type{border-top:0;margin-top:4px;padding-top:0}
+.errv h3{font-size:13.5px;margin:0 0 8px;color:var(--blue);display:flex;gap:8px;align-items:center}
+.errl{display:grid;grid-template-columns:1fr auto auto;gap:6px 14px;font-size:13px;align-items:center}
+.errl code{font-size:12.5px;background:#fff4f2;color:#b3261e;padding:2px 7px;border-radius:6px;word-break:break-all}
+.errl .n{font-weight:650;text-align:right;font-variant-numeric:tabular-nums}.errl .d{color:var(--muted);text-align:right;white-space:nowrap}
+.br.wide{grid-template-columns:150px 1fr 44px}.br.wide span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.maint{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.maint .info{font-size:13px;color:#30415e;line-height:1.7}
 @media (max-width:900px){
+  .br.wide{grid-template-columns:112px 1fr 40px}
   .side{display:none}
   .content{margin-left:0;padding:0 0 calc(84px + env(safe-area-inset-bottom))}
   .mtop{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1565c0,#1e88e5);color:#fff;padding:14px 16px 46px;border-radius:0 0 24px 24px}
@@ -255,6 +269,7 @@ table.cfg td:first-child{white-space:nowrap}
   <symbol id="i-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
   <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4.5 18.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M7.5 15h9"/></symbol>
   <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3L21 2M16 7l3 3M18.5 4.5l2 2"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></symbol>
   <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></symbol>
   <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></symbol>
@@ -310,9 +325,16 @@ table.cfg td:first-child{white-space:nowrap}
         <section class="card mini"><div class="k">收到的汇报条数</div><div class="v" id="mReports">–</div><div class="s" id="mReportsS">&nbsp;</div></section>
       </div>
       <div class="grid two">
+        <section class="card"><h2 class="ct">版本升级进度</h2><p class="cs" id="vpSub">已升级到最新版本的手机占比</p><div id="vpBox"></div></section>
+        <section class="card"><h2 class="ct">机型与系统</h2><p class="cs" id="ddSub">安卓手机的品牌型号（新版 App 才会上报）</p><div class="bars" id="ddBox"></div><div class="chips" id="osBox" style="margin-top:14px"></div></section>
+      </div>
+      <section class="card"><h2 class="ct">各版本报错</h2><p class="cs">只有「错误类型@出错函数」和次数，不含报错内容；每个版本前 10 种</p><div id="errBox"></div></section>
+      <div class="grid two">
         <section class="card"><h2 class="ct">平台</h2><p class="cs">设备所在平台</p><div class="chips" id="platBox"></div></section>
         <section class="card"><h2 class="ct">当前远程设置</h2><p class="cs">手机每次汇报时拿到的设置</p><div class="chips" id="cfgBox"><span class="chip grey">读取中…</span></div></section>
       </div>
+      <section class="card"><h2 class="ct">数据保留与导出</h2><p class="cs">逐条汇报保留 30 天后自动删除；每台设备的累计数一直保留</p>
+        <div class="maint"><div class="info" id="mtBox">–</div><button class="btn line sm" id="csvBtn"><span class="spin"></span><svg class="ico"><use href="#i-dl"/></svg>导出 CSV</button></div></section>
     </div>
   </section>
 
@@ -421,6 +443,17 @@ table.cfg td:first-child{white-space:nowrap}
         <div><b>公共电脑</b>用完点「清除」。怀疑泄露就去 uniCloud 控制台改 <code>admin_key</code>。</div>
       </div>
     </section>
+    <section class="card">
+      <h2 class="ct">防爆破锁定</h2><p class="cs">同一网络 15 分钟内输错 5 次，锁 15 分钟；所有来源合计输错 30 次，全部锁 15 分钟。锁定期间正确密钥也进不去，等时间到就好。</p>
+      <h2 class="ct" style="margin-top:18px">更换密钥（建议每学期一次，或怀疑泄露时）</h2>
+      <ol class="steps">
+        <li>生成一个新的随机密钥，至少 16 位（例如在电脑上用密码管理器生成 32 位字母数字）。</li>
+        <li>打开 uniCloud 控制台 → 云数据库 → <code>dm_config</code> → <code>main</code>，把 <code>admin_key</code> 改成新密钥并保存。改完旧密钥立刻失效。</li>
+        <li>回到这里，在上面粘贴新密钥，点「验证并保存」。</li>
+        <li>其他电脑 / 手机浏览器里保存过旧密钥的，点「清除」后重新保存。</li>
+      </ol>
+      <p class="cs" style="margin:10px 0 0">App 端不用改：手机汇报不需要密钥。</p>
+    </section>
   </section>
 
   <div class="foot">数据来自 uniCloud 云函数 dm-stats · 网页代码里不含任何密钥或设备数据</div>
@@ -477,7 +510,9 @@ function api(body, method){
 function admin(body){var k=lsGet();body.key=k;return api(body)}
 function errText(j,status){
   var e=j.error;
-  if(e==="forbidden") return "密钥不对（和 dm_config/main 里的 admin_key 对不上）";
+  if(e==="locked") return "输错次数太多，已临时锁定，约 "+Math.max(1,Math.ceil((j.retry_after_s||900)/60))+" 分钟后再试";
+  if(e==="forbidden") return "密钥不对（和 dm_config/main 里的 admin_key 对不上）"+(typeof j.attempts_left==="number"?"，再错 "+j.attempts_left+" 次会锁定 15 分钟":"");
+  if(e==="use_post") return "云函数已升级，请刷新网页";
   if(e==="admin_key_not_set") return "云端还没设密钥：去 uniCloud 给 dm_config/main 填 admin_key（至少 16 位）";
   if(e==="timeout") return "20 秒没响应，可能是云函数冷启动，再试一次";
   if(e==="network") return "连不上统计服务器，检查网络";
@@ -536,6 +571,7 @@ function showOverview(manual){
     if(r.status===200&&j.ok){state.demo=false;document.body.classList.remove("demo");render(j);ovNote(null);
       if(!j.total_devices) ovNote("info","连上了，暂时还没有数据","<div>还没有手机汇报过。正式模式下当天的使用会在第二天第一次打开 App 时发上来；想马上看效果，用「测试」页给自己的手机开短间隔。</div>");
       if(manual)toast("已更新");return}
+    if(j.error==="locked"){ovNote("err","已临时锁定","<div>"+esc(errText(j,r.status))+"</div>");return}
     if(j.error==="forbidden"){ovNote("warn","密钥不对","<div>保存的密钥和云端对不上，可能控制台里改过。去 <a href='#key'>密钥</a> 页重新保存。</div>");return}
     ovNote("err","读取失败","<div>"+esc(errText(j,r.status))+"</div>");
   });
@@ -557,6 +593,7 @@ function render(d){
     '<span class="chip">'+esc(minText(c.report_interval_minutes||(c.report_interval_days||1)*1440))+'汇报一次</span>'+
     (d.test_devices_active?'<a class="chip test" href="#test" style="text-decoration:none">🧪 '+d.test_devices_active+' 台测试中</a>':'<span class="chip grey">无测试手机</span>');
   setTestPill(d.test_devices_active);
+  renderVP(d.version_progress);renderErr(d.errors_by_version);renderDD(d.device_dist);renderMaint(d.maintenance);
   var t=d.generated_at?new Date(d.generated_at):new Date();
   $("updated").textContent=(state.demo?"示例数据 · ":"")+"更新于 "+t.toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"});
 }
@@ -579,12 +616,69 @@ function renderBars(map){
   $("featBox").innerHTML=keys.map(function(k){var v=map[k]||0;return '<div class="br"><span>'+esc(FEAT[k]||k)+'</span><div class="t"><i data-w="'+(v?Math.max(v*100/max,3):0)+'"></i></div><span class="n">'+fmt(v)+"</span></div>"}).join("");
   requestAnimationFrame(function(){requestAnimationFrame(function(){$$("#featBox i").forEach(function(i){i.style.width=i.getAttribute("data-w")+"%"})})});
 }
+function vlabel(k){return String(k||"").replace(/^(\S+) \((\d+)\)$/,"v$1 · b$2")}
+function renderVP(v){
+  var box=$("vpBox");
+  if(!v){box.innerHTML=emptyHtml("云函数还是旧版，上传新的 dm-stats 后显示");return}
+  if(!v.latest){box.innerHTML=emptyHtml("还没有设备");return}
+  $("vpSub").textContent="最新版本 "+vlabel(v.latest)+"，按每台手机最近一次汇报算";
+  function row(t,o){var n=(o.latest||0)+(o.older||0),p=n?Math.round(o.latest*100/n):0;return '<div class="prow"><div class="h"><span>'+t+'</span><span><b>'+p+'%</b> · '+fmt(o.latest)+' / '+fmt(n)+' 台</span></div><div class="prog"><i data-w="'+p+'"></i></div></div>'}
+  box.innerHTML=row("全部设备",v.all||{})+row("近 30 天活跃",v.active30||{})+
+    ((v.older_versions||[]).length?'<div class="olds">'+v.older_versions.slice(0,8).map(function(o){return '<span class="chip grey">'+esc(vlabel(o.version))+" · "+fmt(o.devices)+" 台未升级</span>"}).join("")+"</div>":'<div class="olds"><span class="chip on">全部已是最新版</span></div>');
+  requestAnimationFrame(function(){requestAnimationFrame(function(){$$("#vpBox .prog i").forEach(function(i){i.style.width=i.getAttribute("data-w")+"%"})})});
+}
+function renderErr(m){
+  var box=$("errBox");
+  if(!m){box.innerHTML=emptyHtml("云函数还是旧版，上传新的 dm-stats 后显示");return}
+  var vs=Array.isArray(m)?m:Object.keys(m).map(function(k){return {version:k,top:m[k]}});
+  vs=vs.filter(function(x){return x&&(x.top||x.types||[]).length});
+  if(!vs.length){box.innerHTML=emptyHtml("没有报错记录 🎉");return}
+  box.innerHTML=vs.map(function(x){var top=x.top||x.types||[];var tot=top.reduce(function(s,e){return s+(e.count||0)},0);
+    return '<div class="errv"><h3>'+esc(vlabel(x.version))+'<span class="chip grey">'+fmt(tot)+' 次</span></h3><div class="errl">'+
+      top.map(function(e){return '<code>'+esc(e.type)+'</code><span class="n">'+fmt(e.count)+' 次</span><span class="d">'+fmt(e.devices)+' 台</span>'}).join("")+"</div></div>"}).join("");
+}
+function renderDD(d){
+  var box=$("ddBox"),os=$("osBox");
+  if(!d){box.innerHTML=emptyHtml("云函数还是旧版，上传新的 dm-stats 后显示");os.innerHTML="";return}
+  var ms=d.models||[];
+  $("ddSub").textContent=d.with_model?"已上报机型的 "+fmt(d.with_model)+" 台安卓手机":"安卓手机的品牌型号（新版 App 才会上报）";
+  if(!ms.length){box.innerHTML=emptyHtml("还没有机型数据（1.5.3.4 起上报）");os.innerHTML="";return}
+  var max=Math.max.apply(null,ms.map(function(x){return x.devices||0}).concat([1]));
+  box.innerHTML=ms.map(function(x){var nm=x.name||x.model||"";return '<div class="br wide"><span title="'+esc(nm)+'">'+esc(nm)+'</span><div class="t"><i data-w="'+Math.max((x.devices||0)*100/max,3)+'"></i></div><span class="n">'+fmt(x.devices)+"</span></div>"}).join("");
+  var ol=Array.isArray(d.os)?d.os:Object.keys(d.os||{}).map(function(k){return {name:k,devices:d.os[k]}});
+  os.innerHTML=ol.map(function(x){return '<span class="chip'+(x.name==="未知"?" grey":"")+'">'+esc(x.name==="未知"?"系统未知":x.name)+" · "+fmt(x.devices)+" 台</span>"}).join("");
+  requestAnimationFrame(function(){requestAnimationFrame(function(){$$("#ddBox i").forEach(function(i){i.style.width=i.getAttribute("data-w")+"%"})})});
+}
+function renderMaint(m){
+  if(!m){$("mtBox").textContent="云函数还是旧版：上传新的 dm-stats 后开启 30 天自动清理";return}
+  $("mtBox").innerHTML="明细保留 <b>"+(m.retention_days||30)+" 天</b> · 上次清理："+(m.last_cleanup_at?esc(ago(m.last_cleanup_at))+"（"+(m.last_trigger==="timer"?"定时":"顺带")+"，删 "+fmt(m.last_deleted)+" 条）":"还没清理过");
+}
+function csvCell(v){v=v==null?"":String(v);return /[",\n\r]/.test(v)||/^[=+\-@]/.test(v)?'"'+(/^[=+\-@]/.test(v)?"'":"")+v.replace(/"/g,'""')+'"':v}
+function exportCsv(btn){
+  if(state.demo&&!lsGet()){toast("示例数据不能导出");return}
+  busy(btn,true);
+  admin({action:"export"}).then(function(r){
+    busy(btn,false);var j=r.json;
+    if(!(r.status===200&&j.ok&&Array.isArray(j.rows))){toast(errText(j,r.status),"err");return}
+    var feats=j.features||Object.keys(FEAT);
+    var head=["device_id","app_version","app_build","platform","brand","model","os","first_seen","last_seen","reports","active_days","opens","roll_marks","errors"].concat(feats.map(function(f){return "feat_"+f}));
+    function iso(ms){return ms?new Date(ms).toISOString():""}
+    var lines=[head.join(",")].concat(j.rows.map(function(x){return [x.device_id,x.app_version,x.app_build,x.platform,x.brand,x.model,x.os,iso(x.first_seen),iso(x.last_seen),x.reports,x.active_days,x.opens,x.roll_marks,x.errors].concat(feats.map(function(f){return (x.features||{})[f]||0})).map(csvCell).join(",")}));
+    var blob=new Blob(["\ufeff"+lines.join("\r\n")],{type:"text/csv;charset=utf-8"});
+    var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="dianming-stats-"+new Date().toISOString().slice(0,10)+".csv";document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1000);toast("已导出 "+j.rows.length+" 台","ok");
+  });
+}
 function demo(){
   state.demo=true;document.body.classList.add("demo");$("ovNeedKey").hidden=true;$("dash").hidden=false;
   ovNote("info","这是示例数据","<div>数字都是编的，只用来预览页面。去 <a href='#key'>密钥</a> 页保存密钥后看真实数据。</div>");
-  render({ok:true,generated_at:new Date().toISOString(),total_devices:36,by_version:{"1.5.3.3 (120)":21,"1.5.3 (111)":9,"1.5.2 (110)":4,"1.5.1 (109)":2},
+  render({ok:true,generated_at:new Date().toISOString(),total_devices:36,by_version:{"1.5.3.4 (121)":21,"1.5.3.3 (120)":9,"1.5.2 (110)":4,"1.5.1 (109)":2},
     by_platform:{android:35,desktop:1},active_devices:{d1:14,d7:27,d30:34},total_opens:812,total_roll_marks:9643,total_reports:298,
-    feature_totals:{export:57,backup:41,check_update:88,drawer_open:230,share_app:12,restore:5,feedback:3},config:{enabled:true,report_interval_minutes:1440},test_devices_active:1});
+    feature_totals:{export:57,backup:41,check_update:88,drawer_open:230,share_app:12,restore:5,feedback:3},config:{enabled:true,report_interval_minutes:1440},test_devices_active:1,
+    version_progress:{latest:"1.5.3.4 (121)",all:{latest:21,older:15},active30:{latest:21,older:13},older_versions:[{version:"1.5.3.3 (120)",devices:9},{version:"1.5.2 (110)",devices:4},{version:"1.5.1 (109)",devices:2}]},
+    errors_by_version:[{version:"1.5.3.4 (121)",top:[{type:"PermissionError@export_xlsx",count:6,devices:3},{type:"KeyError@load_roster",count:2,devices:1}]},{version:"1.5.3.3 (120)",top:[{type:"ValueError@parse_names",count:4,devices:2}]}],
+    device_dist:{with_model:20,models:[{name:"Xiaomi 23049RAD8C",devices:6},{name:"HUAWEI ALN-AL00",devices:5},{name:"OPPO PJZ110",devices:4},{name:"vivo V2309A",devices:3},{name:"其它",devices:2}],os:[{name:"Android 14",devices:9},{name:"Android 13",devices:6},{name:"Android 12",devices:4},{name:"未知",devices:2}]},
+    maintenance:{retention_days:30,last_cleanup_at:Date.now()-5*3600e3,last_deleted:12,last_trigger:"timer"}});
 }
 
 /* ---------- 控制台 ---------- */
@@ -720,6 +814,7 @@ $("key").addEventListener("keydown",function(e){if(e.key==="Enter")$("kSave").cl
 $("eye").onclick=function(){var k=$("key");k.type=k.type==="password"?"text":"password"};
 $("refresh").onclick=function(){if(state.demo&&!lsGet()){demo();toast("示例数据");return}showOverview(true)};
 $("demoBtn").onclick=demo;
+$("csvBtn").onclick=function(){exportCsv(this)};
 
 window.addEventListener("hashchange",go);
 window.addEventListener("storage",function(e){if(e.key===LS_KEY){syncKeyUI();state.stats=null;state.tests=null;go()}});
