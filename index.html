@@ -5,60 +5,125 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow">
-<title>点名助手 · 测试统计</title>
+<meta name="theme-color" content="#1565c0">
+<title>点名助手 · 统计后台</title>
 <style>
 :root{
-  --bg:#f8f9ff; --blue:#1565c0; --blue2:#1e88e5; --soft:#e3f2fd; --pill:#bbdefb;
-  --line:#e6e9f2; --ink:#1a1a1a; --muted:#757575; --danger:#e53935; --ok:#2e7d32;
-  --card:#ffffff; --shadow:0 1px 2px rgba(21,101,192,.06),0 8px 24px rgba(21,101,192,.08);
-  --r:18px;
+  --bg:#f5f7fc; --blue:#1565c0; --blue2:#1e88e5; --blue3:#42a5f5; --soft:#e3f2fd; --soft2:#f0f6ff;
+  --line:#e6e9f2; --ink:#18212f; --muted:#6b7385; --danger:#d32f2f; --ok:#2e7d32; --warn:#e65100;
+  --card:#fff; --shadow:0 1px 2px rgba(21,101,192,.05),0 6px 22px rgba(21,101,192,.08); --r:18px; --side:236px;
 }
 *{box-sizing:border-box}
-html,body{margin:0}
+html,body{margin:0;height:100%}
 body{background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1080px;margin:0 auto;padding:20px 16px 48px}
-header.top{background:linear-gradient(135deg,#1565c0 0%,#1e88e5 60%,#42a5f5 100%);color:#fff;border-radius:0 0 28px 28px;padding:22px 0 64px;position:relative;overflow:hidden}
-header.top::after{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.09)}
-header.top::before{content:"";position:absolute;left:-40px;bottom:-120px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.06)}
-.hrow{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
-.logo{width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.18);display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
-.logo svg{width:24px;height:24px}
-h1{font-size:20px;margin:0;font-weight:700;letter-spacing:.5px}
-.sub{font-size:13px;opacity:.85;margin-top:1px}
-.hright{margin-left:auto;display:flex;align-items:center;gap:8px}
-.updated{font-size:12px;opacity:.9;white-space:nowrap}
-.main{margin-top:-46px;position:relative;z-index:2}
-.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px}
-.keycard{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
-.keycard .lab{font-weight:600;font-size:14px;color:var(--blue)}
-.field{flex:1 1 260px;display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:0 6px 0 12px;transition:border-color .15s,box-shadow .15s}
-.field:focus-within{border-color:var(--blue2);box-shadow:0 0 0 4px rgba(30,136,229,.12)}
-.field input::placeholder{font-family:inherit;letter-spacing:0;color:#9e9e9e}
-.field input{flex:1;border:0;background:transparent;font-size:15px;padding:11px 0;outline:none;min-width:0;font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.5px}
-.iconbtn{border:0;background:transparent;color:var(--muted);width:34px;height:34px;border-radius:10px;cursor:pointer;display:grid;place-items:center}
-.iconbtn:hover{background:var(--soft);color:var(--blue)}
-.btn{border:0;border-radius:14px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:transform .08s,filter .15s,background .15s;white-space:nowrap}
-.btn:active{transform:scale(.97)}
-.btn.primary{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(21,101,192,.28)}
-.btn.primary:hover{filter:brightness(1.07)}
-.btn.ghost{background:var(--soft);color:var(--blue)}
-.btn.glass{background:rgba(255,255,255,.18);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);padding:8px 13px;font-size:13px;border-radius:12px}
-.btn.glass:hover{background:rgba(255,255,255,.26)}
-.btn[disabled]{opacity:.6;cursor:default}
-.opts{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);width:100%}
-.chk{display:inline-flex;align-items:center;gap:7px;cursor:pointer;user-select:none}
-.chk input{width:17px;height:17px;accent-color:var(--blue)}
-.link{color:var(--blue);background:none;border:0;padding:0;font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-.link.danger{color:var(--danger)}
-.notice{margin-top:14px;border-radius:14px;padding:13px 15px;font-size:14px;display:none;gap:10px;align-items:flex-start}
-.notice.show{display:flex}
-.notice.err{background:#fdecea;color:#b71c1c}
-.notice.warn{background:#fff8e1;color:#8d5a00}
-.notice.info{background:var(--soft);color:#0d47a1}
-.notice b{display:block;margin-bottom:2px}
-.notice .ic{flex:none;font-size:18px;line-height:1.2}
-.grid{display:grid;gap:14px;margin-top:14px}
+button{font-family:inherit}
+a{color:var(--blue)}
+/* ---------- 布局 ---------- */
+.side{position:fixed;inset:0 auto 0 0;width:var(--side);background:linear-gradient(170deg,#0d47a1 0%,#1565c0 45%,#1e88e5 100%);color:#fff;display:flex;flex-direction:column;padding:22px 14px 18px;z-index:20;overflow:hidden}
+.side::after{content:"";position:absolute;right:-90px;bottom:-90px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07)}
+.brand{display:flex;align-items:center;gap:11px;padding:0 8px 22px}
+.logo{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);flex:none}
+.logo svg{width:22px;height:22px}
+.brand b{display:block;font-size:16.5px;letter-spacing:.4px}
+.brand small{display:block;font-size:12px;opacity:.8}
+.nav{display:flex;flex-direction:column;gap:4px;position:relative;z-index:1}
+.nav a{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:13px;color:rgba(255,255,255,.86);text-decoration:none;font-weight:600;font-size:14.5px;transition:background .15s,color .15s}
+.nav a svg{width:20px;height:20px;flex:none}
+.nav a:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav a.on{background:#fff;color:var(--blue);box-shadow:0 6px 18px rgba(8,40,100,.25)}
+.nav .pill{margin-left:auto;font-size:11px;font-weight:700;border-radius:999px;padding:1px 8px;background:#ffb74d;color:#5d2a00}
+.nav a.on .pill{background:#fff3e0;color:var(--warn)}
+.sidefoot{margin-top:auto;position:relative;z-index:1;font-size:12px;padding:12px;border-radius:14px;background:rgba(255,255,255,.1)}
+.sidefoot .st{display:flex;align-items:center;gap:7px;font-weight:600}
+.sidefoot .dot{width:8px;height:8px;border-radius:50%;background:#ffb74d;flex:none}
+.sidefoot .dot.ok{background:#69f0ae}
+.content{margin-left:var(--side);min-height:100%;padding:26px 30px 60px}
+.inner{max-width:1040px;margin:0 auto}
+.phead{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.phead h1{font-size:22px;margin:0;letter-spacing:.3px}
+.phead p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+.phead .r{margin-left:auto;display:flex;gap:8px;align-items:center}
+.mtop{display:none}
+.tabbar{display:none}
+.page{display:none;animation:fade .22s ease}
+.page.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+/* ---------- 通用 ---------- */
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:20px}
+.card+.card,.grid+.card,.card+.grid,.grid+.grid{margin-top:14px}
+.ct{font-size:16px;font-weight:700;margin:0 0 2px;display:flex;align-items:center;gap:8px}
+.cs{font-size:12.5px;color:var(--muted);margin:0 0 14px}
+.grid{display:grid;gap:14px}
 .kpis{grid-template-columns:repeat(4,1fr)}
+.two{grid-template-columns:1fr 1.25fr}
+.three{grid-template-columns:repeat(3,1fr)}
+.btn{border:0;border-radius:13px;padding:10px 17px;font-size:14.5px;font-weight:650;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:transform .08s,filter .15s,background .15s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn svg{width:16px;height:16px}
+.btn.primary{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(21,101,192,.26)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.ghost{background:var(--soft);color:var(--blue)}
+.btn.ghost:hover{background:#d4e9fc}
+.btn.line{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.line:hover{box-shadow:inset 0 0 0 1.5px var(--blue2);color:var(--blue)}
+.btn.danger{background:#fdecea;color:var(--danger)}
+.btn.danger:hover{background:#fbd9d5}
+.btn.sm{padding:7px 12px;font-size:13px;border-radius:11px}
+.btn[disabled]{opacity:.55;cursor:default}
+.spin{width:15px;height:15px;border-radius:50%;border:2.4px solid currentColor;border-right-color:transparent;animation:rot .8s linear infinite;display:none}
+.busy .spin{display:inline-block}
+.busy .ico{display:none}
+@keyframes rot{to{transform:rotate(360deg)}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--soft);color:var(--blue);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:5px}
+.chip.off{background:#fdecea;color:var(--danger)}
+.chip.on{background:#e8f5e9;color:var(--ok)}
+.chip.test{background:#fff3e0;color:var(--warn)}
+.chip.grey{background:#f1f3f7;color:var(--muted)}
+.field{display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--line);border-radius:13px;padding:0 6px 0 12px;transition:border-color .15s,box-shadow .15s;min-width:0}
+.field:focus-within{border-color:var(--blue2);box-shadow:0 0 0 4px rgba(30,136,229,.12);background:#fff}
+.field input,.field select{flex:1;border:0;background:transparent;font-size:15px;padding:11px 0;outline:none;min-width:0;font-family:inherit;color:var(--ink)}
+.field input.mono{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.3px;font-size:14px}
+.field input::placeholder{color:#9aa1ae;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:0}
+.lbl{display:block;font-size:13px;font-weight:650;color:var(--muted);margin:0 0 6px}
+.iconbtn{border:0;background:transparent;color:var(--muted);width:34px;height:34px;border-radius:10px;cursor:pointer;display:grid;place-items:center;flex:none}
+.iconbtn:hover{background:var(--soft);color:var(--blue)}
+.iconbtn svg{width:18px;height:18px}
+.notice{border-radius:14px;padding:13px 15px;font-size:14px;display:flex;gap:10px;align-items:flex-start;margin-bottom:14px}
+.notice[hidden]{display:none}
+.notice.err{background:#fdecea;color:#b71c1c}
+.notice.warn{background:#fff8e1;color:#7a4b00}
+.notice.info{background:var(--soft);color:#0d47a1}
+.notice b{display:block;margin-bottom:1px}
+.notice .ic{flex:none;font-size:18px;line-height:1.25}
+code{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;word-break:break-all}
+.seg{display:inline-grid;grid-auto-flow:column;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:4px;gap:4px}
+.seg button{border:0;background:transparent;border-radius:10px;padding:9px 18px;font-size:14.5px;font-weight:650;color:var(--muted);cursor:pointer;transition:.15s;display:flex;flex-direction:column;align-items:center;line-height:1.3}
+.seg button small{font-size:11.5px;font-weight:500;opacity:.85}
+.seg button.on{background:#fff;color:var(--blue);box-shadow:0 2px 8px rgba(21,101,192,.15)}
+.switch{position:relative;width:50px;height:29px;flex:none;display:inline-block}
+.switch input{opacity:0;width:0;height:0}
+.switch span{position:absolute;inset:0;background:#cfd8dc;border-radius:999px;cursor:pointer;transition:.2s}
+.switch span::after{content:"";position:absolute;left:3px;top:3px;width:23px;height:23px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.2s}
+.switch input:checked+span{background:var(--ok)}
+.switch input:checked+span::after{transform:translateX(21px)}
+.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sep{border-top:1px dashed var(--line);margin:16px 0}
+.empty{text-align:center;color:var(--muted);font-size:13.5px;padding:24px 8px}
+.empty svg{width:46px;height:46px;opacity:.45;display:block;margin:0 auto 8px}
+.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:26px}
+#toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:rgba(24,33,47,.93);color:#fff;padding:9px 18px;border-radius:999px;font-size:13.5px;opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.err{background:rgba(198,40,40,.95)}
+#toast.ok{background:rgba(46,125,50,.95)}
+/* 需要密钥 */
+.needkey{text-align:center;padding:42px 20px}
+.needkey .big{width:64px;height:64px;border-radius:20px;background:var(--soft);display:grid;place-items:center;margin:0 auto 14px;color:var(--blue)}
+.needkey .big svg{width:30px;height:30px}
+.needkey h3{margin:0 0 6px;font-size:17px}
+.needkey p{margin:0 auto 18px;color:var(--muted);font-size:13.5px;max-width:420px}
+.needkey .row{justify-content:center}
+/* ---------- 概览 ---------- */
 .kpi{padding:16px 16px 14px;position:relative;overflow:hidden}
 .kpi .k{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .kpi .dot{width:8px;height:8px;border-radius:50%}
@@ -68,11 +133,8 @@ h1{font-size:20px;margin:0;font-weight:700;letter-spacing:.5px}
 .kpi.hero .k,.kpi.hero .s{color:rgba(255,255,255,.85)}
 .bar-mini{height:6px;background:var(--soft);border-radius:4px;margin-top:8px;overflow:hidden}
 .bar-mini i{display:block;height:100%;background:var(--blue2);border-radius:4px;width:0;transition:width .6s cubic-bezier(.2,.8,.2,1)}
-.two{grid-template-columns:1fr 1.25fr}
-.ct{font-size:16px;font-weight:700;margin:0 0 2px;display:flex;align-items:center;gap:8px}
-.cs{font-size:12.5px;color:var(--muted);margin:0 0 14px}
 .donut-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.donut{width:180px;height:180px;flex:none;margin:0 auto}
+.donut{width:176px;height:176px;flex:none;margin:0 auto}
 .legend{flex:1 1 160px;display:flex;flex-direction:column;gap:8px;min-width:150px}
 .lg{display:flex;align-items:center;gap:9px;font-size:13.5px}
 .lg i{width:11px;height:11px;border-radius:4px;flex:none}
@@ -83,213 +145,294 @@ h1{font-size:20px;margin:0;font-weight:700;letter-spacing:.5px}
 .br .t{height:22px;background:var(--bg);border-radius:8px;overflow:hidden;position:relative}
 .br .t i{position:absolute;inset:0 auto 0 0;width:0;border-radius:8px;background:linear-gradient(90deg,#42a5f5,#1565c0);transition:width .7s cubic-bezier(.2,.8,.2,1)}
 .br .n{text-align:right;font-weight:650;font-variant-numeric:tabular-nums}
-.three{grid-template-columns:repeat(3,1fr)}
 .mini .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
 .mini .k{font-size:13px;color:var(--muted)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{background:var(--soft);color:var(--blue);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600}
-.chip.off{background:#fdecea;color:var(--danger)}
-.chip.on{background:#e8f5e9;color:var(--ok)}
-.empty{text-align:center;color:var(--muted);font-size:13.5px;padding:26px 8px}
-.empty svg{width:44px;height:44px;opacity:.5;display:block;margin:0 auto 8px}
-details.help{margin-top:14px}
-details.help summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px}
-details.help summary::-webkit-details-marker{display:none}
-details.help summary .arr{margin-left:auto;transition:transform .2s;color:var(--muted)}
-details.help[open] summary .arr{transform:rotate(90deg)}
-.steps{margin:12px 0 0;padding-left:0;list-style:none;counter-reset:s}
-.steps li{counter-increment:s;position:relative;padding:0 0 12px 36px;font-size:14px}
-.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:24px;height:24px;border-radius:8px;background:var(--soft);color:var(--blue);font-weight:700;font-size:13px;display:grid;place-items:center}
-code{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;word-break:break-all}
-table.cfg{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
-table.cfg th,table.cfg td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-table.cfg th{color:var(--muted);font-weight:600;font-size:12.5px}
-.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:22px}
+.mini .s{font-size:12px;color:var(--muted)}
 .skel{background:linear-gradient(90deg,#eef2fa 25%,#f6f8fd 50%,#eef2fa 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:8px;color:transparent!important}
 @keyframes sh{to{background-position:-200% 0}}
-.spin{width:16px;height:16px;border-radius:50%;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;animation:rot .8s linear infinite;display:none}
-.loading .spin{display:inline-block}
-@keyframes rot{to{transform:rotate(360deg)}}
-.badge-demo{display:none;background:#fff3e0;color:#e65100;border-radius:999px;font-size:12px;padding:3px 10px;font-weight:700}
+.badge-demo{display:none;background:#fff3e0;color:var(--warn);border-radius:999px;font-size:12px;padding:3px 10px;font-weight:700}
 .demo .badge-demo{display:inline-block}
-#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:rgba(31,41,55,.92);color:#fff;padding:9px 16px;border-radius:999px;font-size:13.5px;opacity:0;pointer-events:none;transition:.25s}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-textarea{width:100%;min-height:90px;border:1.5px solid var(--line);border-radius:12px;padding:10px;font:12.5px ui-monospace,Menlo,Consolas,monospace;background:var(--bg);resize:vertical}
-@media (max-width:820px){
-  .kpis{grid-template-columns:repeat(2,1fr)}
-  .two{grid-template-columns:1fr}
-  .three{gap:10px}
-  .three .card{padding:13px 12px}
-  .mini .v{font-size:19px}
-  .mini .k{font-size:12px}
-  .three .s{font-size:11px!important}
-}
-@media (max-width:480px){
-  .wrap{padding:16px 12px 40px}
-  h1{font-size:18px}
-  .updated{display:none}
-  .kpi .v{font-size:26px}
-  .keycard .btn.primary{flex:1;justify-content:center}
-  .br{grid-template-columns:72px 1fr 44px}
-}
-
-/* 汇报频率面板 */
-.freq-head{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
-.freq-head .ct{margin:0}
-.modebadge{margin-left:auto;display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700}
-.modebadge.prod{background:#e8f5e9;color:var(--ok)}
-.modebadge.test{background:#fff3e0;color:#e65100;box-shadow:0 0 0 0 rgba(230,81,0,.35);animation:pulse 1.8s infinite}
-.modebadge.off{background:#fdecea;color:var(--danger)}
-@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(230,81,0,0)}100%{box-shadow:0 0 0 0 rgba(230,81,0,0)}}
-.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:4px;gap:4px;margin:14px 0 12px}
-.seg button{border:0;background:transparent;border-radius:10px;padding:10px 8px;font-size:14.5px;font-weight:650;color:var(--muted);cursor:pointer;transition:.15s;display:flex;flex-direction:column;align-items:center;gap:1px}
-.seg button small{font-size:11.5px;font-weight:500;opacity:.85}
-.seg button.on.prod{background:#fff;color:var(--blue);box-shadow:0 2px 8px rgba(21,101,192,.14)}
-.seg button.on.test{background:#fff7ed;color:#e65100;box-shadow:0 2px 8px rgba(230,81,0,.16)}
+/* ---------- 控制台 ---------- */
+.setrow{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.setrow:last-of-type{border-bottom:0}
+.setrow .t{flex:1;min-width:0}
+.setrow .t b{display:block;font-size:15px}
+.setrow .t span{font-size:12.5px;color:var(--muted)}
+.dirty{display:none;color:var(--warn);font-size:12.5px;font-weight:650}
+.isdirty .dirty{display:inline}
+table.cfg{width:100%;border-collapse:collapse;font-size:13.5px}
+table.cfg th,table.cfg td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.cfg th{color:var(--muted);font-weight:600;font-size:12.5px}
+table.cfg td:first-child{white-space:nowrap}
+.steps{margin:4px 0 0;padding-left:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:0 0 12px 36px;font-size:14px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:24px;height:24px;border-radius:8px;background:var(--soft);color:var(--blue);font-weight:700;font-size:13px;display:grid;place-items:center}
+/* ---------- 测试 ---------- */
+.addgrid{display:grid;grid-template-columns:1.6fr 1fr;gap:12px 14px}
 .presets{display:flex;flex-wrap:wrap;gap:8px}
-.pre{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 14px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;transition:.12s;min-width:84px}
+.pre{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:8px 14px;font-size:14px;font-weight:650;color:var(--ink);cursor:pointer;transition:.12s}
 .pre:hover{border-color:var(--blue2)}
 .pre.sel{background:var(--blue);border-color:var(--blue);color:#fff}
-.testmode .pre.sel{background:#f57c00;border-color:#f57c00}
-.pre .tag{display:block;font-size:11px;font-weight:500;opacity:.8}
-.custom{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;font-size:13.5px;color:var(--muted)}
-.custom input,.custom select{border:1.5px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 10px;font-size:14px;font-family:inherit;color:var(--ink);outline:none}
-.custom input{width:90px}
-.custom input:focus,.custom select:focus{border-color:var(--blue2)}
-.rowline{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
-.switch{position:relative;width:48px;height:28px;flex:none}
-.switch input{opacity:0;width:0;height:0}
-.switch span{position:absolute;inset:0;background:#cfd8dc;border-radius:999px;cursor:pointer;transition:.2s}
-.switch span::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.2s}
-.switch input:checked+span{background:var(--ok)}
-.switch input:checked+span::after{transform:translateX(20px)}
-.testhint{display:none;margin-top:12px;background:#fff3e0;color:#8d4a00;border-radius:12px;padding:10px 13px;font-size:13px}
-.testmode .testhint{display:block}
-.freq-summary{font-size:13.5px;color:var(--muted);margin-top:4px}
-.freq-summary b{color:var(--ink)}
-.dirty{display:none;color:#e65100;font-size:12.5px;font-weight:600}
-.isdirty .dirty{display:inline}
-#toast.err{background:rgba(198,40,40,.95)}
-#toast.ok{background:rgba(46,125,50,.95)}
-@media (max-width:480px){.pre{flex:1 1 calc(50% - 8px)}.rowline .btn.primary{width:100%;justify-content:center}.modebadge{margin-left:0}}
+.tdev{border:1.5px solid var(--line);border-radius:16px;padding:15px 16px;display:grid;grid-template-columns:1fr auto;gap:10px 16px;align-items:center;transition:border-color .15s}
+.tdev+.tdev{margin-top:10px}
+.tdev.live{border-color:#bbdefb;background:linear-gradient(180deg,#fbfdff,#fff)}
+.tdev.expired{opacity:.62}
+.tdev .nm{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tdev .id{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;color:var(--muted);word-break:break-all}
+.tdev .meta{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mbox{background:var(--bg);border-radius:12px;padding:9px 11px;min-width:0}
+.mbox .k{font-size:11.5px;color:var(--muted)}
+.mbox .v{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mbox .v.ok{color:var(--ok)}.mbox .v.late{color:var(--warn)}
+.tdev .acts{display:flex;gap:6px}
+.dots{grid-column:1/-1;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--blue2);display:inline-block}
+.livedot{width:8px;height:8px;border-radius:50%;background:#43a047;box-shadow:0 0 0 0 rgba(67,160,71,.5);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 7px rgba(67,160,71,0)}100%{box-shadow:0 0 0 0 rgba(67,160,71,0)}}
+.guide{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:4px}
+.gstep{background:var(--soft2);border-radius:14px;padding:12px;font-size:13px}
+.gstep b{display:flex;align-items:center;gap:7px;font-size:13.5px;margin-bottom:3px;color:var(--blue)}
+.gstep b i{font-style:normal;width:22px;height:22px;border-radius:7px;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:12px}
+.err-text{color:var(--danger);font-size:12.5px;margin-top:5px;min-height:1px}
+/* ---------- 密钥 ---------- */
+.keystate{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;background:var(--bg);margin-bottom:16px}
+.keystate .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none}
+.keystate .ic svg{width:22px;height:22px}
+.keystate.ok .ic{background:#e8f5e9;color:var(--ok)}
+.keystate.no .ic{background:#fff3e0;color:var(--warn)}
+.keystate b{display:block}
+.keystate span{font-size:12.5px;color:var(--muted)}
+.safe{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.safe div{background:var(--soft2);border-radius:14px;padding:12px 13px;font-size:13px;color:#30415e}
+.safe div b{display:block;color:var(--blue);margin-bottom:2px;font-size:13.5px}
+/* ---------- 手机 ---------- */
+@media (max-width:900px){
+  .side{display:none}
+  .content{margin-left:0;padding:0 0 calc(84px + env(safe-area-inset-bottom))}
+  .mtop{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1565c0,#1e88e5);color:#fff;padding:14px 16px 46px;border-radius:0 0 24px 24px}
+  .mtop .logo{width:34px;height:34px;border-radius:11px}
+  .mtop .logo svg{width:19px;height:19px}
+  .mtop b{font-size:16px;display:block}
+  .mtop small{font-size:11.5px;opacity:.85;display:block}
+  .mtop .kst{margin-left:auto;font-size:11.5px;background:rgba(255,255,255,.18);border-radius:999px;padding:4px 10px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+  .mtop .kst i{width:7px;height:7px;border-radius:50%;background:#ffb74d}
+  .mtop .kst i.ok{background:#69f0ae}
+  .inner{padding:0 12px;margin-top:-34px;position:relative}
+  .phead{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:13px 15px;margin-bottom:12px}
+  .phead h1{font-size:18px}
+  .phead p{font-size:12.5px}
+  .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:30;box-shadow:0 -4px 18px rgba(21,101,192,.06)}
+  .tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#8a93a3;font-size:11.5px;font-weight:650;padding:6px 0;border-radius:12px;position:relative}
+  .tabbar a svg{width:23px;height:23px}
+  .tabbar a.on{color:var(--blue)}
+  .tabbar a.on svg{background:var(--soft);border-radius:10px;padding:2px 12px;width:47px;box-sizing:border-box}
+  .tabbar .pill{position:absolute;top:2px;left:calc(50% + 10px);background:var(--warn);color:#fff;border-radius:999px;font-size:10px;padding:0 5px;line-height:15px}
+  .card{padding:16px;border-radius:16px}
+  .kpis{grid-template-columns:repeat(2,1fr);gap:10px}
+  .two{grid-template-columns:1fr}
+  .three{gap:10px}
+  .three .card{padding:12px}
+  .mini .v{font-size:19px}
+  .mini .k,.mini .s{font-size:11.5px}
+  .kpi .v{font-size:26px}
+  .addgrid{grid-template-columns:1fr}
+  .tdev{grid-template-columns:1fr}
+  .tdev .acts{justify-content:flex-start}
+  .tdev .meta{grid-template-columns:repeat(2,1fr)}
+  .guide{grid-template-columns:1fr 1fr}
+  .safe{grid-template-columns:1fr}
+  .seg{display:grid;width:100%}
+  .setrow{flex-wrap:wrap}
+  .br{grid-template-columns:72px 1fr 44px}
+  table.cfg td:first-child{white-space:normal}
+  #toast{bottom:calc(92px + env(safe-area-inset-bottom))}
+}
 </style>
 </head>
 <body>
-<header class="top">
-  <div class="wrap" style="padding-top:0;padding-bottom:0">
-    <div class="hrow">
-      <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></div>
-      <div><h1>点名助手 · 测试统计</h1><div class="sub">匿名使用数据 · 只有计数，不含姓名和名单</div></div>
-      <div class="hright">
-        <span class="updated" id="updated">尚未加载</span>
-        <button class="btn glass" id="refresh" title="刷新"><span class="spin"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>刷新</button>
-      </div>
-    </div>
-  </div>
-</header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4.5 18.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M7.5 15h9"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3L21 2M16 7l3 3M18.5 4.5l2 2"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-logo" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</svg>
 
-<div class="wrap main">
-  <section class="card">
-    <div class="keycard">
-      <span class="lab">查看密钥</span>
-      <div class="field">
-        <input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="粘贴 uniCloud 里 dm_config 的 admin_key">
-        <button class="iconbtn" id="eye" title="显示/隐藏"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+<aside class="side">
+  <div class="brand"><div class="logo"><svg><use href="#i-logo"/></svg></div><div><b>点名助手</b><small>统计后台</small></div></div>
+  <nav class="nav" id="nav">
+    <a href="#overview" data-tab="overview"><svg><use href="#i-chart"/></svg>概览</a>
+    <a href="#console" data-tab="console"><svg><use href="#i-sliders"/></svg>控制台</a>
+    <a href="#test" data-tab="test"><svg><use href="#i-flask"/></svg>测试<span class="pill" data-testcount hidden></span></a>
+    <a href="#key" data-tab="key"><svg><use href="#i-key"/></svg>密钥</a>
+  </nav>
+  <div class="sidefoot"><div class="st"><span class="dot" data-keydot></span><span data-keytext>未设置密钥</span></div><div style="opacity:.75;margin-top:4px">密钥只存在这个浏览器里</div></div>
+</aside>
+
+<div class="content">
+  <div class="mtop"><div class="logo"><svg><use href="#i-logo"/></svg></div><div><b>点名助手</b><small>统计后台</small></div><span class="kst"><i data-keydot></i><span data-keytext>未设置密钥</span></span></div>
+  <div class="inner">
+
+  <!-- ===== 概览 ===== -->
+  <section class="page" id="p-overview">
+    <div class="phead">
+      <div><h1>概览</h1><p id="updated">匿名使用数据 · 只有计数，不含姓名和名单</p></div>
+      <div class="r"><button class="btn line sm" id="refresh"><span class="spin"></span><svg class="ico"><use href="#i-refresh"/></svg>刷新</button></div>
+    </div>
+    <div class="notice" id="ovNotice" hidden><span class="ic" id="ovIc"></span><div id="ovText"></div></div>
+    <div class="card needkey" id="ovNeedKey" hidden>
+      <div class="big"><svg><use href="#i-lock"/></svg></div>
+      <h3>先设置一次密钥</h3>
+      <p>统计数据要用 <code>admin_key</code> 才能查看。在「密钥」页保存一次，这个浏览器以后会记住，不用再输。</p>
+      <div class="row"><a class="btn primary" href="#key"><svg><use href="#i-key"/></svg>去设置密钥</a><button class="btn ghost" id="demoBtn">先看示例效果</button></div>
+    </div>
+    <div id="dash">
+      <div class="grid kpis">
+        <div class="card kpi hero"><div class="k">总设备数 <span class="badge-demo">示例数据</span></div><div class="v" id="kTotal">–</div><div class="s" id="kTotalS">装过并汇报过的手机</div></div>
+        <div class="card kpi"><div class="k"><span class="dot" style="background:#1565c0"></span>近 1 天活跃</div><div class="v" id="kD1">–</div><div class="bar-mini"><i id="bD1"></i></div><div class="s" id="sD1">&nbsp;</div></div>
+        <div class="card kpi"><div class="k"><span class="dot" style="background:#1e88e5"></span>近 7 天活跃</div><div class="v" id="kD7">–</div><div class="bar-mini"><i id="bD7"></i></div><div class="s" id="sD7">&nbsp;</div></div>
+        <div class="card kpi"><div class="k"><span class="dot" style="background:#64b5f6"></span>近 30 天活跃</div><div class="v" id="kD30">–</div><div class="bar-mini"><i id="bD30"></i></div><div class="s" id="sD30">&nbsp;</div></div>
       </div>
-      <button class="btn primary" id="go">查看统计</button>
-      <div class="opts">
-        <label class="chk"><input type="checkbox" id="remember">在这台设备上记住密钥</label>
-        <button class="link danger" id="forget" style="display:none">清除已记住的密钥</button>
-        <span style="margin-left:auto"><button class="link" id="demoBtn">先看示例效果</button></span>
+      <div class="grid two">
+        <section class="card"><h2 class="ct">版本分布</h2><p class="cs">每台手机按最近一次汇报时的版本算</p><div class="donut-wrap" id="verBox"></div></section>
+        <section class="card"><h2 class="ct">功能使用次数</h2><p class="cs">所有手机累计，按次数从多到少</p><div class="bars" id="featBox"></div></section>
+      </div>
+      <div class="grid three">
+        <section class="card mini"><div class="k">累计打开 App</div><div class="v" id="mOpens">–</div><div class="s" id="mOpensS">&nbsp;</div></section>
+        <section class="card mini"><div class="k">累计点名标记</div><div class="v" id="mMarks">–</div><div class="s" id="mMarksS">&nbsp;</div></section>
+        <section class="card mini"><div class="k">收到的汇报条数</div><div class="v" id="mReports">–</div><div class="s" id="mReportsS">&nbsp;</div></section>
+      </div>
+      <div class="grid two">
+        <section class="card"><h2 class="ct">平台</h2><p class="cs">设备所在平台</p><div class="chips" id="platBox"></div></section>
+        <section class="card"><h2 class="ct">当前远程设置</h2><p class="cs">手机每次汇报时拿到的设置</p><div class="chips" id="cfgBox"><span class="chip grey">读取中…</span></div></section>
       </div>
     </div>
-    <div class="notice" id="notice"><span class="ic" id="nic"></span><div id="ntext"></div></div>
   </section>
 
-  <div id="dash">
-    <div class="grid kpis">
-      <div class="card kpi hero"><div class="k">总设备数 <span class="badge-demo">示例数据</span></div><div class="v" id="kTotal">–</div><div class="s" id="kTotalS">装过并汇报过的手机</div></div>
-      <div class="card kpi"><div class="k"><span class="dot" style="background:#1565c0"></span>近 1 天活跃</div><div class="v" id="kD1">–</div><div class="bar-mini"><i id="bD1"></i></div><div class="s" id="sD1">&nbsp;</div></div>
-      <div class="card kpi"><div class="k"><span class="dot" style="background:#1e88e5"></span>近 7 天活跃</div><div class="v" id="kD7">–</div><div class="bar-mini"><i id="bD7"></i></div><div class="s" id="sD7">&nbsp;</div></div>
-      <div class="card kpi"><div class="k"><span class="dot" style="background:#64b5f6"></span>近 30 天活跃</div><div class="v" id="kD30">–</div><div class="bar-mini"><i id="bD30"></i></div><div class="s" id="sD30">&nbsp;</div></div>
+  <!-- ===== 控制台 ===== -->
+  <section class="page" id="p-console">
+    <div class="phead"><div><h1>控制台</h1><p>所有手机的常规汇报设置。只能选「每天」或「每周」，短间隔请去「测试」页给单台手机开。</p></div></div>
+    <div class="card needkey" data-needkey hidden>
+      <div class="big"><svg><use href="#i-lock"/></svg></div><h3>改设置需要密钥</h3>
+      <p>当前设置可以直接看；保存修改要先在「密钥」页保存一次密钥。</p>
+      <div class="row"><a class="btn primary" href="#key"><svg><use href="#i-key"/></svg>去设置密钥</a></div>
     </div>
-
-    <div class="grid two">
-      <section class="card">
-        <h2 class="ct">版本分布</h2><p class="cs">每台手机按最近一次汇报时的版本算</p>
-        <div class="donut-wrap" id="verBox"></div>
-      </section>
-      <section class="card">
-        <h2 class="ct">功能使用次数</h2><p class="cs">所有手机累计，按次数从多到少</p>
-        <div class="bars" id="featBox"></div>
-      </section>
-    </div>
-
-    <div class="grid three">
-      <section class="card mini"><div class="k">累计打开 App</div><div class="v" id="mOpens">–</div><div class="s cs" style="margin:2px 0 0" id="mOpensS">&nbsp;</div></section>
-      <section class="card mini"><div class="k">累计点名标记</div><div class="v" id="mMarks">–</div><div class="s cs" style="margin:2px 0 0" id="mMarksS">&nbsp;</div></section>
-      <section class="card mini"><div class="k">收到的汇报条数</div><div class="v" id="mReports">–</div><div class="s cs" style="margin:2px 0 0" id="mReportsS">&nbsp;</div></section>
-    </div>
-
-    <div class="grid two">
-      <section class="card">
-        <h2 class="ct">平台</h2><p class="cs">设备所在平台</p>
-        <div class="chips" id="platBox"></div>
-      </section>
-      <section class="card">
-        <h2 class="ct">当前远程设置</h2><p class="cs">手机每次汇报时会拿到这份设置</p>
-        <div class="chips" id="cfgBox"></div>
-      </section>
-    </div>
-  </div>
-
-  <section class="card" id="freqCard" style="margin-top:14px">
-    <div class="freq-head">
-      <div>
-        <h2 class="ct">汇报频率</h2>
-        <div class="freq-summary" id="freqNow">读取当前设置中…</div>
+    <section class="card" id="cfgCard">
+      <div class="row" style="margin-bottom:4px"><h2 class="ct" style="margin:0">全局设置</h2><span class="chip grey" id="cfgNow" style="margin-left:auto">读取中…</span></div>
+      <div class="setrow">
+        <div class="t"><b>统计总开关</b><span>关掉后服务器不再存数据，手机停止汇报（每 7 天只轻问一次设置）</span></div>
+        <label class="switch"><input type="checkbox" id="enSw" checked><span></span></label>
       </div>
-      <span class="modebadge prod" id="modeBadge">● 正式模式</span>
-    </div>
-    <div class="seg" role="tablist">
-      <button class="prod" id="segProd" type="button">正式模式<small>每天 / 每周，平时用</small></button>
-      <button class="test" id="segTest" type="button">🧪 测试模式<small>几分钟一次，测完记得切回</small></button>
-    </div>
-    <div class="presets" id="presets"></div>
-    <div class="custom">
-      <span>自定义：每</span><input id="cNum" type="number" min="1" inputmode="numeric"><select id="cUnit"><option value="1">分钟</option><option value="60">小时</option><option value="1440">天</option></select><span>一次</span>
-      <span id="testHoursBox">· 测试 <input id="tHours" type="number" min="1" max="168" value="24" style="width:64px"> 小时后自动回到每天</span>
-    </div>
-    <div class="testhint" id="testHint">⚠️ 测试模式会让手机很频繁地上传，测完请切回「正式模式 · 每天」。<span id="testUntil"></span></div>
-    <div class="rowline">
-      <label class="switch"><input type="checkbox" id="enSw" checked><span></span></label>
-      <span id="enLab" style="font-weight:600">统计开启</span>
-      <span class="dirty">· 有改动未保存</span>
-      <button class="btn primary" id="saveCfg" type="button" style="margin-left:auto">保存设置</button>
-    </div>
-    <p class="cs" style="margin:10px 0 0">保存要用上面输入的密钥。手机在下一次联网汇报（或打开 App）时拿到新设置；最短 5 分钟，最长 7 天。</p>
+      <div class="setrow">
+        <div class="t"><b>汇报频率</b><span>每台手机把这段时间的计数合并成一条发上来</span></div>
+        <div class="seg" id="freqSeg">
+          <button type="button" data-min="1440">每天<small>默认</small></button>
+          <button type="button" data-min="10080">每周<small>省额度</small></button>
+        </div>
+      </div>
+      <div class="row" style="margin-top:6px">
+        <span class="dirty">● 有改动未保存</span>
+        <button class="btn primary" id="saveCfg" style="margin-left:auto"><span class="spin"></span><svg class="ico"><use href="#i-check"/></svg>保存设置</button>
+      </div>
+    </section>
+    <section class="card">
+      <h2 class="ct">远程配置说明</h2><p class="cs">存放在 uniCloud → 云数据库 → <code>dm_config</code> 的 <code>main</code> 这一条。一般用本页改即可，不用进控制台。</p>
+      <table class="cfg">
+        <tr><th>字段</th><th>作用</th></tr>
+        <tr><td><code>enabled</code></td><td>统计总开关（上面的开关）。</td></tr>
+        <tr><td><code>report_interval_minutes</code></td><td>全局汇报间隔：<code>1440</code> 每天，<code>10080</code> 每周。全局最短每天，不会让所有手机频繁上传。</td></tr>
+        <tr><td><code>report_interval_days</code></td><td>旧字段，给老版本 App 用，保存时自动同步。</td></tr>
+        <tr><td><code>test_devices</code></td><td>测试白名单（「测试」页管理）：只对列表里的设备 ID 下发短间隔，到期自动恢复每天。</td></tr>
+        <tr><td><code>admin_key</code></td><td>后台密钥，至少 16 位。只在控制台里改；改了以后在「密钥」页重新保存。</td></tr>
+      </table>
+      <div class="sep"></div>
+      <ol class="steps">
+        <li>手机在下一次联网汇报时拿到新设置；正式模式下当天的计数第二天第一次打开 App 时发上来。</li>
+        <li>「活跃」按每台手机最近一次汇报时间算，改成每周后「近 1 天活跃」会偏低，属正常。</li>
+        <li>测试白名单里的手机按分钟汇报，打开次数、活跃天会被拆成多条，测试期间这台手机的累计数会偏大。</li>
+      </ol>
+    </section>
   </section>
 
-  <details class="card help" id="help">
-    <summary>远程设置怎么改（不用重新发版）<span class="arr">›</span></summary>
-    <ol class="steps">
-      <li>浏览器打开 <a href="https://unicloud.dcloud.net.cn/" target="_blank" rel="noopener">uniCloud 控制台</a>，登录后进入服务空间 <code>test1</code>。</li>
-      <li>左侧点「云数据库」，打开表 <code>dm_config</code>，找到 <code>_id</code> 为 <code>main</code> 的那条，点编辑。</li>
-      <li>按下表改字段，保存即可。手机在下一次汇报时拿到新设置。</li>
-    </ol>
-    <table class="cfg">
-      <tr><th>字段</th><th>作用</th><th>例子</th></tr>
-      <tr><td><code>report_interval_minutes</code></td><td>汇报间隔（分钟，5～10080）。上面「汇报频率」面板会自动改它，一般不用手动改。</td><td><code>1440</code> 每天；<code>5</code> 测试</td></tr>
-      <tr><td><code>mode</code> / <code>test_until</code></td><td>测试模式标记和自动结束时间；到点自动按每天汇报。</td><td><code>test</code> / <code>prod</code></td></tr>
-      <tr><td><code>report_interval_days</code></td><td>旧字段，给老版本 App 用，保存时自动同步。</td><td><code>1</code></td></tr>
-      <tr><td><code>enabled</code></td><td>统计总开关。改成 <code>false</code> 后服务器不再存数据，手机也停止汇报（每 7 天只轻问一次设置）。改回 <code>true</code> 恢复。</td><td><code>true</code> / <code>false</code></td></tr>
-      <tr><td><code>admin_key</code></td><td>看这个页面用的密钥，至少 16 位。改了以后，这里要用新密钥重新登录。</td><td>一串随机字符，别外传</td></tr>
-    </table>
-    <p class="cs" style="margin-top:12px">说明：「活跃」按每台手机最近一次汇报的时间算。汇报间隔改成 7 天后，1 天活跃的数字会偏低，属于正常现象。每台手机当天的数据会攒到第二天第一次打开时一起发，所以今天的使用要明天才看得到。</p>
-  </details>
+  <!-- ===== 测试 ===== -->
+  <section class="page" id="p-test">
+    <div class="phead"><div><h1>测试</h1><p>只给指定的手机开短间隔汇报，其他手机照常。</p></div>
+      <div class="r"><button class="btn line sm" id="tRefresh"><span class="spin"></span><svg class="ico"><use href="#i-refresh"/></svg>刷新</button></div></div>
+    <div class="card needkey" data-needkey hidden>
+      <div class="big"><svg><use href="#i-lock"/></svg></div><h3>测试白名单需要密钥</h3>
+      <p>在「密钥」页保存一次密钥后，这里就能添加和管理测试手机。</p>
+      <div class="row"><a class="btn primary" href="#key"><svg><use href="#i-key"/></svg>去设置密钥</a></div>
+    </div>
+    <div data-haskey>
+      <section class="card">
+        <h2 class="ct">添加测试手机</h2><p class="cs">同一个 ID 再添加一次 = 修改间隔并重新计时。最多 20 台。</p>
+        <div class="addgrid">
+          <div><label class="lbl" for="tId">设备 ID</label>
+            <div class="field"><input id="tId" class="mono" autocomplete="off" spellcheck="false" placeholder="粘贴 App 里复制的设备 ID"><button class="iconbtn" id="tPaste" title="从剪贴板粘贴"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg></button></div>
+            <div class="err-text" id="tIdErr"></div></div>
+          <div><label class="lbl" for="tName">备注名</label><div class="field"><input id="tName" maxlength="30" placeholder="例如：我的小米"></div></div>
+          <div><label class="lbl">汇报间隔</label><div class="presets" id="tPresets"></div></div>
+          <div><label class="lbl" for="tHours">多久后自动结束</label><div class="field"><select id="tHours"><option value="1">1 小时</option><option value="6">6 小时</option><option value="24" selected>24 小时</option><option value="72">3 天</option><option value="168">7 天</option></select></div></div>
+        </div>
+        <div class="row" style="margin-top:16px"><span class="cs" style="margin:0" id="tSummary"></span><button class="btn primary" id="tAdd" style="margin-left:auto"><span class="spin"></span><svg class="ico"><use href="#i-plus"/></svg>加入白名单</button></div>
+      </section>
+      <section class="card">
+        <div class="row" style="margin-bottom:12px"><h2 class="ct" style="margin:0">测试中的手机</h2><span class="chip grey" id="tCount">–</span><span class="cs" style="margin:0 0 0 auto" id="tUpdated"></span></div>
+        <div id="tList"><div class="empty">读取中…</div></div>
+      </section>
+    </div>
+    <section class="card">
+      <h2 class="ct">设备 ID 在哪里</h2><p class="cs">需要点名助手预览版 1.5.3.3 或更新。ID 是随机生成的匿名编号，不是手机硬件标识。</p>
+      <div class="guide">
+        <div class="gstep"><b><i>1</i>打开侧栏</b>点左上角菜单，打开侧边栏。</div>
+        <div class="gstep"><b><i>2</i>长按版本号</b>长按「检查更新 · 当前版本」那一行。</div>
+        <div class="gstep"><b><i>3</i>复制 ID</b>弹窗里点「复制」，粘贴到上面。</div>
+        <div class="gstep"><b><i>4</i>同步状态</b>加好后在弹窗里点「同步测试状态」，马上生效。</div>
+      </div>
+    </section>
+  </section>
 
-  <div class="foot">数据来自 uniCloud 云函数 dm-stats · 密钥只在你的浏览器里使用，不会写进这个网页</div>
+  <!-- ===== 密钥 ===== -->
+  <section class="page" id="p-key">
+    <div class="phead"><div><h1>密钥</h1><p>保存在这个浏览器（localStorage）里，以后打开直接用，不用再输入。</p></div></div>
+    <section class="card">
+      <div class="keystate no" id="kState"><div class="ic"><svg><use href="#i-lock"/></svg></div><div><b id="kStateT">还没有保存密钥</b><span id="kStateS">输入 uniCloud 里 dm_config/main 的 admin_key</span></div></div>
+      <label class="lbl" for="key">admin_key</label>
+      <div class="field"><input id="key" type="password" class="mono" autocomplete="off" spellcheck="false" placeholder="粘贴 dm_config/main 的 admin_key"><button class="iconbtn" id="eye" title="显示/隐藏"><svg><use href="#i-eye"/></svg></button></div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn primary" id="kSave"><span class="spin"></span><svg class="ico"><use href="#i-check"/></svg>验证并保存</button>
+        <button class="btn ghost" id="kTest"><span class="spin"></span><svg class="ico"><use href="#i-refresh"/></svg>测试连接</button>
+        <button class="btn danger" id="kClear" style="margin-left:auto"><svg><use href="#i-trash"/></svg>清除</button>
+      </div>
+      <div class="notice" id="kNotice" hidden style="margin:14px 0 0"><span class="ic" id="kIc"></span><div id="kText"></div></div>
+    </section>
+    <section class="card">
+      <h2 class="ct">安全说明</h2><p class="cs">这个网页是公开的，所以密钥不写进网页代码。</p>
+      <div class="safe">
+        <div><b>只在本机</b>密钥只存在当前浏览器，换电脑或清除浏览器数据后要重新保存。</div>
+        <div><b>不进网址</b>请求时密钥放在请求体里，不会出现在地址栏或历史记录。</div>
+        <div><b>公共电脑</b>用完点「清除」。怀疑泄露就去 uniCloud 控制台改 <code>admin_key</code>。</div>
+      </div>
+    </section>
+  </section>
+
+  <div class="foot">数据来自 uniCloud 云函数 dm-stats · 网页代码里不含任何密钥或设备数据</div>
+  </div>
 </div>
+
+<nav class="tabbar" id="tabbar">
+  <a href="#overview" data-tab="overview"><svg><use href="#i-chart"/></svg>概览</a>
+  <a href="#console" data-tab="console"><svg><use href="#i-sliders"/></svg>控制台</a>
+  <a href="#test" data-tab="test"><svg><use href="#i-flask"/></svg>测试<span class="pill" data-testcount hidden></span></a>
+  <a href="#key" data-tab="key"><svg><use href="#i-key"/></svg>密钥</a>
+</nav>
 <div id="toast"></div>
 
 <script>
@@ -300,213 +443,287 @@ var LS_KEY = "dm_stats_admin_key";
 var FEAT = {export:"导出",backup:"备份",restore:"恢复",check_update:"检查更新",share_app:"分享 App",feedback:"反馈",drawer_open:"打开侧栏"};
 var PLAT = {android:"安卓",ios:"iOS",desktop:"电脑",unknown:"未知"};
 var COLORS = ["#1565c0","#1e88e5","#42a5f5","#90caf9","#26a69a","#7e57c2","#ffa726","#ef5350","#8d6e63","#78909c"];
+var RE_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 var $ = function(id){return document.getElementById(id)};
-var keyEl=$("key"), rememberEl=$("remember"), forgetEl=$("forget"), lastData=null, busy=false;
+var $$ = function(s){return [].slice.call(document.querySelectorAll(s))};
+var state = {tab:"overview", stats:null, cfg:null, tests:null, tAt:0, demo:false};
 
+/* ---------- 工具 ---------- */
 function lsGet(){try{return localStorage.getItem(LS_KEY)||""}catch(e){return ""}}
 function lsSet(v){try{localStorage.setItem(LS_KEY,v)}catch(e){}}
 function lsDel(){try{localStorage.removeItem(LS_KEY)}catch(e){}}
-function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-function fmt(n){n=Number(n)||0;return n.toLocaleString("zh-CN")}
-function toast(t){var el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove("show")},1800)}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function fmt(n){return (Number(n)||0).toLocaleString("zh-CN")}
+function toast(t,kind){var el=$("toast");el.className="";if(kind)el.classList.add(kind);el.textContent=t;void el.offsetWidth;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove("show")},2000)}
+function busy(btn,on){btn.classList.toggle("busy",on);btn.disabled=on}
+function minText(m){m=Number(m)||1440;if(m%10080===0)return m===10080?"每周":"每 "+m/10080+" 周";if(m%1440===0)return m===1440?"每天":"每 "+m/1440+" 天";if(m%60===0)return m===60?"每小时":"每 "+m/60+" 小时";return "每 "+m+" 分钟"}
+function ago(ms){if(!ms)return "还没有";var s=Math.max(0,(Date.now()-ms)/1000);if(s<60)return "刚刚";if(s<3600)return Math.floor(s/60)+" 分钟前";if(s<86400)return Math.floor(s/3600)+" 小时前";return Math.floor(s/86400)+" 天前"}
+function left(ms){var s=Math.floor((ms-Date.now())/1000);if(s<=0)return "已结束";var d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),x=s%60;if(d)return d+" 天 "+h+" 小时";if(h)return h+" 小时 "+m+" 分";return m+" 分 "+(x<10?"0":"")+x+" 秒"}
+function hm(ms){var d=new Date(ms);return (d.getMonth()+1)+"/"+d.getDate()+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
+function shortId(id){return id.slice(0,8)+"…"+id.slice(-4)}
 
-function notice(kind,title,body){
-  var n=$("notice");
-  if(!kind){n.className="notice";return}
-  n.className="notice show "+kind;
-  $("nic").textContent = kind==="err"?"⚠️":kind==="warn"?"🔑":"ℹ️";
-  $("ntext").innerHTML="<b>"+esc(title)+"</b>"+body;
-}
-function syncForget(){forgetEl.style.display = lsGet() ? "inline" : "none"}
-
-function setLoading(on){
-  busy=on;
-  $("refresh").classList.toggle("loading",on);
-  $("refresh").disabled=on; $("go").disabled=on;
-  $("go").textContent = on ? "加载中…" : "查看统计";
-  ["kTotal","kD1","kD7","kD30","mOpens","mMarks","mReports"].forEach(function(id){$(id).classList.toggle("skel",on && !lastData)});
-}
-
-function fetchStats(key){
+function api(body, method){
   var ctrl = ("AbortController" in window) ? new AbortController() : null;
   var timer = setTimeout(function(){ if(ctrl) ctrl.abort() }, 20000);
-  // text/plain 的 POST 是「简单请求」，浏览器不会先发预检；密钥放在请求体里，不出现在网址中
-  return fetch(ENDPOINT,{method:"POST",headers:{"content-type":"text/plain;charset=UTF-8"},
-      body:JSON.stringify({action:"stats",key:key}),cache:"no-store",signal:ctrl?ctrl.signal:undefined})
-    .then(function(r){
-      clearTimeout(timer);
-      return r.text().then(function(t){
-        var j=null; try{j=JSON.parse(t)}catch(e){}
-        return {status:r.status,json:j};
-      });
-    },function(e){clearTimeout(timer);throw e});
+  // text/plain 的 POST 是「简单请求」，没有预检；密钥只放请求体，不进网址
+  var opt = method==="GET" ? {method:"GET",cache:"no-store"} :
+    {method:"POST",headers:{"content-type":"text/plain;charset=UTF-8"},body:JSON.stringify(body),cache:"no-store"};
+  if(ctrl) opt.signal = ctrl.signal;
+  return fetch(ENDPOINT, opt).then(function(r){
+    clearTimeout(timer);
+    return r.text().then(function(t){var j=null;try{j=JSON.parse(t)}catch(e){}return {status:r.status,json:j||{}}});
+  },function(e){clearTimeout(timer);return {status:0,json:{error:e&&e.name==="AbortError"?"timeout":"network"}}});
+}
+function admin(body){var k=lsGet();body.key=k;return api(body)}
+function errText(j,status){
+  var e=j.error;
+  if(e==="forbidden") return "密钥不对（和 dm_config/main 里的 admin_key 对不上）";
+  if(e==="admin_key_not_set") return "云端还没设密钥：去 uniCloud 给 dm_config/main 填 admin_key（至少 16 位）";
+  if(e==="timeout") return "20 秒没响应，可能是云函数冷启动，再试一次";
+  if(e==="network") return "连不上统计服务器，检查网络";
+  if(e==="bad_device_id") return "设备 ID 格式不对";
+  if(e==="bad_interval") return "间隔超出范围";
+  if(e==="too_many") return "白名单最多 20 台，先删掉几台";
+  if(e==="not_found") return "这台已经不在白名单里了";
+  if(e==="bad_field"||e==="bad_mode") return "云函数还是旧版，请先上传部署新的 dm-stats";
+  return "服务器错误（"+status+"）："+(e||"未知");
 }
 
-function load(manual){
-  if(busy) return;
-  var key = keyEl.value.trim();
-  if(!key){notice("warn","请先输入密钥","<div>密钥在 uniCloud 控制台 → 云数据库 → <code>dm_config</code> → <code>main</code> 这条的 <code>admin_key</code> 字段里。</div>");keyEl.focus();return}
-  document.body.classList.remove("demo");
-  notice(null); setLoading(true);
-  fetchStats(key).then(function(res){
-    setLoading(false);
-    var j=res.json||{};
-    if(res.status===200 && j.ok){
-      if(rememberEl.checked){lsSet(key)} syncForget();
-      render(j); notice(null);
-      if(j.total_devices===0) notice("info","连上了，暂时还没有数据","<div>还没有手机汇报过。装上 1.5.3.2 预览版后，正式模式下当天的使用会在<b style='display:inline'>第二天第一次打开 App</b> 时发上来（测试模式按设定的分钟数上传），之后点右上角「刷新」就能看到。</div>");
-      if(manual) toast("已更新");
-      return;
-    }
-    if(j.error==="forbidden"){notice("warn","密钥不对","<div>和 <code>dm_config/main</code> 里的 <code>admin_key</code> 对不上。检查有没有多复制空格，或者看看控制台里是不是改过密钥。</div>");return}
-    if(j.error==="admin_key_not_set"){notice("warn","云端还没设好密钥","<div>去 uniCloud 控制台 → 云数据库 → <code>dm_config</code> → <code>main</code>，把 <code>admin_key</code> 填成你自己的密钥（至少 16 位），保存后再来。</div>");return}
-    notice("err","服务器返回了错误（"+res.status+"）","<div>"+esc(j.error||"未知错误")+"。稍后点「刷新」再试；一直这样的话，去 uniCloud 控制台看看 dm-stats 云函数的日志。</div>");
-  }).catch(function(e){
-    setLoading(false);
-    var aborted = e && e.name==="AbortError";
-    notice("err", aborted?"连接超时":"连不上统计服务器",
-      "<div>"+(aborted?"20 秒没有响应，可能是网络慢或者云函数在冷启动，点「刷新」再试一次。":
-      "先确认网络正常。如果网络没问题还是这样，多半是云函数还没更新到带「跨域」设置的新版：把新的 <code>dm-stats/index.js</code> 复制进 HBuilderX 项目，右键 <code>dm-stats</code> →「上传部署」，再回来刷新。")+"</div>");
+/* ---------- 密钥状态 ---------- */
+function syncKeyUI(){
+  var has=!!lsGet();
+  $$("[data-keydot]").forEach(function(d){d.classList.toggle("ok",has)});
+  $$("[data-keytext]").forEach(function(t){t.textContent=has?"密钥已保存":"未设置密钥"});
+  $$("[data-needkey]").forEach(function(n){n.hidden=has});
+  $$("[data-haskey]").forEach(function(n){n.hidden=!has});
+  var ks=$("kState");ks.className="keystate "+(has?"ok":"no");
+  ks.querySelector("use").setAttribute("href",has?"#i-check":"#i-lock");
+  $("kStateT").textContent=has?"密钥已保存在这个浏览器":"还没有保存密钥";
+  $("kStateS").textContent=has?"概览、控制台、测试页会自动使用；不用再输入":"输入 uniCloud 里 dm_config/main 的 admin_key";
+  $("kClear").disabled=!has;
+  $("key").placeholder=has?"已保存（出于安全不显示）。要更换就粘贴新的":"粘贴 dm_config/main 的 admin_key";
+}
+function kNote(kind,title,body){var n=$("kNotice");if(!kind){n.hidden=true;return}n.hidden=false;n.className="notice "+kind;$("kIc").textContent=kind==="err"?"⚠️":kind==="info"?"✅":"🔑";$("kText").innerHTML="<b>"+esc(title)+"</b>"+(body||"")}
+
+/* ---------- 路由 ---------- */
+function go(){
+  var t=(location.hash||"#overview").slice(1);
+  if(["overview","console","test","key"].indexOf(t)<0)t="overview";
+  state.tab=t;
+  $$(".page").forEach(function(p){p.classList.toggle("on",p.id==="p-"+t)});
+  $$("[data-tab]").forEach(function(a){a.classList.toggle("on",a.getAttribute("data-tab")===t)});
+  window.scrollTo(0,0);
+  if(t==="overview") showOverview(false);
+  if(t==="console") loadCfg();
+  if(t==="test") loadTests(false);
+  if(t==="key") {kNote(null); setTimeout(function(){ if(!lsGet()) $("key").focus() },60)}
+}
+
+/* ---------- 概览 ---------- */
+function ovNote(kind,title,body){var n=$("ovNotice");if(!kind){n.hidden=true;return}n.hidden=false;n.className="notice "+kind;$("ovIc").textContent=kind==="err"?"⚠️":kind==="warn"?"🔑":"ℹ️";$("ovText").innerHTML="<b>"+esc(title)+"</b>"+body}
+function showOverview(manual){
+  var has=!!lsGet();
+  if(!has && !state.demo){$("ovNeedKey").hidden=false;$("dash").hidden=true;ovNote(null);return}
+  $("ovNeedKey").hidden=true;$("dash").hidden=false;
+  if(state.demo && !has){demo();return}
+  if(state.stats && !manual) return;
+  var b=$("refresh");busy(b,true);
+  ["kTotal","kD1","kD7","kD30","mOpens","mMarks","mReports"].forEach(function(id){$(id).classList.toggle("skel",!state.stats)});
+  admin({action:"stats"}).then(function(r){
+    busy(b,false);
+    ["kTotal","kD1","kD7","kD30","mOpens","mMarks","mReports"].forEach(function(id){$(id).classList.remove("skel")});
+    var j=r.json;
+    if(r.status===200&&j.ok){state.demo=false;document.body.classList.remove("demo");render(j);ovNote(null);
+      if(!j.total_devices) ovNote("info","连上了，暂时还没有数据","<div>还没有手机汇报过。正式模式下当天的使用会在第二天第一次打开 App 时发上来；想马上看效果，用「测试」页给自己的手机开短间隔。</div>");
+      if(manual)toast("已更新");return}
+    if(j.error==="forbidden"){ovNote("warn","密钥不对","<div>保存的密钥和云端对不上，可能控制台里改过。去 <a href='#key'>密钥</a> 页重新保存。</div>");return}
+    ovNote("err","读取失败","<div>"+esc(errText(j,r.status))+"</div>");
   });
 }
-
 function render(d){
-  lastData=d;
+  state.stats=d;
   var total=d.total_devices||0, a=d.active_devices||{};
   $("kTotal").textContent=fmt(total);
-  $("kTotalS").textContent = total? "装过并汇报过的手机" : "还没有手机汇报过";
-  [["D1","d1"],["D7","d7"],["D30","d30"]].forEach(function(p){
-    var v=a[p[1]]||0, pct = total? Math.round(v*100/total):0;
-    $("k"+p[0]).textContent=fmt(v);
-    $("b"+p[0]).style.width = pct+"%";
-    $("s"+p[0]).textContent = total? ("占全部 "+pct+"%") : "\u00a0";
-  });
-  $("mOpens").textContent=fmt(d.total_opens); $("mMarks").textContent=fmt(d.total_roll_marks); $("mReports").textContent=fmt(d.total_reports);
-  $("mOpensS").textContent = total? ("平均每台 "+(Math.round((d.total_opens||0)*10/total)/10)+" 次"):"\u00a0";
-  $("mMarksS").textContent = total? ("平均每台 "+(Math.round((d.total_roll_marks||0)*10/total)/10)+" 次"):"\u00a0";
-  $("mReportsS").textContent = total? ("平均每台 "+(Math.round((d.total_reports||0)*10/total)/10)+" 条"):"\u00a0";
-  renderDonut(d.by_version||{}, total);
-  renderBars(d.feature_totals||{});
-  var pl=d.by_platform||{}, pk=Object.keys(pl).sort(function(x,y){return pl[y]-pl[x]});
-  $("platBox").innerHTML = pk.length? pk.map(function(k){return '<span class="chip">'+esc(PLAT[k]||k)+" · "+fmt(pl[k])+" 台</span>"}).join("") : '<span class="cs" style="margin:0">暂无</span>';
+  $("kTotalS").textContent=total?"装过并汇报过的手机":"还没有手机汇报过";
+  [["D1","d1"],["D7","d7"],["D30","d30"]].forEach(function(p){var v=a[p[1]]||0,pct=total?Math.round(v*100/total):0;$("k"+p[0]).textContent=fmt(v);$("b"+p[0]).style.width=pct+"%";$("s"+p[0]).textContent=total?"占全部 "+pct+"%":"\u00a0"});
+  $("mOpens").textContent=fmt(d.total_opens);$("mMarks").textContent=fmt(d.total_roll_marks);$("mReports").textContent=fmt(d.total_reports);
+  function avg(x,u){return total?"平均每台 "+(Math.round((x||0)*10/total)/10)+" "+u:"\u00a0"}
+  $("mOpensS").textContent=avg(d.total_opens,"次");$("mMarksS").textContent=avg(d.total_roll_marks,"次");$("mReportsS").textContent=avg(d.total_reports,"条");
+  renderDonut(d.by_version||{});renderBars(d.feature_totals||{});
+  var pl=d.by_platform||{},pk=Object.keys(pl).sort(function(x,y){return pl[y]-pl[x]});
+  $("platBox").innerHTML=pk.length?pk.map(function(k){return '<span class="chip">'+esc(PLAT[k]||k)+" · "+fmt(pl[k])+" 台</span>"}).join(""):'<span class="cs" style="margin:0">暂无</span>';
   var c=d.config||{};
-  if(c.report_interval_minutes && !document.body.classList.contains("demo")) applyCfg(c);
-  $("cfgBox").innerHTML = (c.enabled===false?'<span class="chip off">统计已关闭</span>':'<span class="chip on">统计开启中</span>')+
-    '<span class="chip">'+esc(minText(c.report_interval_minutes||(c.report_interval_days||1)*1440))+"汇报一次</span>"+(c.mode==="test"?'<span class="chip" style="background:#fff3e0;color:#e65100">🧪 测试模式</span>':"");
-  var t = d.generated_at? new Date(d.generated_at) : new Date();
-  $("updated").textContent = "更新于 "+t.toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  $("cfgBox").innerHTML=(c.enabled===false?'<span class="chip off">统计已关闭</span>':'<span class="chip on">统计开启中</span>')+
+    '<span class="chip">'+esc(minText(c.report_interval_minutes||(c.report_interval_days||1)*1440))+'汇报一次</span>'+
+    (d.test_devices_active?'<a class="chip test" href="#test" style="text-decoration:none">🧪 '+d.test_devices_active+' 台测试中</a>':'<span class="chip grey">无测试手机</span>');
+  setTestPill(d.test_devices_active);
+  var t=d.generated_at?new Date(d.generated_at):new Date();
+  $("updated").textContent=(state.demo?"示例数据 · ":"")+"更新于 "+t.toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"});
 }
-
 function emptyHtml(t){return '<div class="empty" style="width:100%"><svg viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg>'+t+"</div>"}
-
-function renderDonut(map,total){
-  var keys=Object.keys(map).sort(function(x,y){return map[y]-map[x] || (y>x?1:-1)});
+function renderDonut(map){
+  var keys=Object.keys(map).sort(function(x,y){return map[y]-map[x]||(y>x?1:-1)});
   if(!keys.length){$("verBox").innerHTML=emptyHtml("还没有版本数据");return}
-  if(keys.length>8){var rest=keys.slice(7).reduce(function(s,k){return s+map[k]},0);var m2={};keys.slice(0,7).forEach(function(k){m2[k]=map[k]});m2["其他版本"]=rest;map=m2;keys=Object.keys(m2)}
-  var sum=keys.reduce(function(s,k){return s+map[k]},0)||1, R=70, C=2*Math.PI*R, off=0, segs="";
-  keys.forEach(function(k,i){
-    var len=C*map[k]/sum, gap=keys.length>1?2:0;
-    segs+='<circle cx="90" cy="90" r="'+R+'" fill="none" stroke="'+COLORS[i%COLORS.length]+'" stroke-width="22" stroke-dasharray="'+Math.max(len-gap,0.01)+" "+(C-Math.max(len-gap,0.01))+'" stroke-dashoffset="'+(-off)+'" transform="rotate(-90 90 90)" style="transition:stroke-dasharray .6s"><title>'+esc(k)+"："+map[k]+" 台</title></circle>";
-    off+=len;
-  });
-  var svg='<svg class="donut" viewBox="0 0 180 180"><circle cx="90" cy="90" r="'+R+'" fill="none" stroke="#eef2fa" stroke-width="22"/>'+segs+
-    '<text x="90" y="86" text-anchor="middle" font-size="30" font-weight="750" fill="#1a1a1a">'+fmt(sum)+'</text><text x="90" y="108" text-anchor="middle" font-size="12" fill="#757575">台设备 · '+keys.length+' 个版本</text></svg>';
-  var lg='<div class="legend">'+keys.map(function(k,i){return '<div class="lg"><i style="background:'+COLORS[i%COLORS.length]+'"></i><span>'+esc(k.replace(/^(\S+) \((\d+)\)$/,"v$1 · b$2"))+'</span><span class="n">'+fmt(map[k])+'</span><span class="p">'+Math.round(map[k]*100/sum)+"%</span></div>"}).join("")+"</div>";
-  $("verBox").innerHTML=svg+lg;
+  if(keys.length>8){var rest=keys.slice(7).reduce(function(s,k){return s+map[k]},0),m2={};keys.slice(0,7).forEach(function(k){m2[k]=map[k]});m2["其他版本"]=rest;map=m2;keys=Object.keys(m2)}
+  var sum=keys.reduce(function(s,k){return s+map[k]},0)||1,R=70,C=2*Math.PI*R,off=0,segs="";
+  keys.forEach(function(k,i){var len=C*map[k]/sum,g=keys.length>1?2:0,l=Math.max(len-g,.01);
+    segs+='<circle cx="90" cy="90" r="'+R+'" fill="none" stroke="'+COLORS[i%COLORS.length]+'" stroke-width="22" stroke-dasharray="'+l+" "+(C-l)+'" stroke-dashoffset="'+(-off)+'" transform="rotate(-90 90 90)"><title>'+esc(k)+"："+map[k]+" 台</title></circle>";off+=len});
+  $("verBox").innerHTML='<svg class="donut" viewBox="0 0 180 180"><circle cx="90" cy="90" r="'+R+'" fill="none" stroke="#eef2fa" stroke-width="22"/>'+segs+'<text x="90" y="86" text-anchor="middle" font-size="30" font-weight="750" fill="#18212f">'+fmt(sum)+'</text><text x="90" y="108" text-anchor="middle" font-size="12" fill="#6b7385">台设备 · '+keys.length+' 个版本</text></svg>'+
+    '<div class="legend">'+keys.map(function(k,i){return '<div class="lg"><i style="background:'+COLORS[i%COLORS.length]+'"></i><span>'+esc(k.replace(/^(\S+) \((\d+)\)$/,"v$1 · b$2"))+'</span><span class="n">'+fmt(map[k])+'</span><span class="p">'+Math.round(map[k]*100/sum)+"%</span></div>"}).join("")+"</div>";
 }
-
 function renderBars(map){
   var keys=Object.keys(FEAT).concat(Object.keys(map).filter(function(k){return !(k in FEAT)}));
   keys.sort(function(x,y){return (map[y]||0)-(map[x]||0)});
   var max=Math.max.apply(null,keys.map(function(k){return map[k]||0}).concat([0]));
   if(!max){$("featBox").innerHTML=emptyHtml("还没有功能使用记录");return}
   $("featBox").innerHTML=keys.map(function(k){var v=map[k]||0;return '<div class="br"><span>'+esc(FEAT[k]||k)+'</span><div class="t"><i data-w="'+(v?Math.max(v*100/max,3):0)+'"></i></div><span class="n">'+fmt(v)+"</span></div>"}).join("");
-  requestAnimationFrame(function(){requestAnimationFrame(function(){[].forEach.call(document.querySelectorAll("#featBox i"),function(i){i.style.width=i.getAttribute("data-w")+"%"})})});
+  requestAnimationFrame(function(){requestAnimationFrame(function(){$$("#featBox i").forEach(function(i){i.style.width=i.getAttribute("data-w")+"%"})})});
 }
-
 function demo(){
-  document.body.classList.add("demo");
-  notice("info","这是示例数据","<div>只用来预览页面效果，数字都是编的。输入密钥点「查看统计」看真实数据。</div>");
-  var now=new Date();
-  render({ok:true,generated_at:now.toISOString(),total_devices:36,
-    by_version:{"1.5.3.1 (118)":21,"1.5.3 (111)":9,"1.5.2 (110)":4,"1.5.1 (109)":2},
-    by_platform:{android:35,desktop:1},active_devices:{d1:14,d7:27,d30:34},
-    total_opens:812,total_roll_marks:9643,total_reports:298,
-    feature_totals:{export:57,backup:41,check_update:88,drawer_open:230,share_app:12,restore:5,feedback:3},
-    config:{enabled:true,report_interval_days:1}});
+  state.demo=true;document.body.classList.add("demo");$("ovNeedKey").hidden=true;$("dash").hidden=false;
+  ovNote("info","这是示例数据","<div>数字都是编的，只用来预览页面。去 <a href='#key'>密钥</a> 页保存密钥后看真实数据。</div>");
+  render({ok:true,generated_at:new Date().toISOString(),total_devices:36,by_version:{"1.5.3.3 (120)":21,"1.5.3 (111)":9,"1.5.2 (110)":4,"1.5.1 (109)":2},
+    by_platform:{android:35,desktop:1},active_devices:{d1:14,d7:27,d30:34},total_opens:812,total_roll_marks:9643,total_reports:298,
+    feature_totals:{export:57,backup:41,check_update:88,drawer_open:230,share_app:12,restore:5,feedback:3},config:{enabled:true,report_interval_minutes:1440},test_devices_active:1});
 }
 
-$("go").onclick=function(){load(false)};
-$("refresh").onclick=function(){ if(document.body.classList.contains("demo") && !keyEl.value.trim()){demo();toast("示例数据已刷新");return} load(true)};
-keyEl.addEventListener("keydown",function(e){if(e.key==="Enter")load(false)});
-$("eye").onclick=function(){keyEl.type = keyEl.type==="password"?"text":"password"};
-rememberEl.onchange=function(){ if(!rememberEl.checked){lsDel();syncForget();toast("已不再记住密钥")} else if(keyEl.value.trim() && lastData && !document.body.classList.contains("demo")){lsSet(keyEl.value.trim());syncForget();toast("已记住")} };
-forgetEl.onclick=function(){lsDel();keyEl.value="";rememberEl.checked=false;syncForget();toast("已清除这台设备上的密钥")};
+/* ---------- 控制台 ---------- */
+var cSaved=null, cState={enabled:true,minutes:1440};
+function applyCfg(c){
+  state.cfg=c;
+  var m=Number(c.report_interval_minutes)||1440; m=m>=10080?10080:1440;
+  cSaved={enabled:c.enabled!==false,minutes:m}; cState={enabled:cSaved.enabled,minutes:m};
+  renderCfg();
+}
+function renderCfg(){
+  $("enSw").checked=cState.enabled;
+  $$("#freqSeg button").forEach(function(b){b.classList.toggle("on",Number(b.getAttribute("data-min"))===cState.minutes)});
+  $("freqSeg").style.opacity=cState.enabled?1:.5;
+  var dirty=cSaved&&(cSaved.enabled!==cState.enabled||cSaved.minutes!==cState.minutes);
+  $("cfgCard").classList.toggle("isdirty",!!dirty);
+  if(cSaved){var n=$("cfgNow");n.className="chip "+(cSaved.enabled?"on":"off");n.textContent=cSaved.enabled?"当前："+minText(cSaved.minutes)+"汇报":"当前：统计已关闭"}
+}
+function loadCfg(){
+  api(null,"GET").then(function(r){
+    if(r.status===200&&r.json.config){applyCfg(r.json.config)}
+    else{$("cfgNow").className="chip off";$("cfgNow").textContent="读不到当前设置"}
+  });
+}
+$("enSw").onchange=function(){cState.enabled=this.checked;renderCfg()};
+$$("#freqSeg button").forEach(function(b){b.onclick=function(){cState.minutes=Number(b.getAttribute("data-min"));renderCfg()}});
+$("saveCfg").onclick=function(){
+  if(!lsGet()){toast("先在「密钥」页保存密钥","err");location.hash="#key";return}
+  var b=this;busy(b,true);
+  admin({action:"set_config",enabled:cState.enabled,report_interval_minutes:cState.minutes}).then(function(r){
+    busy(b,false);
+    if(r.status===200&&r.json.ok){applyCfg(r.json.config);state.stats=null;toast("已保存："+(cState.enabled?minText(cState.minutes)+"汇报":"统计已关闭"),"ok")}
+    else toast(errText(r.json,r.status),"err");
+  });
+};
+
+/* ---------- 测试 ---------- */
+var T_PRESETS=[[5,"5 分钟"],[10,"10 分钟"],[30,"30 分钟"],[60,"1 小时"]], tMin=10;
+$("tPresets").innerHTML=T_PRESETS.map(function(p){return '<button type="button" class="pre" data-m="'+p[0]+'">'+p[1]+"</button>"}).join("");
+function renderPresets(){$$("#tPresets .pre").forEach(function(b){b.classList.toggle("sel",Number(b.getAttribute("data-m"))===tMin)});
+  var h=Number($("tHours").value);$("tSummary").textContent="这台手机将每 "+(tMin<60?tMin+" 分钟":"1 小时")+"汇报一次，"+(h<24?h+" 小时":h/24+" 天")+"后自动恢复常规。"}
+$$("#tPresets .pre").forEach(function(b){b.onclick=function(){tMin=Number(b.getAttribute("data-m"));renderPresets()}});
+$("tHours").onchange=renderPresets;
+function normId(v){return String(v||"").trim().toLowerCase().replace(/^[\s"'“”]+|[\s"'“”]+$/g,"")}
+$("tId").oninput=function(){var v=normId(this.value);$("tIdErr").textContent=v&&!RE_ID.test(v)?"格式应为 xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx（36 位）":""};
+$("tPaste").onclick=function(){if(navigator.clipboard&&navigator.clipboard.readText){navigator.clipboard.readText().then(function(t){$("tId").value=normId(t);$("tId").oninput()},function(){toast("浏览器不允许读剪贴板，请手动粘贴")})}else toast("请手动粘贴")};
+function setTestPill(n){$$("[data-testcount]").forEach(function(p){p.hidden=!n;p.textContent=n||""})}
+function loadTests(manual){
+  if(!lsGet()) return;
+  if(state.tests&&!manual&&Date.now()-state.tAt<15000){renderTests();return}
+  var b=$("tRefresh");busy(b,true);
+  admin({action:"test_list"}).then(function(r){
+    busy(b,false);
+    if(r.status===200&&r.json.ok){state.tests=r.json.devices||[];state.tAt=Date.now();renderTests();if(manual)toast("已刷新")}
+    else{$("tList").innerHTML='<div class="notice err" style="margin:0"><span class="ic">⚠️</span><div><b>读取失败</b>'+esc(errText(r.json,r.status))+(r.json.error==="forbidden"?" · <a href='#key'>去重新保存密钥</a>":"")+"</div></div>"}
+  });
+}
+function renderTests(){
+  var list=state.tests||[], now=Date.now();
+  var live=list.filter(function(d){return d.test_until>now});
+  $("tCount").textContent=live.length+" 台测试中"+(list.length>live.length?" · "+(list.length-live.length)+" 台已结束":"");
+  $("tCount").className="chip "+(live.length?"test":"grey");
+  setTestPill(live.length);
+  $("tUpdated").textContent=state.tAt?"每 30 秒自动刷新 · "+hm(state.tAt):"";
+  if(!list.length){$("tList").innerHTML='<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="1.6"><use href="#i-flask"/></svg>还没有测试手机。上面粘贴设备 ID 加一台试试。</div>';return}
+  $("tList").innerHTML=list.map(function(d){
+    var on=d.test_until>now, gap=d.interval_minutes*60e3;
+    var lr=d.last_report_at, late=on&&lr&&now-lr>gap*1.5+60e3;
+    var dots=(d.recent||[]).map(function(x){return '<i title="'+hm(x.at)+" · 打开 "+x.opens+' 次"></i>'+hm(x.at).split(" ")[1]}).join(" ");
+    return '<div class="tdev '+(on?"live":"expired")+'">'+
+      '<div><div class="nm">'+(on?'<span class="livedot"></span>':"")+esc(d.name||"未命名手机")+'<span class="chip '+(on?"test":"grey")+'" style="padding:2px 9px;font-size:12px">'+(on?"🧪 "+minText(d.interval_minutes):"已结束")+'</span></div>'+
+      '<div class="id" title="'+esc(d.device_id)+'">'+esc(d.device_id)+'</div></div>'+
+      '<div class="acts">'+(on?"":'<button class="btn ghost sm" data-renew="'+esc(d.device_id)+'">再测 24 小时</button>')+'<button class="btn danger sm" data-del="'+esc(d.device_id)+'"><svg><use href="#i-trash"/></svg>移除</button></div>'+
+      '<div class="meta">'+
+        '<div class="mbox"><div class="k">剩余时间</div><div class="v" data-cd="'+d.test_until+'">'+left(d.test_until)+'</div></div>'+
+        '<div class="mbox"><div class="k">最近一次汇报</div><div class="v '+(lr?(late?"late":"ok"):"")+'" data-ago="'+(lr||"")+'">'+ago(lr)+'</div></div>'+
+        '<div class="mbox"><div class="k">累计汇报</div><div class="v">'+fmt(d.reports)+' 条</div></div>'+
+        '<div class="mbox"><div class="k">App 版本</div><div class="v">'+esc(d.app_version?"v"+d.app_version.replace(/ \((\d+)\)/," · b$1"):"–")+'</div></div>'+
+      '</div>'+
+      '<div class="dots">'+(dots?"最近汇报："+dots:(on?"等这台手机发来第一条…（在 App 的设备 ID 弹窗里点「同步测试状态」可立即生效）":""))+(late?' · <b style="color:var(--warn)">超过预期没收到，App 可能在后台或没网</b>':"")+'</div>'+
+    "</div>";
+  }).join("");
+  $$("[data-del]").forEach(function(b){b.onclick=function(){removeDev(b.getAttribute("data-del"),b)}});
+  $$("[data-renew]").forEach(function(b){b.onclick=function(){var d=list.filter(function(x){return x.device_id===b.getAttribute("data-renew")})[0];addDev(d.device_id,d.name,d.interval_minutes,24,b)}});
+}
+function addDev(id,name,min,hours,btn){
+  busy(btn,true);
+  return admin({action:"test_add",device_id:id,name:name||"",interval_minutes:min,hours:hours}).then(function(r){
+    busy(btn,false);
+    if(r.status===200&&r.json.ok){toast("已加入白名单："+minText(min)+"汇报","ok");loadTests(true);return true}
+    toast(errText(r.json,r.status),"err");return false;
+  });
+}
+function removeDev(id,btn){
+  var d=(state.tests||[]).filter(function(x){return x.device_id===id})[0];
+  if(!confirm("把「"+((d&&d.name)||shortId(id))+"」移出测试白名单？\n它会在下次联网时恢复常规汇报。"))return;
+  busy(btn,true);
+  admin({action:"test_remove",device_id:id}).then(function(r){
+    busy(btn,false);
+    if(r.status===200&&r.json.ok){toast("已移除","ok");loadTests(true)}else toast(errText(r.json,r.status),"err");
+  });
+}
+$("tAdd").onclick=function(){
+  var id=normId($("tId").value);
+  if(!RE_ID.test(id)){$("tIdErr").textContent=id?"格式应为 xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx（36 位）":"请先粘贴设备 ID";$("tId").focus();return}
+  addDev(id,$("tName").value.trim(),tMin,Number($("tHours").value),this).then(function(ok){if(ok){$("tId").value="";$("tName").value=""}});
+};
+$("tRefresh").onclick=function(){loadTests(true)};
+setInterval(function(){
+  $$("[data-cd]").forEach(function(e){e.textContent=left(Number(e.getAttribute("data-cd")))});
+  $$("[data-ago]").forEach(function(e){var v=Number(e.getAttribute("data-ago"));e.textContent=ago(v)});
+},1000);
+setInterval(function(){if(state.tab==="test"&&!document.hidden&&lsGet())loadTests(true)},30000);
+
+/* ---------- 密钥 ---------- */
+function testKey(k,btn,save){
+  busy(btn,true);kNote(null);
+  return api({action:"ping",key:k}).then(function(r){
+    busy(btn,false);var j=r.json;
+    if(r.status===200&&j.ok&&j.pong){
+      if(save){lsSet(k);$("key").value="";$("key").type="password";syncKeyUI();state.stats=null;state.tests=null}
+      kNote("info",save?"已保存，连接正常":"连接正常，密钥正确","<div>云端当前："+(j.config&&j.config.enabled===false?"统计已关闭":minText(j.config&&j.config.report_interval_minutes)+"汇报")+"。</div>");
+      toast(save?"密钥已保存":"连接正常","ok");return;
+    }
+    if(r.status===200&&j.ok&&!j.pong){kNote("err","云函数还是旧版","<div>连上了，但云函数不认识新功能。请把新的 <code>dm-stats</code> 上传部署后再试。</div>");return}
+    kNote(j.error==="forbidden"?"warn":"err",j.error==="forbidden"?"密钥不对":"连接失败","<div>"+esc(errText(j,r.status))+(save?"。没有保存。":"")+"</div>");
+  });
+}
+$("kSave").onclick=function(){var k=$("key").value.trim();if(!k){kNote("warn","请先粘贴密钥","<div>在 uniCloud 控制台 → 云数据库 → <code>dm_config</code> → <code>main</code> 的 <code>admin_key</code>。</div>");$("key").focus();return}testKey(k,this,true)};
+$("kTest").onclick=function(){var k=$("key").value.trim()||lsGet();if(!k){kNote("warn","没有可测试的密钥","<div>先粘贴一个。</div>");return}testKey(k,this,false)};
+$("kClear").onclick=function(){if(!confirm("从这个浏览器清除已保存的密钥？"))return;lsDel();$("key").value="";state.stats=null;state.tests=null;syncKeyUI();kNote(null);toast("已清除")};
+$("key").addEventListener("keydown",function(e){if(e.key==="Enter")$("kSave").click()});
+$("eye").onclick=function(){var k=$("key");k.type=k.type==="password"?"text":"password"};
+$("refresh").onclick=function(){if(state.demo&&!lsGet()){demo();toast("示例数据");return}showOverview(true)};
 $("demoBtn").onclick=demo;
 
-// ---------- 汇报频率 ----------
-var PRESETS={prod:[[1440,"每天","默认"],[10080,"每周","省额度"]],test:[[5,"每 5 分钟",""],[10,"每 10 分钟",""],[30,"每 30 分钟",""],[60,"每小时",""]]};
-var fState={mode:"prod",minutes:1440,enabled:true}, fSaved=null, fBusy=false;
-function minText(m){m=Number(m)||1440;if(m%10080===0)return m===10080?"每周":"每 "+m/10080+" 周";if(m%1440===0)return m===1440?"每天":"每 "+m/1440+" 天";if(m%60===0)return m===60?"每小时":"每 "+m/60+" 小时";return "每 "+m+" 分钟"}
-function renderFreq(){
-  var card=$("freqCard"), t=fState.mode==="test";
-  card.classList.toggle("testmode",t);
-  $("segProd").className="prod"+(t?"":" on"); $("segTest").className="test"+(t?" on":"");
-  $("presets").innerHTML=PRESETS[fState.mode].map(function(p){return '<button type="button" class="pre'+(p[0]===fState.minutes?" sel":"")+'" data-m="'+p[0]+'">'+p[1]+(p[2]?'<span class="tag">'+p[2]+"</span>":"")+"</button>"}).join("");
-  [].forEach.call(document.querySelectorAll("#presets .pre"),function(b){b.onclick=function(){fState.minutes=Number(b.getAttribute("data-m"));syncCustom();renderFreq()}});
-  $("testHoursBox").style.display=t?"inline":"none";
-  $("enSw").checked=fState.enabled; $("enLab").textContent=fState.enabled?"统计开启":"统计已关闭（手机停止上传）";
-  var dirty=fSaved && (fSaved.mode!==fState.mode||fSaved.minutes!==fState.minutes||fSaved.enabled!==fState.enabled);
-  card.classList.toggle("isdirty",!!dirty);
-}
-function syncCustom(){var m=fState.minutes,u=m%1440===0?1440:m%60===0?60:1;$("cUnit").value=String(u);$("cNum").value=m/u}
-function applyCfg(c){
-  if(!c)return;
-  var m=Number(c.report_interval_minutes)||(Number(c.report_interval_days)||1)*1440;
-  fSaved={mode:c.mode==="test"?"test":"prod",minutes:m,enabled:c.enabled!==false};
-  fState={mode:fSaved.mode,minutes:m,enabled:fSaved.enabled};
-  var b=$("modeBadge");
-  if(!fSaved.enabled){b.className="modebadge off";b.textContent="● 统计已关闭"}
-  else if(fSaved.mode==="test"){b.className="modebadge test";b.textContent="🧪 测试中"}
-  else{b.className="modebadge prod";b.textContent="● 正式模式"}
-  var until=c.test_until?new Date(Number(c.test_until)):null;
-  $("freqNow").innerHTML="当前：<b>"+(fSaved.enabled?minText(m)+"汇报一次":"已关闭")+"</b>"+(fSaved.mode==="test"&&until?" · "+until.toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})+" 自动回到每天":"");
-  $("testUntil").textContent=until?"（"+until.toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})+" 会自动回到每天）":"";
-  $("cfgBox").innerHTML=(fSaved.enabled?'<span class="chip on">统计开启中</span>':'<span class="chip off">统计已关闭</span>')+'<span class="chip">'+esc(minText(m))+"汇报一次</span>"+(fSaved.mode==="test"?'<span class="chip" style="background:#fff3e0;color:#e65100">🧪 测试模式</span>':"");
-  syncCustom(); renderFreq();
-}
-function toastK(t,kind){var el=$("toast");el.classList.remove("err","ok");if(kind)el.classList.add(kind);toast(t);clearTimeout(el._k);el._k=setTimeout(function(){el.classList.remove("err","ok")},2100)}
-$("segProd").onclick=function(){if(fState.mode==="prod")return;fState.mode="prod";fState.minutes=1440;syncCustom();renderFreq()};
-$("segTest").onclick=function(){if(fState.mode==="test")return;fState.mode="test";fState.minutes=5;syncCustom();renderFreq()};
-function onCustom(){var n=parseInt($("cNum").value,10),u=Number($("cUnit").value);if(n>0){fState.minutes=n*u;renderFreq()}}
-$("cNum").oninput=onCustom; $("cUnit").onchange=onCustom;
-$("enSw").onchange=function(){fState.enabled=$("enSw").checked;renderFreq()};
-$("saveCfg").onclick=function(){
-  if(fBusy)return;
-  var key=keyEl.value.trim();
-  if(!key){toastK("先在上面输入密钥","err");keyEl.focus();return}
-  var m=fState.minutes;
-  if(!(m>=5&&m<=10080)){toastK("间隔要在 5 分钟到 7 天之间","err");return}
-  if(fState.mode==="prod"&&m<1440&&!confirm("正式模式下少于一天汇报一次会多耗额度，确定吗？"))return;
-  var body={action:"set_config",key:key,enabled:fState.enabled,report_interval_minutes:m,mode:fState.mode};
-  if(fState.mode==="test"){var h=parseInt($("tHours").value,10);if(!(h>=1&&h<=168)){toastK("自动结束时间要在 1～168 小时","err");return}body.test_hours=h}
-  fBusy=true;$("saveCfg").disabled=true;$("saveCfg").textContent="保存中…";
-  fetch(ENDPOINT,{method:"POST",headers:{"content-type":"text/plain;charset=UTF-8"},body:JSON.stringify(body),cache:"no-store"})
-   .then(function(r){return r.text().then(function(t){var j={};try{j=JSON.parse(t)}catch(e){}return {s:r.status,j:j}})})
-   .then(function(res){
-     if(res.s===200&&res.j.ok&&res.j.saved){applyCfg(res.j.config);toastK("已保存："+(fState.enabled?minText(fState.minutes):"统计关闭"),"ok");if(lastData)lastData.config=res.j.config;return}
-     var e=res.j.error;
-     toastK(e==="forbidden"?"密钥不对，没保存":e==="admin_key_not_set"?"云端还没设密钥":e==="bad_interval"?"间隔超出范围":(res.s===200?"云函数还是旧版，请先上传部署新的 dm-stats":"保存失败（"+(e||res.s)+"）"),"err");
-   }).catch(function(){toastK("连不上统计服务器，没保存","err")})
-   .then(function(){fBusy=false;$("saveCfg").disabled=false;$("saveCfg").textContent="保存设置"});
-};
-function loadCfg(){fetch(ENDPOINT,{method:"GET",cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.config)applyCfg(j.config)}).catch(function(){$("freqNow").textContent="暂时读不到当前设置（云函数需更新）"})}
-syncCustom(); renderFreq(); loadCfg();
-
-
-var saved=lsGet();
-if(saved){keyEl.value=saved;rememberEl.checked=true;syncForget();load(false)}
-else{syncForget();render({total_devices:0,by_version:{},feature_totals:{},by_platform:{},active_devices:{},config:{}});$("updated").textContent="尚未加载";}
+window.addEventListener("hashchange",go);
+window.addEventListener("storage",function(e){if(e.key===LS_KEY){syncKeyUI();state.stats=null;state.tests=null;go()}});
+renderPresets();syncKeyUI();go();
 })();
 </script>
 </body>
