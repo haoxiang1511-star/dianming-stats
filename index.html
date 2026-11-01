@@ -132,6 +132,46 @@ textarea{width:100%;min-height:90px;border:1.5px solid var(--line);border-radius
   .keycard .btn.primary{flex:1;justify-content:center}
   .br{grid-template-columns:72px 1fr 44px}
 }
+
+/* 汇报频率面板 */
+.freq-head{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.freq-head .ct{margin:0}
+.modebadge{margin-left:auto;display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700}
+.modebadge.prod{background:#e8f5e9;color:var(--ok)}
+.modebadge.test{background:#fff3e0;color:#e65100;box-shadow:0 0 0 0 rgba(230,81,0,.35);animation:pulse 1.8s infinite}
+.modebadge.off{background:#fdecea;color:var(--danger)}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(230,81,0,0)}100%{box-shadow:0 0 0 0 rgba(230,81,0,0)}}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:4px;gap:4px;margin:14px 0 12px}
+.seg button{border:0;background:transparent;border-radius:10px;padding:10px 8px;font-size:14.5px;font-weight:650;color:var(--muted);cursor:pointer;transition:.15s;display:flex;flex-direction:column;align-items:center;gap:1px}
+.seg button small{font-size:11.5px;font-weight:500;opacity:.85}
+.seg button.on.prod{background:#fff;color:var(--blue);box-shadow:0 2px 8px rgba(21,101,192,.14)}
+.seg button.on.test{background:#fff7ed;color:#e65100;box-shadow:0 2px 8px rgba(230,81,0,.16)}
+.presets{display:flex;flex-wrap:wrap;gap:8px}
+.pre{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 14px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;transition:.12s;min-width:84px}
+.pre:hover{border-color:var(--blue2)}
+.pre.sel{background:var(--blue);border-color:var(--blue);color:#fff}
+.testmode .pre.sel{background:#f57c00;border-color:#f57c00}
+.pre .tag{display:block;font-size:11px;font-weight:500;opacity:.8}
+.custom{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;font-size:13.5px;color:var(--muted)}
+.custom input,.custom select{border:1.5px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 10px;font-size:14px;font-family:inherit;color:var(--ink);outline:none}
+.custom input{width:90px}
+.custom input:focus,.custom select:focus{border-color:var(--blue2)}
+.rowline{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+.switch{position:relative;width:48px;height:28px;flex:none}
+.switch input{opacity:0;width:0;height:0}
+.switch span{position:absolute;inset:0;background:#cfd8dc;border-radius:999px;cursor:pointer;transition:.2s}
+.switch span::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.2s}
+.switch input:checked+span{background:var(--ok)}
+.switch input:checked+span::after{transform:translateX(20px)}
+.testhint{display:none;margin-top:12px;background:#fff3e0;color:#8d4a00;border-radius:12px;padding:10px 13px;font-size:13px}
+.testmode .testhint{display:block}
+.freq-summary{font-size:13.5px;color:var(--muted);margin-top:4px}
+.freq-summary b{color:var(--ink)}
+.dirty{display:none;color:#e65100;font-size:12.5px;font-weight:600}
+.isdirty .dirty{display:inline}
+#toast.err{background:rgba(198,40,40,.95)}
+#toast.ok{background:rgba(46,125,50,.95)}
+@media (max-width:480px){.pre{flex:1 1 calc(50% - 8px)}.rowline .btn.primary{width:100%;justify-content:center}.modebadge{margin-left:0}}
 </style>
 </head>
 <body>
@@ -203,6 +243,33 @@ textarea{width:100%;min-height:90px;border:1.5px solid var(--line);border-radius
     </div>
   </div>
 
+  <section class="card" id="freqCard" style="margin-top:14px">
+    <div class="freq-head">
+      <div>
+        <h2 class="ct">汇报频率</h2>
+        <div class="freq-summary" id="freqNow">读取当前设置中…</div>
+      </div>
+      <span class="modebadge prod" id="modeBadge">● 正式模式</span>
+    </div>
+    <div class="seg" role="tablist">
+      <button class="prod" id="segProd" type="button">正式模式<small>每天 / 每周，平时用</small></button>
+      <button class="test" id="segTest" type="button">🧪 测试模式<small>几分钟一次，测完记得切回</small></button>
+    </div>
+    <div class="presets" id="presets"></div>
+    <div class="custom">
+      <span>自定义：每</span><input id="cNum" type="number" min="1" inputmode="numeric"><select id="cUnit"><option value="1">分钟</option><option value="60">小时</option><option value="1440">天</option></select><span>一次</span>
+      <span id="testHoursBox">· 测试 <input id="tHours" type="number" min="1" max="168" value="24" style="width:64px"> 小时后自动回到每天</span>
+    </div>
+    <div class="testhint" id="testHint">⚠️ 测试模式会让手机很频繁地上传，测完请切回「正式模式 · 每天」。<span id="testUntil"></span></div>
+    <div class="rowline">
+      <label class="switch"><input type="checkbox" id="enSw" checked><span></span></label>
+      <span id="enLab" style="font-weight:600">统计开启</span>
+      <span class="dirty">· 有改动未保存</span>
+      <button class="btn primary" id="saveCfg" type="button" style="margin-left:auto">保存设置</button>
+    </div>
+    <p class="cs" style="margin:10px 0 0">保存要用上面输入的密钥。手机在下一次联网汇报（或打开 App）时拿到新设置；最短 5 分钟，最长 7 天。</p>
+  </section>
+
   <details class="card help" id="help">
     <summary>远程设置怎么改（不用重新发版）<span class="arr">›</span></summary>
     <ol class="steps">
@@ -212,7 +279,9 @@ textarea{width:100%;min-height:90px;border:1.5px solid var(--line);border-radius
     </ol>
     <table class="cfg">
       <tr><th>字段</th><th>作用</th><th>例子</th></tr>
-      <tr><td><code>report_interval_days</code></td><td>每台手机隔几天汇报一次（1～90）。用户多了可以改大，省数据库额度。</td><td><code>1</code> 每天一次；<code>7</code> 一周一次</td></tr>
+      <tr><td><code>report_interval_minutes</code></td><td>汇报间隔（分钟，5～10080）。上面「汇报频率」面板会自动改它，一般不用手动改。</td><td><code>1440</code> 每天；<code>5</code> 测试</td></tr>
+      <tr><td><code>mode</code> / <code>test_until</code></td><td>测试模式标记和自动结束时间；到点自动按每天汇报。</td><td><code>test</code> / <code>prod</code></td></tr>
+      <tr><td><code>report_interval_days</code></td><td>旧字段，给老版本 App 用，保存时自动同步。</td><td><code>1</code></td></tr>
       <tr><td><code>enabled</code></td><td>统计总开关。改成 <code>false</code> 后服务器不再存数据，手机也停止汇报（每 7 天只轻问一次设置）。改回 <code>true</code> 恢复。</td><td><code>true</code> / <code>false</code></td></tr>
       <tr><td><code>admin_key</code></td><td>看这个页面用的密钥，至少 16 位。改了以后，这里要用新密钥重新登录。</td><td>一串随机字符，别外传</td></tr>
     </table>
@@ -285,7 +354,7 @@ function load(manual){
     if(res.status===200 && j.ok){
       if(rememberEl.checked){lsSet(key)} syncForget();
       render(j); notice(null);
-      if(j.total_devices===0) notice("info","连上了，暂时还没有数据","<div>还没有手机汇报过。装上 1.5.3.1 预览版后，当天的使用会在<b style='display:inline'>第二天第一次打开 App</b> 时发上来，之后点右上角「刷新」就能看到。</div>");
+      if(j.total_devices===0) notice("info","连上了，暂时还没有数据","<div>还没有手机汇报过。装上 1.5.3.2 预览版后，正式模式下当天的使用会在<b style='display:inline'>第二天第一次打开 App</b> 时发上来（测试模式按设定的分钟数上传），之后点右上角「刷新」就能看到。</div>");
       if(manual) toast("已更新");
       return;
     }
@@ -321,8 +390,9 @@ function render(d){
   var pl=d.by_platform||{}, pk=Object.keys(pl).sort(function(x,y){return pl[y]-pl[x]});
   $("platBox").innerHTML = pk.length? pk.map(function(k){return '<span class="chip">'+esc(PLAT[k]||k)+" · "+fmt(pl[k])+" 台</span>"}).join("") : '<span class="cs" style="margin:0">暂无</span>';
   var c=d.config||{};
+  if(c.report_interval_minutes && !document.body.classList.contains("demo")) applyCfg(c);
   $("cfgBox").innerHTML = (c.enabled===false?'<span class="chip off">统计已关闭</span>':'<span class="chip on">统计开启中</span>')+
-    '<span class="chip">每 '+esc(c.report_interval_days||1)+" 天汇报一次</span>";
+    '<span class="chip">'+esc(minText(c.report_interval_minutes||(c.report_interval_days||1)*1440))+"汇报一次</span>"+(c.mode==="test"?'<span class="chip" style="background:#fff3e0;color:#e65100">🧪 测试模式</span>':"");
   var t = d.generated_at? new Date(d.generated_at) : new Date();
   $("updated").textContent = "更新于 "+t.toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});
 }
@@ -373,6 +443,66 @@ $("eye").onclick=function(){keyEl.type = keyEl.type==="password"?"text":"passwor
 rememberEl.onchange=function(){ if(!rememberEl.checked){lsDel();syncForget();toast("已不再记住密钥")} else if(keyEl.value.trim() && lastData && !document.body.classList.contains("demo")){lsSet(keyEl.value.trim());syncForget();toast("已记住")} };
 forgetEl.onclick=function(){lsDel();keyEl.value="";rememberEl.checked=false;syncForget();toast("已清除这台设备上的密钥")};
 $("demoBtn").onclick=demo;
+
+// ---------- 汇报频率 ----------
+var PRESETS={prod:[[1440,"每天","默认"],[10080,"每周","省额度"]],test:[[5,"每 5 分钟",""],[10,"每 10 分钟",""],[30,"每 30 分钟",""],[60,"每小时",""]]};
+var fState={mode:"prod",minutes:1440,enabled:true}, fSaved=null, fBusy=false;
+function minText(m){m=Number(m)||1440;if(m%10080===0)return m===10080?"每周":"每 "+m/10080+" 周";if(m%1440===0)return m===1440?"每天":"每 "+m/1440+" 天";if(m%60===0)return m===60?"每小时":"每 "+m/60+" 小时";return "每 "+m+" 分钟"}
+function renderFreq(){
+  var card=$("freqCard"), t=fState.mode==="test";
+  card.classList.toggle("testmode",t);
+  $("segProd").className="prod"+(t?"":" on"); $("segTest").className="test"+(t?" on":"");
+  $("presets").innerHTML=PRESETS[fState.mode].map(function(p){return '<button type="button" class="pre'+(p[0]===fState.minutes?" sel":"")+'" data-m="'+p[0]+'">'+p[1]+(p[2]?'<span class="tag">'+p[2]+"</span>":"")+"</button>"}).join("");
+  [].forEach.call(document.querySelectorAll("#presets .pre"),function(b){b.onclick=function(){fState.minutes=Number(b.getAttribute("data-m"));syncCustom();renderFreq()}});
+  $("testHoursBox").style.display=t?"inline":"none";
+  $("enSw").checked=fState.enabled; $("enLab").textContent=fState.enabled?"统计开启":"统计已关闭（手机停止上传）";
+  var dirty=fSaved && (fSaved.mode!==fState.mode||fSaved.minutes!==fState.minutes||fSaved.enabled!==fState.enabled);
+  card.classList.toggle("isdirty",!!dirty);
+}
+function syncCustom(){var m=fState.minutes,u=m%1440===0?1440:m%60===0?60:1;$("cUnit").value=String(u);$("cNum").value=m/u}
+function applyCfg(c){
+  if(!c)return;
+  var m=Number(c.report_interval_minutes)||(Number(c.report_interval_days)||1)*1440;
+  fSaved={mode:c.mode==="test"?"test":"prod",minutes:m,enabled:c.enabled!==false};
+  fState={mode:fSaved.mode,minutes:m,enabled:fSaved.enabled};
+  var b=$("modeBadge");
+  if(!fSaved.enabled){b.className="modebadge off";b.textContent="● 统计已关闭"}
+  else if(fSaved.mode==="test"){b.className="modebadge test";b.textContent="🧪 测试中"}
+  else{b.className="modebadge prod";b.textContent="● 正式模式"}
+  var until=c.test_until?new Date(Number(c.test_until)):null;
+  $("freqNow").innerHTML="当前：<b>"+(fSaved.enabled?minText(m)+"汇报一次":"已关闭")+"</b>"+(fSaved.mode==="test"&&until?" · "+until.toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})+" 自动回到每天":"");
+  $("testUntil").textContent=until?"（"+until.toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})+" 会自动回到每天）":"";
+  $("cfgBox").innerHTML=(fSaved.enabled?'<span class="chip on">统计开启中</span>':'<span class="chip off">统计已关闭</span>')+'<span class="chip">'+esc(minText(m))+"汇报一次</span>"+(fSaved.mode==="test"?'<span class="chip" style="background:#fff3e0;color:#e65100">🧪 测试模式</span>':"");
+  syncCustom(); renderFreq();
+}
+function toastK(t,kind){var el=$("toast");el.classList.remove("err","ok");if(kind)el.classList.add(kind);toast(t);clearTimeout(el._k);el._k=setTimeout(function(){el.classList.remove("err","ok")},2100)}
+$("segProd").onclick=function(){if(fState.mode==="prod")return;fState.mode="prod";fState.minutes=1440;syncCustom();renderFreq()};
+$("segTest").onclick=function(){if(fState.mode==="test")return;fState.mode="test";fState.minutes=5;syncCustom();renderFreq()};
+function onCustom(){var n=parseInt($("cNum").value,10),u=Number($("cUnit").value);if(n>0){fState.minutes=n*u;renderFreq()}}
+$("cNum").oninput=onCustom; $("cUnit").onchange=onCustom;
+$("enSw").onchange=function(){fState.enabled=$("enSw").checked;renderFreq()};
+$("saveCfg").onclick=function(){
+  if(fBusy)return;
+  var key=keyEl.value.trim();
+  if(!key){toastK("先在上面输入密钥","err");keyEl.focus();return}
+  var m=fState.minutes;
+  if(!(m>=5&&m<=10080)){toastK("间隔要在 5 分钟到 7 天之间","err");return}
+  if(fState.mode==="prod"&&m<1440&&!confirm("正式模式下少于一天汇报一次会多耗额度，确定吗？"))return;
+  var body={action:"set_config",key:key,enabled:fState.enabled,report_interval_minutes:m,mode:fState.mode};
+  if(fState.mode==="test"){var h=parseInt($("tHours").value,10);if(!(h>=1&&h<=168)){toastK("自动结束时间要在 1～168 小时","err");return}body.test_hours=h}
+  fBusy=true;$("saveCfg").disabled=true;$("saveCfg").textContent="保存中…";
+  fetch(ENDPOINT,{method:"POST",headers:{"content-type":"text/plain;charset=UTF-8"},body:JSON.stringify(body),cache:"no-store"})
+   .then(function(r){return r.text().then(function(t){var j={};try{j=JSON.parse(t)}catch(e){}return {s:r.status,j:j}})})
+   .then(function(res){
+     if(res.s===200&&res.j.ok&&res.j.saved){applyCfg(res.j.config);toastK("已保存："+(fState.enabled?minText(fState.minutes):"统计关闭"),"ok");if(lastData)lastData.config=res.j.config;return}
+     var e=res.j.error;
+     toastK(e==="forbidden"?"密钥不对，没保存":e==="admin_key_not_set"?"云端还没设密钥":e==="bad_interval"?"间隔超出范围":(res.s===200?"云函数还是旧版，请先上传部署新的 dm-stats":"保存失败（"+(e||res.s)+"）"),"err");
+   }).catch(function(){toastK("连不上统计服务器，没保存","err")})
+   .then(function(){fBusy=false;$("saveCfg").disabled=false;$("saveCfg").textContent="保存设置"});
+};
+function loadCfg(){fetch(ENDPOINT,{method:"GET",cache:"no-store"}).then(function(r){return r.json()}).then(function(j){if(j&&j.config)applyCfg(j.config)}).catch(function(){$("freqNow").textContent="暂时读不到当前设置（云函数需更新）"})}
+syncCustom(); renderFreq(); loadCfg();
+
 
 var saved=lsGet();
 if(saved){keyEl.value=saved;rememberEl.checked=true;syncForget();load(false)}
