@@ -261,6 +261,25 @@ table.cfg td:first-child{white-space:nowrap}
   table.cfg td:first-child{white-space:normal}
   #toast{bottom:calc(92px + env(safe-area-inset-bottom))}
 }
+/* ===== v5 ===== */
+.ano{display:flex;gap:10px;align-items:flex-start;background:#fdecea;color:#b71c1c;border:1px solid #f5c2c0;border-radius:14px;padding:12px 16px;margin-bottom:16px;font-size:14px}
+.ano.warn{background:#fff8e1;color:#7a4b00;border-color:#ffe0a3}
+.ano b{display:block;margin-bottom:2px}
+.trend{width:100%;overflow:hidden}.trend svg{display:block;width:100%}
+.trend .ax{font-size:11px;fill:#8a93a6}.trend .rl{stroke:#7e57c2;stroke-dasharray:4 3}.trend .rt{font-size:10.5px;fill:#5e35b1;font-weight:650}
+.tleg{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted);margin-top:8px}.tleg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.grid>.card{margin-top:0}
+.notes{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.note{display:flex;align-items:center;gap:8px;font-size:13.5px;background:#fff8ef;border-radius:10px;padding:6px 10px}.note .d{color:var(--warn);font-weight:700;font-variant-numeric:tabular-nums}.note button{margin-left:auto;border:0;background:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1}
+.noteadd{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.noteadd input{border:1px solid var(--line);border-radius:10px;padding:8px 10px;font:inherit;font-size:13.5px;min-width:0}.noteadd input[type=text]{flex:1 1 160px}
+.rank{width:100%;border-collapse:collapse;font-size:13.5px}.rank th{color:var(--muted);font-weight:600;text-align:right;padding:6px 4px;border-bottom:1px solid var(--line);font-size:12.5px}.rank th:first-child,.rank td:first-child{text-align:left}
+.rank td{padding:7px 4px;border-bottom:1px solid #f1f3f7;text-align:right;font-variant-numeric:tabular-nums}.rank tr:last-child td{border:0}
+.tlog{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:12px}
+.tlog>div{display:grid;grid-template-columns:96px 1fr auto;gap:10px;padding:6px 12px;border-bottom:1px solid #f1f3f7}.tlog>div:last-child{border:0}
+.tlog .ok{color:var(--ok)}.tlog .rej{color:var(--warn)}.tlog .bad{color:var(--danger)}.tlog .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:inherit}
+.au{display:flex;flex-direction:column}.au>div{display:grid;grid-template-columns:22px 110px 1fr auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #f1f3f7;font-size:13.5px}.au>div:last-child{border:0}
+.au .h{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--muted);font-size:12.5px}.au .me{color:#1565c0;font-weight:650}
+@media (max-width:640px){.tlog>div{grid-template-columns:78px 1fr auto}.au>div{grid-template-columns:20px 84px 1fr auto}}
 </style>
 </head>
 <body>
@@ -309,11 +328,23 @@ table.cfg td:first-child{white-space:nowrap}
       <div class="row"><a class="btn primary" href="#key"><svg><use href="#i-key"/></svg>去设置密钥</a><button class="btn ghost" id="demoBtn">先看示例效果</button></div>
     </div>
     <div id="dash">
+      <div id="anoBox"></div>
       <div class="grid kpis">
         <div class="card kpi hero"><div class="k">总设备数 <span class="badge-demo">示例数据</span></div><div class="v" id="kTotal">–</div><div class="s" id="kTotalS">装过并汇报过的手机</div></div>
         <div class="card kpi"><div class="k"><span class="dot" style="background:#1565c0"></span>近 1 天活跃</div><div class="v" id="kD1">–</div><div class="bar-mini"><i id="bD1"></i></div><div class="s" id="sD1">&nbsp;</div></div>
         <div class="card kpi"><div class="k"><span class="dot" style="background:#1e88e5"></span>近 7 天活跃</div><div class="v" id="kD7">–</div><div class="bar-mini"><i id="bD7"></i></div><div class="s" id="sD7">&nbsp;</div></div>
         <div class="card kpi"><div class="k"><span class="dot" style="background:#64b5f6"></span>近 30 天活跃</div><div class="v" id="kD30">–</div><div class="bar-mini"><i id="bD30"></i></div><div class="s" id="sD30">&nbsp;</div></div>
+      </div>
+      <section class="card"><h2 class="ct">30 天趋势</h2><p class="cs" id="trSub">每天汇报过的手机数（北京时间）· 紫线 = 新版本第一次出现 · 橙旗 = 备注</p>
+        <div class="trend" id="trendBox"></div>
+        <div class="tleg"><span><i style="background:#1565c0"></i>活跃手机</span><span><i style="background:#90caf9"></i>新装</span><span><i style="background:#ef5350"></i>报错次数</span></div>
+        <div class="notes" id="notesBox"></div>
+        <div class="noteadd" data-haskey><input type="date" id="nDate"><input type="text" id="nText" maxlength="30" placeholder="加一条备注，例如：发到年级 QQ 群"><button class="btn line sm" id="nAdd"><span class="spin"></span><svg class="ico"><use href="#i-plus"/></svg>添加</button></div>
+      </section>
+      <div class="grid three">
+        <section class="card mini"><div class="k">今天新装</div><div class="v" id="nToday">–</div><div class="s" id="nTodayS">&nbsp;</div></section>
+        <section class="card mini"><div class="k">近 30 天新装</div><div class="v" id="n30">–</div><div class="s" id="n30S">&nbsp;</div></section>
+        <section class="card mini"><div class="k">7 天留存</div><div class="v" id="ret7">–</div><div class="s" id="ret7S">&nbsp;</div></section>
       </div>
       <div class="grid two">
         <section class="card"><h2 class="ct">版本分布</h2><p class="cs">每台手机按最近一次汇报时的版本算</p><div class="donut-wrap" id="verBox"></div></section>
@@ -328,6 +359,11 @@ table.cfg td:first-child{white-space:nowrap}
         <section class="card"><h2 class="ct">版本升级进度</h2><p class="cs" id="vpSub">已升级到最新版本的手机占比</p><div id="vpBox"></div></section>
         <section class="card"><h2 class="ct">机型与系统</h2><p class="cs" id="ddSub">安卓手机的品牌型号（新版 App 才会上报）</p><div class="bars" id="ddBox"></div><div class="chips" id="osBox" style="margin-top:14px"></div></section>
       </div>
+      <div class="grid two">
+        <section class="card"><h2 class="ct">功能排行</h2><p class="cs">按「用过的手机数」排；近 7 天来自每日汇总</p><div id="rankBox"></div></section>
+        <section class="card"><h2 class="ct">每次使用多久</h2><p class="cs">打开到切走算一次（1.5.3.5 起上报，只记档位）</p><div class="bars" id="sessBox"></div></section>
+      </div>
+      <section class="card"><h2 class="ct">更新渠道</h2><p class="cs" id="upSub">检查更新从哪里成功、点了哪个下载（1.5.3.5 起上报）</p><div class="bars" id="upBox"></div><div class="chips" id="chBox" style="margin-top:14px"></div></section>
       <section class="card"><h2 class="ct">各版本报错</h2><p class="cs">只有「错误类型@出错函数」和次数，不含报错内容；每个版本前 10 种</p><div id="errBox"></div></section>
       <div class="grid two">
         <section class="card"><h2 class="ct">平台</h2><p class="cs">设备所在平台</p><div class="chips" id="platBox"></div></section>
@@ -406,6 +442,11 @@ table.cfg td:first-child{white-space:nowrap}
         <div class="row" style="margin-top:16px"><span class="cs" style="margin:0" id="tSummary"></span><button class="btn primary" id="tAdd" style="margin-left:auto"><span class="spin"></span><svg class="ico"><use href="#i-plus"/></svg>加入白名单</button></div>
       </section>
       <section class="card">
+        <div class="row" style="margin-bottom:12px"><h2 class="ct" style="margin:0">实时日志</h2><span class="livedot" style="margin-left:6px"></span><span class="cs" style="margin:0 0 0 auto" id="lgUpdated"></span></div>
+        <p class="cs">测试手机每次发来汇报都会记一行：存下 / 太频繁被拒 / 格式不对。每 10 秒刷新。</p>
+        <div id="lgBox"><div class="empty">读取中…</div></div>
+      </section>
+      <section class="card">
         <div class="row" style="margin-bottom:12px"><h2 class="ct" style="margin:0">测试中的手机</h2><span class="chip grey" id="tCount">–</span><span class="cs" style="margin:0 0 0 auto" id="tUpdated"></span></div>
         <div id="tList"><div class="empty">读取中…</div></div>
       </section>
@@ -435,6 +476,12 @@ table.cfg td:first-child{white-space:nowrap}
       </div>
       <div class="notice" id="kNotice" hidden style="margin:14px 0 0"><span class="ic" id="kIc"></span><div id="kText"></div></div>
     </section>
+    <section class="card" data-haskey>
+      <div class="row" style="margin-bottom:6px"><h2 class="ct" style="margin:0">登录记录</h2><button class="btn line sm" id="auRefresh" style="margin-left:auto"><span class="spin"></span><svg class="ico"><use href="#i-refresh"/></svg>刷新</button></div>
+      <p class="cs">最近 50 次：输错全记，成功的同一网络 30 分钟记一次。网络只显示加盐哈希，蓝色 = 你现在的网络。</p>
+      <div class="chips" id="auLock" style="margin-bottom:10px"></div>
+      <div class="au" id="auBox"><div class="empty" style="display:block">读取中…</div></div>
+    </section>
     <section class="card">
       <h2 class="ct">安全说明</h2><p class="cs">这个网页是公开的，所以密钥不写进网页代码。</p>
       <div class="safe">
@@ -444,7 +491,7 @@ table.cfg td:first-child{white-space:nowrap}
       </div>
     </section>
     <section class="card">
-      <h2 class="ct">防爆破锁定</h2><p class="cs">同一网络 15 分钟内输错 5 次，锁 15 分钟；所有来源合计输错 30 次，全部锁 15 分钟。锁定期间正确密钥也进不去，等时间到就好。</p>
+      <h2 class="ct">防爆破锁定</h2><p class="cs">按网络（IP）分别计：同一网络 15 分钟内输错 5 次锁 15 分钟，再犯锁时长翻倍（最长 24 小时）。所有来源合计 15 分钟错 200 次才全局锁，而且 30 天内登录成功过的网络不受全局锁影响——陌生人刷错密钥锁不住你。</p>
       <h2 class="ct" style="margin-top:18px">更换密钥（建议每学期一次，或怀疑泄露时）</h2>
       <ol class="steps">
         <li>生成一个新的随机密钥，至少 16 位（例如在电脑上用密码管理器生成 32 位字母数字）。</li>
@@ -550,8 +597,8 @@ function go(){
   window.scrollTo(0,0);
   if(t==="overview") showOverview(false);
   if(t==="console") loadCfg();
-  if(t==="test") loadTests(false);
-  if(t==="key") {kNote(null); setTimeout(function(){ if(!lsGet()) $("key").focus() },60)}
+  if(t==="test") {loadTests(false);loadLog()}
+  if(t==="key") {kNote(null);loadAudit(false); setTimeout(function(){ if(!lsGet()) $("key").focus() },60)}
 }
 
 /* ---------- 概览 ---------- */
@@ -594,6 +641,7 @@ function render(d){
     (d.test_devices_active?'<a class="chip test" href="#test" style="text-decoration:none">🧪 '+d.test_devices_active+' 台测试中</a>':'<span class="chip grey">无测试手机</span>');
   setTestPill(d.test_devices_active);
   renderVP(d.version_progress);renderErr(d.errors_by_version);renderDD(d.device_dist);renderMaint(d.maintenance);
+  renderV5(d);
   var t=d.generated_at?new Date(d.generated_at):new Date();
   $("updated").textContent=(state.demo?"示例数据 · ":"")+"更新于 "+t.toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"});
 }
@@ -678,10 +726,129 @@ function demo(){
     version_progress:{latest:"1.5.3.4 (121)",all:{latest:21,older:15},active30:{latest:21,older:13},older_versions:[{version:"1.5.3.3 (120)",devices:9},{version:"1.5.2 (110)",devices:4},{version:"1.5.1 (109)",devices:2}]},
     errors_by_version:[{version:"1.5.3.4 (121)",top:[{type:"PermissionError@export_xlsx",count:6,devices:3},{type:"KeyError@load_roster",count:2,devices:1}]},{version:"1.5.3.3 (120)",top:[{type:"ValueError@parse_names",count:4,devices:2}]}],
     device_dist:{with_model:20,models:[{name:"Xiaomi 23049RAD8C",devices:6},{name:"HUAWEI ALN-AL00",devices:5},{name:"OPPO PJZ110",devices:4},{name:"vivo V2309A",devices:3},{name:"其它",devices:2}],os:[{name:"Android 14",devices:9},{name:"Android 13",devices:6},{name:"Android 12",devices:4},{name:"未知",devices:2}]},
-    maintenance:{retention_days:30,last_cleanup_at:Date.now()-5*3600e3,last_deleted:12,last_trigger:"timer"}});
+    maintenance:{retention_days:30,last_cleanup_at:Date.now()-5*3600e3,last_deleted:12,last_trigger:"timer"},
+    trend:(function(){var o=[],t=Date.now()+8*3600e3;for(var i=29;i>=0;i--){var dt=new Date(t-i*864e5).toISOString().slice(0,10);o.push({date:dt,active:Math.round(8+ (29-i)*0.5+((i*7)%5)),new_installs:(i%4===0?2:i%3===0?1:0),errors:(i%6===0?2:i%9===0?1:0)})}return o})(),
+    releases:(function(){var t=Date.now()+8*3600e3,f=function(n){return new Date(t-n*864e5).toISOString().slice(0,10)};return [{date:f(24),version:"1.5.3.3 (120)"},{date:f(9),version:"1.5.3.4 (121)"}]})(),
+    notes:(function(){var t=Date.now()+8*3600e3,f=function(n){return new Date(t-n*864e5).toISOString().slice(0,10)};return [{id:"x1",date:f(16),text:"发到年级 QQ 群"},{id:"x2",date:f(3),text:"期中考试周"}]})(),
+    new_installs:{today:1,d7:6,d30:19},retention7:{eligible:22,retained:15,rate:68},
+    feature_rank:[{feature:"drawer_open",devices:30,total:230,last7:61},{feature:"check_update",devices:26,total:88,last7:19},{feature:"export",devices:18,total:57,last7:14},{feature:"backup",devices:15,total:41,last7:9},{feature:"share_app",devices:8,total:12,last7:3},{feature:"restore",devices:4,total:5,last7:1},{feature:"feedback",devices:3,total:3,last7:0}],
+    anomalies:[{level:"warn",code:"active_drop",text:"昨天活跃 6 台，不到前 7 天日均（14.3）的一半"}],
+    sessions:{lt1:34,m1_5:88,m5_15:52,m15_60:17,gt60:3},
+    update_channels:{totals:{check_gitee:61,check_github:12,check_fail:4,dl_gitee:9,dl_github:2,dl_lanzou:5},by_channel:{preview:2,stable:19,"未知（旧版）":15},by_update_src:{gitee:17,github:3,"未知":16}}});
 }
 
 /* ---------- 控制台 ---------- */
+/* ---------- v5：趋势 / 异常 / 排行 / 留存 / 分档 / 渠道 ---------- */
+var FEAT_CN={export:"导出 Excel",backup:"备份",restore:"恢复",check_update:"检查更新",share_app:"分享 App",feedback:"反馈",drawer_open:"打开侧栏"};
+var SESS_CN={lt1:"1 分钟内",m1_5:"1–5 分钟",m5_15:"5–15 分钟",m15_60:"15–60 分钟",gt60:"1 小时以上"};
+var UPD_CN={check_gitee:"检查 · Gitee 成功",check_github:"检查 · GitHub 成功",check_fail:"检查 · 全部失败",dl_gitee:"下载 · Gitee",dl_github:"下载 · GitHub",dl_lanzou:"下载 · 蓝奏云"};
+function barsHtml(rows){
+  var max=Math.max.apply(null,rows.map(function(r){return r[1]}).concat([1]));
+  return rows.map(function(r){return '<div class="br wide"><span title="'+esc(r[0])+'">'+esc(r[0])+'</span><div class="t"><i data-w="'+Math.max(r[1]*100/max,r[1]?3:0)+'"></i></div><span class="n">'+fmt(r[1])+"</span></div>"}).join("");
+}
+function growBars(sel){requestAnimationFrame(function(){requestAnimationFrame(function(){$$(sel+" i[data-w]").forEach(function(i){i.style.width=i.getAttribute("data-w")+"%"})})})}
+var ANO_T={error_spike:"报错突然变多",active_drop:"活跃明显下降",no_reports:"很久没收到汇报"};
+function renderV5(d){
+  state.v5=d;
+  var old=!d.trend;
+  $("anoBox").innerHTML=(d.anomalies||[]).map(function(a){return '<div class="ano'+(a.level==="warn"?" warn":"")+'"><span>'+(a.level==="warn"?"⚠️":"🚨")+'</span><div><b>'+esc(ANO_T[a.code]||"异常")+"</b>"+esc(a.text)+"</div></div>"}).join("");
+  renderTrend();
+  var ni=d.new_installs||{},r7=d.retention7||{};
+  $("nToday").textContent=old?"–":fmt(ni.today);$("nTodayS").textContent=old?"云函数还是旧版":"近 7 天 "+fmt(ni.d7)+" 台";
+  $("n30").textContent=old?"–":fmt(ni.d30);$("n30S").textContent=old?"\u00a0":"第一次汇报在 30 天内的手机";
+  $("ret7").textContent=r7.rate==null?"–":r7.rate+"%";$("ret7S").textContent=r7.eligible?fmt(r7.retained)+" / "+fmt(r7.eligible)+" 台装满 7 天后还在用":"还没有装满 7 天的手机";
+  var fr=d.feature_rank||[];
+  $("rankBox").innerHTML=fr.length?'<table class="rank"><tr><th>功能</th><th>用过的手机</th><th>累计次数</th><th>近 7 天</th></tr>'+fr.map(function(x){return "<tr><td>"+esc(FEAT_CN[x.feature]||x.feature)+"</td><td>"+fmt(x.devices)+"</td><td>"+fmt(x.total)+"</td><td>"+fmt(x.last7)+"</td></tr>"}).join("")+"</table>":emptyHtml("云函数还是旧版，上传新的 dm-stats 后显示");
+  var ss=d.sessions||{},sk=Object.keys(SESS_CN),st=sk.reduce(function(a,k){return a+(ss[k]||0)},0);
+  $("sessBox").innerHTML=st?barsHtml(sk.map(function(k){return [SESS_CN[k],ss[k]||0]})):emptyHtml(old?"云函数还是旧版":"还没有数据（1.5.3.5 起上报）");
+  var uc=d.update_channels||{},ut=uc.totals||{},uk=Object.keys(UPD_CN),un=uk.reduce(function(a,k){return a+(ut[k]||0)},0);
+  $("upBox").innerHTML=un?barsHtml(uk.map(function(k){return [UPD_CN[k],ut[k]||0]})):emptyHtml(old?"云函数还是旧版":"还没有数据（1.5.3.5 起上报）");
+  var ch=uc.by_channel||{},src=uc.by_update_src||{};
+  $("chBox").innerHTML=Object.keys(ch).map(function(k){return '<span class="chip'+(/未知/.test(k)?" grey":"")+'">'+esc(k==="preview"?"预览版":k==="stable"?"正式版":k)+" · "+fmt(ch[k])+" 台</span>"}).join("")+
+    Object.keys(src).filter(function(k){return k!=="未知"}).map(function(k){return '<span class="chip">最近从 '+esc(k==="gitee"?"Gitee":k==="github"?"GitHub":k)+" 检查成功 · "+fmt(src[k])+" 台</span>"}).join("");
+  growBars("#sessBox");growBars("#upBox");
+  renderNotes();
+}
+function renderTrend(){
+  var d=state.v5||{},tr=d.trend,box=$("trendBox");
+  if(!tr){box.innerHTML=emptyHtml("云函数还是旧版：上传新的 dm-stats 并建 dm_daily 集合后，从部署当天开始画");return}
+  var W=Math.max(300,box.clientWidth||700),Hh=W<500?170:210,pl=30,pr=10,pt=24,pb=24,iw=W-pl-pr,ih=Hh-pt-pb,n=tr.length;
+  var max=Math.max.apply(null,tr.map(function(x){return Math.max(x.active||0,x.new_installs||0,x.errors||0)}).concat([4]));
+  max=Math.ceil(max/4)*4;
+  var X=function(i){return pl+(n<2?iw/2:i*iw/(n-1))},Y=function(v){return pt+ih-(v/max)*ih},bw=Math.max(2,iw/n*0.42);
+  var g="",k,idx={};
+  for(k=0;k<=4;k++){var v=max*k/4;g+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#eef1f6"/><text class="ax" x="'+(pl-6)+'" y="'+(Y(v)+4)+'" text-anchor="end">'+v+"</text>"}
+  tr.forEach(function(x,i){idx[x.date]=i});
+  (d.releases||[]).forEach(function(r){var i=idx[r.date];if(i==null)return;var right=X(i)>W-70;g+='<line class="rl" x1="'+X(i)+'" x2="'+X(i)+'" y1="'+(pt-6)+'" y2="'+(pt+ih)+'"/><text class="rt" x="'+(X(i)+(right?-3:3))+'" y="'+(pt-9)+'"'+(right?' text-anchor="end"':"")+">"+esc(vlabel(r.version).replace(/ · b\d+$/,""))+"</text>"});
+  tr.forEach(function(x,i){if(x.new_installs)g+='<rect x="'+(X(i)-bw/2)+'" y="'+Y(x.new_installs)+'" width="'+bw+'" height="'+(pt+ih-Y(x.new_installs))+'" rx="2" fill="#90caf9"><title>'+x.date+" 新装 "+x.new_installs+"</title></rect>"});
+  var pts=tr.map(function(x,i){return X(i)+","+Y(x.active||0)}).join(" ");
+  g+='<polygon points="'+X(0)+","+(pt+ih)+" "+pts+" "+X(n-1)+","+(pt+ih)+'" fill="rgba(21,101,192,.08)"/>';
+  g+='<polyline points="'+pts+'" fill="none" stroke="#1565c0" stroke-width="2.2" stroke-linejoin="round"/>';
+  g+='<polyline points="'+tr.map(function(x,i){return X(i)+","+Y(x.errors||0)}).join(" ")+'" fill="none" stroke="#ef5350" stroke-width="1.6" stroke-dasharray="3 3"/>';
+  tr.forEach(function(x,i){g+='<circle cx="'+X(i)+'" cy="'+Y(x.active||0)+'" r="'+(i===n-1?3.5:2)+'" fill="#1565c0"><title>'+x.date+" 活跃 "+(x.active||0)+" · 新装 "+(x.new_installs||0)+" · 报错 "+(x.errors||0)+"</title></circle>"});
+  (d.notes||[]).forEach(function(nt){var i=idx[nt.date];if(i==null)return;g+='<g><title>'+esc(nt.date+" "+nt.text)+'</title><line x1="'+X(i)+'" x2="'+X(i)+'" y1="'+(pt+ih-14)+'" y2="'+(pt+ih)+'" stroke="#e65100" stroke-width="1.5"/><path d="M'+X(i)+","+(pt+ih-14)+' l9,3.5 l-9,3.5z" fill="#e65100"/></g>'});
+  var step=W<500?7:5;
+  tr.forEach(function(x,i){if(i%step===(n-1)%step)g+='<text class="ax" x="'+X(i)+'" y="'+(Hh-6)+'" text-anchor="middle">'+Number(x.date.slice(5,7))+"/"+Number(x.date.slice(8))+"</text>"});
+  box.innerHTML='<svg viewBox="0 0 '+W+" "+Hh+'" height="'+Hh+'">'+g+"</svg>";
+  var last=tr[n-1]||{};$("trSub").textContent="今天 "+fmt(last.active)+" 台活跃 · 每天汇报过的手机数（北京时间）· 紫线 = 新版本第一次出现 · 橙旗 = 备注";
+}
+function renderNotes(){
+  var ns=((state.v5||{}).notes||[]).slice().reverse();
+  $("notesBox").innerHTML=ns.map(function(n){return '<div class="note"><span>🚩</span><span class="d">'+esc(String(n.date).slice(5))+"</span><span>"+esc(n.text)+'</span><button title="删除" data-nrm="'+esc(n.id)+'">×</button></div>'}).join("");
+  $$("[data-nrm]").forEach(function(b){b.onclick=function(){
+    if(state.demo&&!lsGet()){toast("示例数据不能改");return}
+    if(!confirm("删除这条备注？"))return;
+    admin({action:"note_remove",id:b.getAttribute("data-nrm")}).then(function(r){if(r.status===200&&r.json.ok){toast("已删除","ok");showOverview(true)}else toast(errText(r.json,r.status),"err")});
+  }});
+}
+$("nDate").value=new Date(Date.now()+8*3600e3).toISOString().slice(0,10);
+$("nAdd").onclick=function(){
+  var t=$("nText").value.trim(),dt=$("nDate").value,btn=this;
+  if(!t){$("nText").focus();toast("先写备注内容");return}
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(dt)){toast("日期不对");return}
+  busy(btn,true);
+  admin({action:"note_add",date:dt,text:t}).then(function(r){busy(btn,false);
+    if(r.status===200&&r.json.ok&&r.json.note){$("nText").value="";toast("已添加备注","ok");showOverview(true)}
+    else toast(r.status===200?"云函数还是旧版":errText(r.json,r.status),"err")});
+};
+$("nText").addEventListener("keydown",function(e){if(e.key==="Enter")$("nAdd").click()});
+var rsT;window.addEventListener("resize",function(){clearTimeout(rsT);rsT=setTimeout(function(){if(state.v5)renderTrend()},150)});
+
+/* ---------- v5：测试页实时日志 ---------- */
+var RES_CN={stored:["存下","ok"],too_frequent:["太频繁被拒","rej"],invalid:["格式不对","bad"]};
+function loadLog(){
+  if(!lsGet())return;
+  admin({action:"test_log"}).then(function(r){
+    if(!(r.status===200&&r.json.ok&&r.json.devices)){$("lgBox").innerHTML=emptyHtml(r.status===200?"云函数还是旧版，上传新的 dm-stats 后显示":esc(errText(r.json,r.status)));return}
+    var rows=[];r.json.devices.forEach(function(d){(d.log||[]).forEach(function(x){rows.push({at:x.at,res:x.result,ver:x.ver,name:d.name||shortId(d.device_id)})})});
+    rows.sort(function(a,b){return b.at-a.at});rows=rows.slice(0,40);
+    $("lgUpdated").textContent="更新于 "+hm(Date.now()).split(" ")[1];
+    if(!rows.length){$("lgBox").innerHTML='<div class="empty">还没有测试手机发来汇报</div>';return}
+    $("lgBox").innerHTML='<div class="tlog">'+rows.map(function(x){var c=RES_CN[x.res]||[x.res,""];return "<div><span>"+hm(x.at)+'</span><span class="nm">'+esc(x.name)+(x.ver?" · v"+esc(String(x.ver).replace(/ \((\d+)\)/," b$1")):"")+'</span><b class="'+c[1]+'">'+esc(c[0])+"</b></div>"}).join("")+"</div>";
+  });
+}
+setInterval(function(){if(state.tab==="test"&&!document.hidden&&lsGet())loadLog()},10000);
+
+/* ---------- v5：登录记录 ---------- */
+var ACT_CN={stats:"看概览",export:"导出",set_config:"改设置",test_add:"加测试机",test_remove:"移测试机",test_list:"看测试",test_log:"看日志",ping:"验证密钥",note_add:"加备注",note_remove:"删备注",audit:"看记录"};
+function loadAudit(manual){
+  if(!lsGet())return;
+  var b=$("auRefresh");busy(b,true);
+  admin({action:"audit"}).then(function(r){busy(b,false);
+    var j=r.json;
+    if(!(r.status===200&&j.ok&&j.audit)){$("auBox").innerHTML=emptyHtml(r.status===200?"云函数还是旧版，上传新的 dm-stats 后显示":esc(errText(j,r.status)));$("auLock").innerHTML="";return}
+    var L=j.lock||{};
+    $("auLock").innerHTML=(L.global_locked_until?'<span class="chip off">全局锁定中 · '+esc(left(L.global_locked_until))+"</span>":'<span class="chip on">未全局锁定</span>')+
+      '<span class="chip'+(L.locked_ips?" test":" grey")+'">'+fmt(L.locked_ips)+" 个网络被锁</span>"+
+      '<span class="chip grey">15 分钟内合计输错 '+fmt(L.global_fails)+" / "+fmt((L.rules||{}).global_max_fails||200)+"</span>"+
+      '<span class="chip grey">'+fmt(L.trusted_ips)+" 个可信网络</span>";
+    var fails=j.audit.filter(function(a){return !a.ok}).length;
+    $("auBox").innerHTML=j.audit.length?j.audit.slice().sort(function(x,y){return y.at-x.at}).map(function(a){return "<div><span>"+(a.ok?"✅":"❌")+"</span><span>"+hm(a.at)+'</span><span class="h'+(a.ip===j.me?" me":"")+'">'+esc(a.ip)+(a.ip===j.me?"（本机）":"")+"</span><span>"+esc(a.ok?(ACT_CN[a.action]||a.action):"密钥错误")+"</span></div>"}).join(""):'<div class="empty" style="display:block">还没有记录</div>';
+    if(manual)toast(fails?"最近 50 次里有 "+fails+" 次输错":"已刷新",fails?"":"ok");
+  });
+}
+$("auRefresh").onclick=function(){loadAudit(true)};
+
 var cSaved=null, cState={enabled:true,minutes:1440};
 function applyCfg(c){
   state.cfg=c;
