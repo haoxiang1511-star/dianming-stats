@@ -287,7 +287,7 @@ table.cfg td:first-child{white-space:nowrap}
 .rank td{padding:7px 4px;border-bottom:1px solid #f1f3f7;text-align:right;font-variant-numeric:tabular-nums}.rank tr:last-child td{border:0}
 .tlog{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:12px}
 .tlog>div{display:grid;grid-template-columns:96px 1fr auto;gap:10px;padding:6px 12px;border-bottom:1px solid #f1f3f7}.tlog>div:last-child{border:0}
-.tlog .ok{color:var(--ok)}.tlog .rej{color:var(--warn)}.tlog .bad{color:var(--danger)}.tlog .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:inherit}
+.tlog .ok{color:var(--ok)}.tlog .rej{color:var(--warn)}.tlog .bad{color:var(--danger)}.tlog .hb{color:#8e8e93;background:rgba(142,142,147,.16);border-radius:6px;padding:1px 7px;font-weight:600;justify-self:end}.tlog .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:inherit}
 .au{display:flex;flex-direction:column}.au>div{display:grid;grid-template-columns:22px 110px 1fr auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #f1f3f7;font-size:13.5px}.au>div:last-child{border:0}
 .au .h{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--muted);font-size:12.5px}.au .me{color:#1565c0;font-weight:650}
 @media (max-width:640px){.tlog>div{grid-template-columns:78px 1fr auto}.au>div{grid-template-columns:20px 84px 1fr auto}}
@@ -1057,7 +1057,7 @@ function loadPreview(){
   admin({action:"stats"}).then(function(r){if(r.status===200&&r.json.ok){state.stats=r.json;render(r.json)}renderPreview()});
 }
 /* ---------- v5：测试页实时日志 ---------- */
-var RES_CN={stored:["存下","ok"],too_frequent:["太频繁被拒","rej"],invalid:["格式不对","bad"]};
+var RES_CN={stored:["存下","ok"],too_frequent:["太频繁被拒","rej"],invalid:["格式不对","bad"],heartbeat:["心跳","hb"],heartbeat_too_frequent:["心跳 · 太频繁被拒","hb"]};
 function loadLog(){
   if(!lsGet())return;
   admin({action:"test_log"}).then(function(r){
