@@ -112,6 +112,7 @@ code{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding
 .empty{text-align:center;color:var(--muted);font-size:13.5px;padding:24px 8px}
 .empty svg{width:46px;height:46px;opacity:.45;display:block;margin:0 auto 8px}
 .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:26px}
+.foot .demolink a{color:var(--muted);text-decoration:none;opacity:.7}.foot .demolink a:hover{text-decoration:underline;opacity:1}
 #toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:rgba(24,33,47,.93);color:#fff;padding:9px 18px;border-radius:999px;font-size:13.5px;opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:90vw;text-align:center}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.err{background:rgba(198,40,40,.95)}
@@ -303,6 +304,16 @@ table.cfg td:first-child{white-space:nowrap}
   .secnav a.cur{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 3px 10px rgba(21,101,192,.25)}
   [data-sec]{scroll-margin-top:58px}
 }
+.freqhint{margin:10px 0 2px;font-size:12.5px;line-height:1.65;color:#7a4b00;background:#fff8e1;border:1px solid #ffe0a3;border-radius:12px;padding:9px 12px}
+.pvk{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:6px}
+.pvk div{background:#f3effb;border-radius:14px;padding:10px 13px}.pvk span{display:block;font-size:12px;color:#6a5a8c}.pvk b{font-size:21px;color:#5e35b1;font-variant-numeric:tabular-nums}
+.pvh{font-size:13px;font-weight:700;color:#30415e;margin-bottom:8px}
+.pvspark{display:flex;align-items:flex-end;gap:4px;height:96px;padding-bottom:16px}
+.pvspark i{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}
+.pvspark s{display:block;width:100%;max-width:18px;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#9575cd,#7e57c2)}
+.pvspark s.e{box-shadow:inset 0 3px 0 #ef5350}
+.pvspark em{position:absolute;bottom:-16px;font-style:normal;font-size:10px;color:#8a93a6}
+@media (max-width:900px){.pvk{grid-template-columns:repeat(2,1fr)}.pvk b{font-size:19px}}
 </style>
 </head>
 <body>
@@ -349,7 +360,7 @@ table.cfg td:first-child{white-space:nowrap}
       <div class="big"><svg><use href="#i-lock"/></svg></div>
       <h3>先设置一次密钥</h3>
       <p>统计数据要用 <code>admin_key</code> 才能查看。在「密钥」页保存一次，这个浏览器以后会记住，不用再输。</p>
-      <div class="row"><a class="btn primary" href="#key"><svg><use href="#i-key"/></svg>去设置密钥</a><button class="btn ghost" id="demoBtn">先看示例效果</button></div>
+      <div class="row"><a class="btn primary" href="#key"><svg><use href="#i-key"/></svg>去设置密钥</a></div>
     </div>
     <div id="dash">
       <div class="secnav" id="secnav" aria-label="概览分区"></div>
@@ -386,9 +397,9 @@ table.cfg td:first-child{white-space:nowrap}
       </div>
       <div class="grid two" data-sec="排行与时长" id="s-rank">
         <section class="card"><h2 class="ct">功能排行</h2><p class="cs">按「用过的手机数」排；近 7 天来自每日汇总</p><div id="rankBox"></div></section>
-        <section class="card"><h2 class="ct">每次使用多久</h2><p class="cs">打开到切走算一次（1.5.3.5 起上报，只记档位）</p><div class="bars" id="sessBox"></div></section>
+        <section class="card"><h2 class="ct">每次使用多久</h2><p class="cs">打开到切走算一次（下个正式版起上报，只记档位）</p><div class="bars" id="sessBox"></div></section>
       </div>
-      <section class="card" data-sec="更新渠道" id="s-chan"><h2 class="ct">更新渠道</h2><p class="cs" id="upSub">检查更新从哪里成功、点了哪个下载（1.5.3.5 起上报）</p><div class="bars" id="upBox"></div><div class="chips" id="chBox" style="margin-top:14px"></div></section>
+      <section class="card" data-sec="更新渠道" id="s-chan"><h2 class="ct">更新渠道</h2><p class="cs" id="upSub">检查更新从哪里成功、点了哪个下载（下个正式版起上报）</p><div class="bars" id="upBox"></div><div class="chips" id="chBox" style="margin-top:14px"></div></section>
       <section class="card" data-sec="报错" id="s-err"><h2 class="ct">各版本报错</h2><p class="cs">只有「错误类型@出错函数」和次数，不含报错内容；每个版本前 10 种</p><div id="errBox"></div></section>
       <div class="grid two" data-sec="平台与设置" id="s-plat">
         <section class="card"><h2 class="ct">平台</h2><p class="cs">设备所在平台</p><div class="chips" id="platBox"></div></section>
@@ -401,7 +412,7 @@ table.cfg td:first-child{white-space:nowrap}
 
   <!-- ===== 控制台 ===== -->
   <section class="page" id="p-console">
-    <div class="phead"><div><h1>控制台</h1><p>所有手机的常规汇报设置。只能选「每天」或「每周」，短间隔请去「测试」页给单台手机开。</p></div></div>
+    <div class="phead"><div><h1>控制台</h1><p>所有手机的常规汇报设置。可选「每天」「每周」「每月」，短间隔请去「测试」页给单台手机开。</p></div></div>
     <div class="card needkey" data-needkey hidden>
       <div class="big"><svg><use href="#i-lock"/></svg></div><h3>改设置需要密钥</h3>
       <p>当前设置可以直接看；保存修改要先在「密钥」页保存一次密钥。</p>
@@ -418,8 +429,10 @@ table.cfg td:first-child{white-space:nowrap}
         <div class="seg" id="freqSeg">
           <button type="button" data-min="1440">每天<small>默认</small></button>
           <button type="button" data-min="10080">每周<small>省额度</small></button>
+          <button type="button" data-min="43200">每月<small>最省</small></button>
         </div>
       </div>
+      <div class="freqhint" id="freqHint" hidden>每周、每月汇报时，概览里的「近 1 天 / 7 天活跃」和「7 天留存」会明显偏低（每台手机要隔这么久才报一次），这时看趋势和 30 天数字更准。异常提醒会自动放宽：不再提示活跃下降，「没收到汇报」改为超过间隔一半才提醒。</div>
       <div class="row" style="margin-top:6px">
         <span class="dirty">● 有改动未保存</span>
         <button class="btn primary" id="saveCfg" style="margin-left:auto"><span class="spin"></span><svg class="ico"><use href="#i-check"/></svg>保存设置</button>
@@ -430,7 +443,7 @@ table.cfg td:first-child{white-space:nowrap}
       <table class="cfg">
         <tr><th>字段</th><th>作用</th></tr>
         <tr><td><code>enabled</code></td><td>统计总开关（上面的开关）。</td></tr>
-        <tr><td><code>report_interval_minutes</code></td><td>全局汇报间隔：<code>1440</code> 每天，<code>10080</code> 每周。全局最短每天，不会让所有手机频繁上传。</td></tr>
+        <tr><td><code>report_interval_minutes</code></td><td>全局汇报间隔：<code>1440</code> 每天，<code>10080</code> 每周，<code>43200</code> 每月（30 天）。全局最短每天，不会让所有手机频繁上传。</td></tr>
         <tr><td><code>report_interval_days</code></td><td>旧字段，给老版本 App 用，保存时自动同步。</td></tr>
         <tr><td><code>test_devices</code></td><td>测试白名单（「测试」页管理）：只对列表里的设备 ID 下发短间隔，到期自动恢复每天。</td></tr>
         <tr><td><code>admin_key</code></td><td>后台密钥，至少 16 位。只在控制台里改；改了以后在「密钥」页重新保存。</td></tr>
@@ -476,6 +489,16 @@ table.cfg td:first-child{white-space:nowrap}
         <div id="tList"><div class="empty">读取中…</div></div>
       </section>
     </div>
+    <section class="card pvcard" id="pvCard" hidden>
+      <div class="row" style="margin-bottom:4px"><h2 class="ct" style="margin:0">预览版概况</h2><span class="chip test" id="pvBadge">预览版</span><span class="cs" style="margin:0 0 0 auto" id="pvUpd"></span></div>
+      <p class="cs">只统计预览版（预览通道或四段版本号，如 1.5.3.5）。这些数据不计入「概览」。</p>
+      <div class="pvk" id="pvKpi"></div>
+      <div class="grid two" style="margin-top:14px">
+        <div><div class="pvh">版本分布</div><div class="bars" id="pvVer"></div></div>
+        <div><div class="pvh">近 14 天每天活跃</div><div class="pvspark" id="pvTrend"></div><div class="chips" id="pvRel" style="margin-top:10px"></div></div>
+      </div>
+      <div class="pvh" style="margin-top:16px">报错（每个版本前 5 种）</div><div id="pvErr"></div>
+    </section>
     <section class="card">
       <h2 class="ct">设备 ID 在哪里</h2><p class="cs">需要点名助手预览版 1.5.3.3 或更新。ID 是随机生成的匿名编号，不是手机硬件标识。</p>
       <div class="guide">
@@ -528,7 +551,7 @@ table.cfg td:first-child{white-space:nowrap}
     </section>
   </section>
 
-  <div class="foot">数据来自 uniCloud 云函数 dm-stats · 网页代码里不含任何密钥或设备数据</div>
+  <div class="foot">数据来自 uniCloud 云函数 dm-stats · 网页代码里不含任何密钥或设备数据<span class="demolink"> · <a href="#overview" id="demoBtn">示例数据</a></span></div>
   </div>
 </div>
 
@@ -561,7 +584,7 @@ function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){retur
 function fmt(n){return (Number(n)||0).toLocaleString("zh-CN")}
 function toast(t,kind){var el=$("toast");el.className="";if(kind)el.classList.add(kind);el.textContent=t;void el.offsetWidth;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove("show")},2000)}
 function busy(btn,on){btn.classList.toggle("busy",on);btn.disabled=on}
-function minText(m){m=Number(m)||1440;if(m%10080===0)return m===10080?"每周":"每 "+m/10080+" 周";if(m%1440===0)return m===1440?"每天":"每 "+m/1440+" 天";if(m%60===0)return m===60?"每小时":"每 "+m/60+" 小时";return "每 "+m+" 分钟"}
+function minText(m){m=Number(m)||1440;if(m===43200)return "每月";if(m%10080===0)return m===10080?"每周":"每 "+m/10080+" 周";if(m%1440===0)return m===1440?"每天":"每 "+m/1440+" 天";if(m%60===0)return m===60?"每小时":"每 "+m/60+" 小时";return "每 "+m+" 分钟"}
 function ago(ms){if(!ms)return "还没有";var s=Math.max(0,(Date.now()-ms)/1000);if(s<60)return "刚刚";if(s<3600)return Math.floor(s/60)+" 分钟前";if(s<86400)return Math.floor(s/3600)+" 小时前";return Math.floor(s/86400)+" 天前"}
 function left(ms){var s=Math.floor((ms-Date.now())/1000);if(s<=0)return "已结束";var d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),x=s%60;if(d)return d+" 天 "+h+" 小时";if(h)return h+" 小时 "+m+" 分";return m+" 分 "+(x<10?"0":"")+x+" 秒"}
 function hm(ms){var d=new Date(ms);return (d.getMonth()+1)+"/"+d.getDate()+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
@@ -622,7 +645,7 @@ function go(){
   window.scrollTo(0,0);
   if(t==="overview") showOverview(false);
   if(t==="console") loadCfg();
-  if(t==="test") {loadTests(false);loadLog()}
+  if(t==="test") {loadTests(false);loadLog();loadPreview()}
   if(t==="key") {kNote(null);loadAudit(false); setTimeout(function(){ if(!lsGet()) $("key").focus() },60)}
 }
 
@@ -715,7 +738,7 @@ function renderDD(d){
   if(!d){box.innerHTML=emptyHtml("云函数还是旧版，上传新的 dm-stats 后显示");os.innerHTML="";return}
   var ms=d.models||[];
   $("ddSub").textContent=d.with_model?"已上报机型的 "+fmt(d.with_model)+" 台安卓手机":"安卓手机的品牌型号（新版 App 才会上报）";
-  if(!ms.length){box.innerHTML=emptyHtml("还没有机型数据（1.5.3.4 起上报）");os.innerHTML="";return}
+  if(!ms.length){box.innerHTML=emptyHtml("还没有机型数据（下个正式版起上报）");os.innerHTML="";return}
   var max=Math.max.apply(null,ms.map(function(x){return x.devices||0}).concat([1]));
   box.innerHTML=ms.map(function(x){var nm=x.name||x.model||"";return '<div class="br wide"><span title="'+esc(nm)+'">'+esc(nm)+'</span><div class="t"><i data-w="'+Math.max((x.devices||0)*100/max,3)+'"></i></div><span class="n">'+fmt(x.devices)+"</span></div>"}).join("");
   var ol=Array.isArray(d.os)?d.os:Object.keys(d.os||{}).map(function(k){return {name:k,devices:d.os[k]}});
@@ -745,21 +768,26 @@ function exportCsv(btn){
 function demo(){
   state.demo=true;document.body.classList.add("demo");$("ovNeedKey").hidden=true;$("dash").hidden=false;
   ovNote("info","这是示例数据","<div>数字都是编的，只用来预览页面。去 <a href='#key'>密钥</a> 页保存密钥后看真实数据。</div>");
-  render({ok:true,generated_at:new Date().toISOString(),total_devices:36,by_version:{"1.5.3.4 (121)":21,"1.5.3.3 (120)":9,"1.5.2 (110)":4,"1.5.1 (109)":2},
+  render({ok:true,generated_at:new Date().toISOString(),total_devices:36,by_version:{"1.5.3 (112)":21,"1.5.2 (110)":9,"1.5.1 (109)":4,"1.5.0 (105)":2},
     by_platform:{android:35,desktop:1},active_devices:{d1:14,d7:27,d30:34},total_opens:812,total_roll_marks:9643,total_reports:298,
     feature_totals:{export:57,backup:41,check_update:88,drawer_open:230,share_app:12,restore:5,feedback:3},config:{enabled:true,report_interval_minutes:1440},test_devices_active:1,
-    version_progress:{latest:"1.5.3.4 (121)",all:{latest:21,older:15},active30:{latest:21,older:13},older_versions:[{version:"1.5.3.3 (120)",devices:9},{version:"1.5.2 (110)",devices:4},{version:"1.5.1 (109)",devices:2}]},
-    errors_by_version:[{version:"1.5.3.4 (121)",top:[{type:"PermissionError@export_xlsx",count:6,devices:3},{type:"KeyError@load_roster",count:2,devices:1}]},{version:"1.5.3.3 (120)",top:[{type:"ValueError@parse_names",count:4,devices:2}]}],
+    version_progress:{latest:"1.5.3 (112)",all:{latest:21,older:15},active30:{latest:21,older:13},older_versions:[{version:"1.5.2 (110)",devices:9},{version:"1.5.1 (109)",devices:4},{version:"1.5.0 (105)",devices:2}]},
+    errors_by_version:[{version:"1.5.3 (112)",top:[{type:"PermissionError@export_xlsx",count:6,devices:3},{type:"KeyError@load_roster",count:2,devices:1}]},{version:"1.5.2 (110)",top:[{type:"ValueError@parse_names",count:4,devices:2}]}],
     device_dist:{with_model:20,models:[{name:"Xiaomi 23049RAD8C",devices:6},{name:"HUAWEI ALN-AL00",devices:5},{name:"OPPO PJZ110",devices:4},{name:"vivo V2309A",devices:3},{name:"其它",devices:2}],os:[{name:"Android 14",devices:9},{name:"Android 13",devices:6},{name:"Android 12",devices:4},{name:"未知",devices:2}]},
     maintenance:{retention_days:30,last_cleanup_at:Date.now()-5*3600e3,last_deleted:12,last_trigger:"timer"},
     trend:(function(){var o=[],t=Date.now()+8*3600e3;for(var i=29;i>=0;i--){var dt=new Date(t-i*864e5).toISOString().slice(0,10);o.push({date:dt,active:Math.round(8+ (29-i)*0.5+((i*7)%5)),new_installs:(i%4===0?2:i%3===0?1:0),errors:(i%6===0?2:i%9===0?1:0)})}return o})(),
-    releases:(function(){var t=Date.now()+8*3600e3,f=function(n){return new Date(t-n*864e5).toISOString().slice(0,10)};return [{date:f(24),version:"1.5.3.3 (120)"},{date:f(9),version:"1.5.3.4 (121)"}]})(),
+    releases:(function(){var t=Date.now()+8*3600e3,f=function(n){return new Date(t-n*864e5).toISOString().slice(0,10)};return [{date:f(24),version:"1.5.2 (110)"},{date:f(9),version:"1.5.3 (112)"}]})(),
     notes:(function(){var t=Date.now()+8*3600e3,f=function(n){return new Date(t-n*864e5).toISOString().slice(0,10)};return [{id:"x1",date:f(16),text:"发到年级 QQ 群"},{id:"x2",date:f(3),text:"期中考试周"}]})(),
     new_installs:{today:1,d7:6,d30:19},retention7:{eligible:22,retained:15,rate:68},
     feature_rank:[{feature:"drawer_open",devices:30,total:230,last7:61},{feature:"check_update",devices:26,total:88,last7:19},{feature:"export",devices:18,total:57,last7:14},{feature:"backup",devices:15,total:41,last7:9},{feature:"share_app",devices:8,total:12,last7:3},{feature:"restore",devices:4,total:5,last7:1},{feature:"feedback",devices:3,total:3,last7:0}],
     anomalies:[{level:"warn",code:"active_drop",text:"昨天活跃 6 台，不到前 7 天日均（14.3）的一半"}],
     sessions:{lt1:34,m1_5:88,m5_15:52,m15_60:17,gt60:3},
-    update_channels:{totals:{check_gitee:61,check_github:12,check_fail:4,dl_gitee:9,dl_github:2,dl_lanzou:5},by_channel:{preview:2,stable:19,"未知（旧版）":15},by_update_src:{gitee:17,github:3,"未知":16}}});
+    preview:(function(){var t=Date.now()+8*3600e3,f=function(n){return new Date(t-n*864e5).toISOString().slice(0,10)},tr=[];for(var i=29;i>=0;i--)tr.push({date:f(i),active:i>20?1:(i%3===0?2:3),new_installs:i===20?1:0,reports:i>20?1:4,errors:i%5===0?1:0});
+      return {total_devices:3,active_devices:{d1:3,d7:3,d30:3},by_version:{"1.5.3.5 (122)":2,"1.5.3.4 (121)":1},total_opens:64,total_roll_marks:702,total_reports:57,feature_totals:{drawer_open:18,check_update:9},
+        errors_by_version:[{version:"1.5.3.5 (122)",top:[{type:"AttributeError@session_tick",count:3,devices:2}]},{version:"1.5.3.4 (121)",top:[{type:"PermissionError@export_xlsx",count:1,devices:1}]}],
+        trend:tr,releases:[{date:f(26),version:"1.5.3.4 (121)"},{date:f(6),version:"1.5.3.5 (122)"}],last_report_at:Date.now()-40*60e3}})(),
+    scope:"stable",
+    update_channels:{totals:{check_gitee:61,check_github:12,check_fail:4,dl_gitee:9,dl_github:2,dl_lanzou:5},by_channel:{stable:21,"未知（旧版）":15},by_update_src:{gitee:17,github:3,"未知":16}}});
 }
 
 /* ---------- 控制台 ---------- */
@@ -785,9 +813,9 @@ function renderV5(d){
   var fr=d.feature_rank||[];
   $("rankBox").innerHTML=fr.length?'<table class="rank"><tr><th>功能</th><th>用过的手机</th><th>累计次数</th><th>近 7 天</th></tr>'+fr.map(function(x){return "<tr><td>"+esc(FEAT_CN[x.feature]||x.feature)+"</td><td>"+fmt(x.devices)+"</td><td>"+fmt(x.total)+"</td><td>"+fmt(x.last7)+"</td></tr>"}).join("")+"</table>":emptyHtml("云函数还是旧版，上传新的 dm-stats 后显示");
   var ss=d.sessions||{},sk=Object.keys(SESS_CN),st=sk.reduce(function(a,k){return a+(ss[k]||0)},0);
-  $("sessBox").innerHTML=st?barsHtml(sk.map(function(k){return [SESS_CN[k],ss[k]||0]})):emptyHtml(old?"云函数还是旧版":"还没有数据（1.5.3.5 起上报）");
+  $("sessBox").innerHTML=st?barsHtml(sk.map(function(k){return [SESS_CN[k],ss[k]||0]})):emptyHtml(old?"云函数还是旧版":"还没有数据（下个正式版起上报）");
   var uc=d.update_channels||{},ut=uc.totals||{},uk=Object.keys(UPD_CN),un=uk.reduce(function(a,k){return a+(ut[k]||0)},0);
-  $("upBox").innerHTML=un?barsHtml(uk.map(function(k){return [UPD_CN[k],ut[k]||0]})):emptyHtml(old?"云函数还是旧版":"还没有数据（1.5.3.5 起上报）");
+  $("upBox").innerHTML=un?barsHtml(uk.map(function(k){return [UPD_CN[k],ut[k]||0]})):emptyHtml(old?"云函数还是旧版":"还没有数据（下个正式版起上报）");
   var ch=uc.by_channel||{},src=uc.by_update_src||{};
   $("chBox").innerHTML=Object.keys(ch).map(function(k){return '<span class="chip'+(/未知/.test(k)?" grey":"")+'">'+esc(k==="preview"?"预览版":k==="stable"?"正式版":k)+" · "+fmt(ch[k])+" 台</span>"}).join("")+
     Object.keys(src).filter(function(k){return k!=="未知"}).map(function(k){return '<span class="chip">最近从 '+esc(k==="gitee"?"Gitee":k==="github"?"GitHub":k)+" 检查成功 · "+fmt(src[k])+" 台</span>"}).join("");
@@ -804,7 +832,7 @@ function renderTrend(){
   var g="",k,idx={};
   for(k=0;k<=4;k++){var v=max*k/4;g+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#eef1f6"/><text class="ax" x="'+(pl-6)+'" y="'+(Y(v)+4)+'" text-anchor="end">'+v+"</text>"}
   tr.forEach(function(x,i){idx[x.date]=i});
-  (d.releases||[]).forEach(function(r){var i=idx[r.date];if(i==null)return;var right=X(i)>W-70;g+='<line class="rl" x1="'+X(i)+'" x2="'+X(i)+'" y1="'+(pt-6)+'" y2="'+(pt+ih)+'"/><text class="rt" x="'+(X(i)+(right?-3:3))+'" y="'+(pt-9)+'"'+(right?' text-anchor="end"':"")+">"+esc(vlabel(r.version).replace(/ · b\d+$/,""))+"</text>"});
+  (d.releases||[]).filter(function(r){return String(r.version).split(" ")[0].split(".").length<4}).forEach(function(r){var i=idx[r.date];if(i==null)return;var right=X(i)>W-70;g+='<line class="rl" x1="'+X(i)+'" x2="'+X(i)+'" y1="'+(pt-6)+'" y2="'+(pt+ih)+'"/><text class="rt" x="'+(X(i)+(right?-3:3))+'" y="'+(pt-9)+'"'+(right?' text-anchor="end"':"")+">"+esc(vlabel(r.version).replace(/ · b\d+$/,""))+"</text>"});
   tr.forEach(function(x,i){if(x.new_installs)g+='<rect x="'+(X(i)-bw/2)+'" y="'+Y(x.new_installs)+'" width="'+bw+'" height="'+(pt+ih-Y(x.new_installs))+'" rx="2" fill="#90caf9"><title>'+x.date+" 新装 "+x.new_installs+"</title></rect>"});
   var pts=tr.map(function(x,i){return X(i)+","+Y(x.active||0)}).join(" ");
   g+='<polygon points="'+X(0)+","+(pt+ih)+" "+pts+" "+X(n-1)+","+(pt+ih)+'" fill="rgba(21,101,192,.08)"/>';
@@ -839,6 +867,29 @@ $("nAdd").onclick=function(){
 $("nText").addEventListener("keydown",function(e){if(e.key==="Enter")$("nAdd").click()});
 var rsT;window.addEventListener("resize",function(){clearTimeout(rsT);rsT=setTimeout(function(){if(state.v5)renderTrend()},150)});
 
+
+/* ---------- r14：预览版概况（只在测试页） ---------- */
+function renderPreview(){
+  var d=state.stats,p=d&&d.preview,card=$("pvCard");
+  if(!p){card.hidden=true;return}
+  card.hidden=false;
+  var a=p.active_devices||{};
+  $("pvUpd").textContent=p.last_report_at?"最近一次汇报 "+hm(p.last_report_at):"";
+  $("pvKpi").innerHTML=[["预览版手机",p.total_devices],["近 1 天活跃",a.d1],["近 7 天活跃",a.d7],["累计汇报",p.total_reports]].map(function(x){return '<div><span>'+x[0]+'</span><b>'+fmt(x[1]||0)+"</b></div>"}).join("");
+  var vs=Object.keys(p.by_version||{}).map(function(k){return [vlabel(k),p.by_version[k],k]}).sort(function(x,y){return y[1]-x[1]});
+  $("pvVer").innerHTML=vs.length?barsHtml(vs):emptyHtml("还没有预览版手机汇报");
+  var tr=(p.trend||[]).slice(-14),mx=Math.max.apply(null,tr.map(function(x){return x.active||0}).concat([1]));
+  $("pvTrend").innerHTML=tr.length?tr.map(function(x){var h=Math.max(x.active?8:3,Math.round((x.active||0)*100/mx));return '<i title="'+esc(x.date+" 活跃 "+(x.active||0)+" · 报错 "+(x.errors||0))+'"><s style="height:'+h+'%"'+(x.errors?' class="e"':"")+'></s><em>'+Number(x.date.slice(8))+"</em></i>"}).join(""):emptyHtml("暂无");
+  $("pvRel").innerHTML=(p.releases||[]).slice(-4).map(function(r){return '<span class="chip test">'+esc(String(r.date).slice(5))+" 首次出现 "+esc(vlabel(r.version))+"</span>"}).join("");
+  var ev=p.errors_by_version||[];
+  $("pvErr").innerHTML=ev.length?ev.slice(0,3).map(function(x){return '<div class="errv"><h3>'+esc(vlabel(x.version))+'</h3><div class="errl">'+(x.top||[]).slice(0,5).map(function(e){return "<code>"+esc(e.type)+'</code><span class="n">'+fmt(e.count)+' 次</span><span class="d">'+fmt(e.devices)+" 台</span>"}).join("")+"</div></div>"}).join(""):'<div class="empty">预览版没有报错</div>';
+  growBars("#pvVer");
+}
+function loadPreview(){
+  if(state.stats){renderPreview();return}
+  if(!lsGet()){if(state.demo&&!state.stats)demo();renderPreview();return}
+  admin({action:"stats"}).then(function(r){if(r.status===200&&r.json.ok){state.stats=r.json;render(r.json)}renderPreview()});
+}
 /* ---------- v5：测试页实时日志 ---------- */
 var RES_CN={stored:["存下","ok"],too_frequent:["太频繁被拒","rej"],invalid:["格式不对","bad"]};
 function loadLog(){
@@ -877,7 +928,7 @@ $("auRefresh").onclick=function(){loadAudit(true)};
 var cSaved=null, cState={enabled:true,minutes:1440};
 function applyCfg(c){
   state.cfg=c;
-  var m=Number(c.report_interval_minutes)||1440; m=m>=10080?10080:1440;
+  var m=Number(c.report_interval_minutes)||1440; m=m>=43200?43200:m>=10080?10080:1440;
   cSaved={enabled:c.enabled!==false,minutes:m}; cState={enabled:cSaved.enabled,minutes:m};
   renderCfg();
 }
@@ -885,6 +936,7 @@ function renderCfg(){
   $("enSw").checked=cState.enabled;
   $$("#freqSeg button").forEach(function(b){b.classList.toggle("on",Number(b.getAttribute("data-min"))===cState.minutes)});
   $("freqSeg").style.opacity=cState.enabled?1:.5;
+  $("freqHint").hidden=!(cState.enabled&&cState.minutes>1440);
   var dirty=cSaved&&(cSaved.enabled!==cState.enabled||cSaved.minutes!==cState.minutes);
   $("cfgCard").classList.toggle("isdirty",!!dirty);
   if(cSaved){var n=$("cfgNow");n.className="chip "+(cSaved.enabled?"on":"off");n.textContent=cSaved.enabled?"当前："+minText(cSaved.minutes)+"汇报":"当前：统计已关闭"}
@@ -978,6 +1030,7 @@ $("tAdd").onclick=function(){
   if(!RE_ID.test(id)){$("tIdErr").textContent=id?"格式应为 xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx（36 位）":"请先粘贴设备 ID";$("tId").focus();return}
   addDev(id,$("tName").value.trim(),tMin,Number($("tHours").value),this).then(function(ok){if(ok){$("tId").value="";$("tName").value=""}});
 };
+$("tRefresh").addEventListener("click",function(){if(lsGet()){state.stats=null;loadPreview()}});
 $("tRefresh").onclick=function(){loadTests(true)};
 setInterval(function(){
   $$("[data-cd]").forEach(function(e){e.textContent=left(Number(e.getAttribute("data-cd")))});
