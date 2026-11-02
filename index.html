@@ -280,6 +280,29 @@ table.cfg td:first-child{white-space:nowrap}
 .au{display:flex;flex-direction:column}.au>div{display:grid;grid-template-columns:22px 110px 1fr auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #f1f3f7;font-size:13.5px}.au>div:last-child{border:0}
 .au .h{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--muted);font-size:12.5px}.au .me{color:#1565c0;font-weight:650}
 @media (max-width:640px){.tlog>div{grid-template-columns:78px 1fr auto}.au>div{grid-template-columns:20px 84px 1fr auto}}
+/* ===== v6 分区导航 ===== */
+.nav a .caret{width:15px;height:15px;margin-left:auto;opacity:.55;transition:transform .25s}
+.nav a:not(.on) .caret{transform:rotate(-90deg)}
+.subnav{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease,opacity .25s;opacity:0}
+.subnav.open{grid-template-rows:1fr;opacity:1}
+.subin{overflow:hidden;position:relative;margin-left:24px;padding-left:0}
+.subnav.open .subin{padding:4px 0 6px}
+.subin::before{content:"";position:absolute;left:0;top:8px;bottom:10px;width:2px;border-radius:2px;background:rgba(255,255,255,.18)}
+.subin a{position:relative;display:block;padding:6px 12px 6px 16px;margin:1px 0;font-size:13px;font-weight:550;color:rgba(255,255,255,.72);border-radius:9px;background:none!important;box-shadow:none!important;text-decoration:none;transition:color .15s,background .15s}
+.subin a:hover{color:#fff;background:rgba(255,255,255,.08)!important}
+.subin a::before{content:"";position:absolute;left:-1px;top:8px;bottom:8px;width:4px;border-radius:3px;background:transparent;transition:background .2s}
+.subin a.cur{color:#fff;font-weight:700;background:rgba(255,255,255,.14)!important}
+.subin a.cur::before{background:#fff}
+.secnav{display:none}
+[data-sec]{scroll-margin-top:20px}
+@media (max-width:900px){
+  .secnav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:15;margin:0 -12px 12px;padding:9px 12px;background:rgba(245,247,252,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);scroll-behavior:smooth}
+  .secnav.stuck{box-shadow:0 4px 14px rgba(21,101,192,.08)}
+  .secnav::-webkit-scrollbar{display:none}
+  .secnav a{flex:none;font-size:12.5px;font-weight:650;color:#4a5670;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;text-decoration:none;white-space:nowrap;transition:all .18s}
+  .secnav a.cur{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 3px 10px rgba(21,101,192,.25)}
+  [data-sec]{scroll-margin-top:58px}
+}
 </style>
 </head>
 <body>
@@ -302,7 +325,8 @@ table.cfg td:first-child{white-space:nowrap}
 <aside class="side">
   <div class="brand"><div class="logo"><svg><use href="#i-logo"/></svg></div><div><b>点名助手</b><small>统计后台</small></div></div>
   <nav class="nav" id="nav">
-    <a href="#overview" data-tab="overview"><svg><use href="#i-chart"/></svg>概览</a>
+    <a href="#overview" data-tab="overview"><svg><use href="#i-chart"/></svg>概览<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></a>
+    <div class="subnav" id="subnav"><div class="subin"></div></div>
     <a href="#console" data-tab="console"><svg><use href="#i-sliders"/></svg>控制台</a>
     <a href="#test" data-tab="test"><svg><use href="#i-flask"/></svg>测试<span class="pill" data-testcount hidden></span></a>
     <a href="#key" data-tab="key"><svg><use href="#i-key"/></svg>密钥</a>
@@ -328,14 +352,15 @@ table.cfg td:first-child{white-space:nowrap}
       <div class="row"><a class="btn primary" href="#key"><svg><use href="#i-key"/></svg>去设置密钥</a><button class="btn ghost" id="demoBtn">先看示例效果</button></div>
     </div>
     <div id="dash">
+      <div class="secnav" id="secnav" aria-label="概览分区"></div>
       <div id="anoBox"></div>
-      <div class="grid kpis">
+      <div class="grid kpis" data-sec="核心指标" id="s-kpi">
         <div class="card kpi hero"><div class="k">总设备数 <span class="badge-demo">示例数据</span></div><div class="v" id="kTotal">–</div><div class="s" id="kTotalS">装过并汇报过的手机</div></div>
         <div class="card kpi"><div class="k"><span class="dot" style="background:#1565c0"></span>近 1 天活跃</div><div class="v" id="kD1">–</div><div class="bar-mini"><i id="bD1"></i></div><div class="s" id="sD1">&nbsp;</div></div>
         <div class="card kpi"><div class="k"><span class="dot" style="background:#1e88e5"></span>近 7 天活跃</div><div class="v" id="kD7">–</div><div class="bar-mini"><i id="bD7"></i></div><div class="s" id="sD7">&nbsp;</div></div>
         <div class="card kpi"><div class="k"><span class="dot" style="background:#64b5f6"></span>近 30 天活跃</div><div class="v" id="kD30">–</div><div class="bar-mini"><i id="bD30"></i></div><div class="s" id="sD30">&nbsp;</div></div>
       </div>
-      <section class="card"><h2 class="ct">30 天趋势</h2><p class="cs" id="trSub">每天汇报过的手机数（北京时间）· 紫线 = 新版本第一次出现 · 橙旗 = 备注</p>
+      <section class="card" data-sec="趋势与新装" id="s-trend"><h2 class="ct">30 天趋势</h2><p class="cs" id="trSub">每天汇报过的手机数（北京时间）· 紫线 = 新版本第一次出现 · 橙旗 = 备注</p>
         <div class="trend" id="trendBox"></div>
         <div class="tleg"><span><i style="background:#1565c0"></i>活跃手机</span><span><i style="background:#90caf9"></i>新装</span><span><i style="background:#ef5350"></i>报错次数</span></div>
         <div class="notes" id="notesBox"></div>
@@ -346,7 +371,7 @@ table.cfg td:first-child{white-space:nowrap}
         <section class="card mini"><div class="k">近 30 天新装</div><div class="v" id="n30">–</div><div class="s" id="n30S">&nbsp;</div></section>
         <section class="card mini"><div class="k">7 天留存</div><div class="v" id="ret7">–</div><div class="s" id="ret7S">&nbsp;</div></section>
       </div>
-      <div class="grid two">
+      <div class="grid two" data-sec="版本与功能" id="s-ver">
         <section class="card"><h2 class="ct">版本分布</h2><p class="cs">每台手机按最近一次汇报时的版本算</p><div class="donut-wrap" id="verBox"></div></section>
         <section class="card"><h2 class="ct">功能使用次数</h2><p class="cs">所有手机累计，按次数从多到少</p><div class="bars" id="featBox"></div></section>
       </div>
@@ -355,21 +380,21 @@ table.cfg td:first-child{white-space:nowrap}
         <section class="card mini"><div class="k">累计点名标记</div><div class="v" id="mMarks">–</div><div class="s" id="mMarksS">&nbsp;</div></section>
         <section class="card mini"><div class="k">收到的汇报条数</div><div class="v" id="mReports">–</div><div class="s" id="mReportsS">&nbsp;</div></section>
       </div>
-      <div class="grid two">
+      <div class="grid two" data-sec="升级与机型" id="s-upg">
         <section class="card"><h2 class="ct">版本升级进度</h2><p class="cs" id="vpSub">已升级到最新版本的手机占比</p><div id="vpBox"></div></section>
         <section class="card"><h2 class="ct">机型与系统</h2><p class="cs" id="ddSub">安卓手机的品牌型号（新版 App 才会上报）</p><div class="bars" id="ddBox"></div><div class="chips" id="osBox" style="margin-top:14px"></div></section>
       </div>
-      <div class="grid two">
+      <div class="grid two" data-sec="排行与时长" id="s-rank">
         <section class="card"><h2 class="ct">功能排行</h2><p class="cs">按「用过的手机数」排；近 7 天来自每日汇总</p><div id="rankBox"></div></section>
         <section class="card"><h2 class="ct">每次使用多久</h2><p class="cs">打开到切走算一次（1.5.3.5 起上报，只记档位）</p><div class="bars" id="sessBox"></div></section>
       </div>
-      <section class="card"><h2 class="ct">更新渠道</h2><p class="cs" id="upSub">检查更新从哪里成功、点了哪个下载（1.5.3.5 起上报）</p><div class="bars" id="upBox"></div><div class="chips" id="chBox" style="margin-top:14px"></div></section>
-      <section class="card"><h2 class="ct">各版本报错</h2><p class="cs">只有「错误类型@出错函数」和次数，不含报错内容；每个版本前 10 种</p><div id="errBox"></div></section>
-      <div class="grid two">
+      <section class="card" data-sec="更新渠道" id="s-chan"><h2 class="ct">更新渠道</h2><p class="cs" id="upSub">检查更新从哪里成功、点了哪个下载（1.5.3.5 起上报）</p><div class="bars" id="upBox"></div><div class="chips" id="chBox" style="margin-top:14px"></div></section>
+      <section class="card" data-sec="报错" id="s-err"><h2 class="ct">各版本报错</h2><p class="cs">只有「错误类型@出错函数」和次数，不含报错内容；每个版本前 10 种</p><div id="errBox"></div></section>
+      <div class="grid two" data-sec="平台与设置" id="s-plat">
         <section class="card"><h2 class="ct">平台</h2><p class="cs">设备所在平台</p><div class="chips" id="platBox"></div></section>
         <section class="card"><h2 class="ct">当前远程设置</h2><p class="cs">手机每次汇报时拿到的设置</p><div class="chips" id="cfgBox"><span class="chip grey">读取中…</span></div></section>
       </div>
-      <section class="card"><h2 class="ct">数据保留与导出</h2><p class="cs">逐条汇报保留 30 天后自动删除；每台设备的累计数一直保留</p>
+      <section class="card" data-sec="数据保留" id="s-data"><h2 class="ct">数据保留与导出</h2><p class="cs">逐条汇报保留 30 天后自动删除；每台设备的累计数一直保留</p>
         <div class="maint"><div class="info" id="mtBox">–</div><button class="btn line sm" id="csvBtn"><span class="spin"></span><svg class="ico"><use href="#i-dl"/></svg>导出 CSV</button></div></section>
     </div>
   </section>
@@ -982,6 +1007,32 @@ $("eye").onclick=function(){var k=$("key");k.type=k.type==="password"?"text":"pa
 $("refresh").onclick=function(){if(state.demo&&!lsGet()){demo();toast("示例数据");return}showOverview(true)};
 $("demoBtn").onclick=demo;
 $("csvBtn").onclick=function(){exportCsv(this)};
+
+/* ---------- v6 概览分区导航 + scrollspy ---------- */
+(function(){
+  var secs=$$("#dash [data-sec]"),sub=document.querySelector("#subnav .subin"),top=$("secnav"),lock=0;
+  function mk(box){secs.forEach(function(el){var a=document.createElement("a");a.href="#overview";a.textContent=el.getAttribute("data-sec");a.setAttribute("data-to",el.id);
+    a.onclick=function(e){e.preventDefault();if(state.tab!=="overview"){location.hash="#overview"}
+      setTimeout(function(){lock=Date.now()+700;mark(el.id);el.scrollIntoView({behavior:"smooth",block:"start"})},state.tab!=="overview"?80:0)};box.appendChild(a)})}
+  mk(sub);mk(top);
+  function mark(id){$$("[data-to]").forEach(function(a){var on=a.getAttribute("data-to")===id;a.classList.toggle("cur",on);
+    if(on&&a.parentNode===top){var l=a.offsetLeft-top.clientWidth/2+a.offsetWidth/2;top.scrollTo({left:l,behavior:"smooth"})}})}
+  var last=null;
+  function spy(){
+    var on=state.tab==="overview"&&!$("dash").hidden;
+    $("subnav").classList.toggle("open",on);
+    if(!on)return;
+    top.classList.toggle("stuck",top.getBoundingClientRect().top<=0.5);
+    if(Date.now()<lock)return;
+    var off=window.innerWidth<=900?70:90,cur=secs[0].id;
+    secs.forEach(function(el){if(el.getBoundingClientRect().top-off<=0)cur=el.id});
+    if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4)cur=secs[secs.length-1].id;
+    if(cur!==last){last=cur;mark(cur)}
+  }
+  window.addEventListener("scroll",spy,{passive:true});window.addEventListener("resize",spy);
+  window.addEventListener("hashchange",function(){last=null;setTimeout(spy,30)});
+  setInterval(spy,600);setTimeout(spy,50);
+})();
 
 window.addEventListener("hashchange",go);
 window.addEventListener("storage",function(e){if(e.key===LS_KEY){syncKeyUI();state.stats=null;state.tests=null;go()}});
